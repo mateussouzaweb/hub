@@ -1,0 +1,26 @@
+ask_sudo_password
+
+# Add source
+wget -qO- https://repos.influxdata.com/influxdb.key | apt-key add -
+echo "deb https://repos.influxdata.com/ubuntu bionic stable" | tee /etc/apt/sources.list.d/influxdb.list
+
+apt-get update
+apt-get install -y influxdb
+
+# Add startup at boot
+systemctl enable influxdb.service
+sleep 20
+
+# Enable auth
+sed -i "s/auth-enabled = false/auth-enabled = true/g" /etc/influxdb/influxdb.conf
+
+ask INFLUXDB_USERNAME "metrics" "What is the InfluxDB username?"
+ask INFLUXDB_PASSWORD "" "What is the InfluxDB password?"
+influx -execute "CREATE USER $INFLUXDB_USERNAME WITH PASSWORD '$INFLUXDB_PASSWORD' WITH ALL PRIVILEGES"
+
+# Create database
+ask INFLUXDB_DATABASE "metrics" "What is the InfluxDB database?"
+influx -execute "CREATE DATABASE '$INFLUXDB_DATABASE'"
+
+# Restart service
+service influxdb restart

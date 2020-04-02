@@ -1,0 +1,49 @@
+ask_sudo_password
+
+# Install source
+apt-get install -y gnupg
+wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | apt-key add -
+
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+
+# Install Mongodb
+apt-get update && apt-get install -y mongodb-org
+
+# Add to startup at boot
+systemctl enable mongod.service
+
+# Wait MongoDB start
+sleep 20
+
+# Add admin user
+ask MONGODB_USER "admin" "What is the mongodb admin user?"
+ask MONGODB_PASSWORD "" "What is the mongodb admin password?"
+
+mongo <<EOF
+use admin
+db.createUser({
+    user: "$MONGODB_USER",
+    pwd: "$MONGODB_PASSWORD",
+    roles:
+    [
+      {role: "read", db: "admin"},
+      {role: "readWrite", db: "admin"},
+      {role: "dbAdmin", db: "admin"},
+      {role: "userAdmin", db: "admin"},
+      {role: "clusterAdmin", db: "admin"},
+      {role: "readAnyDatabase", db: "admin"},
+      {role: "readWriteAnyDatabase", db: "admin"},
+      {role: "userAdminAnyDatabase", db: "admin"},
+      {role: "dbAdminAnyDatabase", db: "admin"}
+    ]
+})
+EOF
+
+# Allow only authenticated connection
+cat >> /etc/mongod.conf <<EOL
+security:
+    authorization: enabled
+EOL
+
+# Restart service
+service mongod restart

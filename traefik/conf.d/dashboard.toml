@@ -1,0 +1,11 @@
+[http]
+  [http.routers]
+    [http.routers.dashboard]
+      entryPoints = ["https"]
+      middlewares = ["dashboard-auth"]
+      service = "api@internal"
+      rule = "Host(`${TRAEFIK_DOMAIN}`)"
+
+[http.middlewares]
+  [http.middlewares.dashboard-auth.basicAuth]
+    users = ["${TRAEFIK_AUTH}"]

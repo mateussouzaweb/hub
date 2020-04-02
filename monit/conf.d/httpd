@@ -1,0 +1,4 @@
+set httpd port 2812
+    allow ${MONIT_USERNAME}:"${MONIT_PASSWORD}"
+    allow @monit
+    allow @users readonly

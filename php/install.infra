@@ -1,0 +1,90 @@
+ask_sudo_password
+
+# Install source
+apt-get install -y python-software-properties
+add-apt-repository -y ppa:ondrej/php
+apt-get update
+
+# Install packages
+apt-get install -y \
+    php7.4-fpm \
+    php7.4-cli \
+    php7.4-common \
+    php7.4-curl \
+    php7.4-gd \
+    php7.4-gmp \
+    php7.4-imap \
+    php7.4-intl \
+    php7.4-ldap \
+    php7.4-readline \
+    php7.4-odbc \
+    php7.4-pgsql \
+    php7.4-tidy \
+    php7.4-xmlrpc \
+    php7.4-json \
+    php7.4-sqlite3 \
+    php7.4-mysql \
+    php7.4-opcache \
+    php7.4-bz2 \
+    php7.4-bcmath \
+    php7.4-mbstring \
+    php7.4-soap \
+    php7.4-zip \
+    php7.4-xml \
+    php7.4-xsl \
+    php7.4-oauth \
+    php7.4-memcache \
+    php7.4-redis \
+    php7.4-imagick \
+    php7.4-dev
+
+# MongoDB
+apt-get install -y libpcre3-dev libsasl2-dev php7.4-mongodb
+
+# Create log folders
+mkdir -p /run/php
+mkdir -p /var/log/php/fpm
+mkdir -p /var/lib/php/sessions
+chown -R www-data:www-data /var/lib/php/sessions
+chown -R www-data:adm /var/log/php
+
+# Copy configurations
+copy cli/php.ini /etc/php/7.4/cli/php.ini ";"
+copy fpm/php.ini /etc/php/7.4/fpm/php.ini ";"
+copy fpm/pool.d/www.conf /etc/php/7.4/fpm/pool.d/www.conf ";"
+copy fpm/conf.d/opcache.ini /etc/php/7.4/mods-available/opcache.ini ";"
+
+# Restart service
+service php7.4-fpm restart
+update-alternatives --config php
+
+# Install libsodium
+cd /usr/local/
+git clone -b stable https://github.com/jedisct1/libsodium.git
+
+cd libsodium/
+./configure && make check && make install
+
+pecl install -f libsodium
+
+# cat > /etc/php/7.4/mods-available/libsodium.ini <<EOL
+# ; priority=10
+# extension=sodium.so
+# EOL
+# phpenmod libsodium
+
+# Install log rotate
+append logrotate /etc/logrotate.d/php-fpm
+logrotate -d
+logrotate -f -v /etc/logrotate.d/php-fpm
+
+# Restart PHP
+service php7.4-fpm restart
+
+# Install composer
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php -r "if (hash_file('sha384', 'composer-setup.php') === 'e0012edf3e80b6978849f5eff0d4b4e4c79ff1609dd1e613307e16318854d24ae64f26d17af3ef0bf7cfb710ca74755a') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
+
+mv composer.phar /usr/local/bin/composer

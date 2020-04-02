@@ -1,0 +1,20 @@
+[Unit]
+Description=loki collector
+After=network-online.target
+Wants=network-online.target systemd-networkd-wait-online.service
+
+[Service]
+Restart=on-abnormal
+User=loki
+Group=loki
+ExecStart=/usr/local/bin/loki -config.file=/etc/loki/loki.yaml
+LimitNOFILE=1048576
+PrivateTmp=true
+PrivateDevices=false
+ProtectHome=true
+ProtectSystem=full
+ReadWriteDirectories=/etc/loki
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

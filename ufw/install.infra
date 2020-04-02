@@ -1,0 +1,14 @@
+ask_sudo_password
+
+apt-get install -y ufw
+
+# Setup default config
+ufw default deny incoming
+ufw allow ssh
+
+# Enable UFW
+ufw enable
+systemctl enable ufw.service
+
+# Enable connections
+ufw allow 22/tcp # SSH

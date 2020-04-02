@@ -1,0 +1,6 @@
+[http]
+  [http.routers]
+    [http.routers.grafana]
+      entryPoints = ["https"]
+      port = 3000
+      rule = "Host(`{TRAEFIK_GRAFANA_DOMAIN}`)"

@@ -1,0 +1,28 @@
+ask_sudo_password
+
+# Install redis
+apt update
+apt install -y tcl8.5 redis-server
+
+# Set configs
+ask REDIS_PASSWORD "" "What is the redis password?"
+copy redis.conf /etc/redis/custom.conf
+
+cat >> /etc/redis/redis.conf <<EOL
+
+include /etc/redis/custom.conf
+EOL
+
+# Restart add to startup boot
+systemctl restart redis.service
+systemctl enable redis.service
+
+# Set as PHP session handler
+ask_yes_no REDIS_AS_PHP_SESSION "Y" "Do you want to use redis as PHP session?"
+
+if [ $REDIS_AS_PHP_SESSION == "Y" ]; then
+
+    copy redis.session.ini /etc/php/7.4/fpm/conf.d/redis.session.ini ";"
+    service php7.4-fpm restart
+
+fi

@@ -1,0 +1,11 @@
+[DEFAULT]
+bantime = 30m
+destemail = ${ADMIN_EMAIL}
+sender = ${FAIL2BAN_EMAIL}
+mta = sendmail
+
+banaction = iptables-multiport
+banaction_allports = iptables-allports
+
+[sshd]
+enabled = true

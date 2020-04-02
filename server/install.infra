@@ -1,0 +1,74 @@
+ask_sudo_password
+
+# Setup hostname
+ask SERVER_NAME "" "What is the server hostname?"
+hostname $SERVER_NAME
+echo $SERVER_NAME > /etc/hostname
+
+# Upgrade system
+apt-get update
+apt-get upgrade -y
+apt-get dist-upgrade
+
+# Setup timezone
+locale-gen en_US.UTF-8
+locale-gen pt_BR.UTF-8
+apt-get install locales
+
+ask SERVER_TIMEZONE "America/Sao_Paulo" "What is the desired timezone for the server?"
+timedatectl set-timezone $SERVER_TIMEZONE
+
+# Install basic packages
+apt-get install -y build-essential vim wget \
+    curl ssh zsh git git-core openssl libssl-dev \
+    g++ pkg-config zip htop nethogs
+
+# Install Oh-my-ZSH
+ask_yes_no INSTALL_OH_MY_ZSH "Y" "Do you want to install oh-my-ZSH?"
+
+if [ $INSTALL_OH_MY_ZSH == "y" ]; then
+    wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
+fi
+
+# Setup SSH
+if [ ! -d /root/.ssh ]; then
+    mkdir /root/.ssh
+fi
+
+ask SERVER_EMAIL "" "What is the server email for SSH key?"
+ssh-keygen -t rsa -C $SERVER_EMAIL
+
+info "SSH key generated. Place the following code on conected platforms (Private/GitHub/BitBucket) ..."
+cat /root/.ssh/id_rsa.pub
+
+# Append SSH key file
+SSH_FILE="id_rsa.pub"
+
+if [ -f "$SSH_FILE" ]; then
+    info "$SSH_FILE found. Appending it to the server"
+    cat "$SSH_FILE"
+    echo ""
+    append $SSH_FILE /root/.ssh/authorized_keys
+fi
+
+# Configure SSH
+cat >> /etc/ssh/sshd_config <<EOL
+ClientAliveInterval 60
+ClientAliveCountMax 10
+PubkeyAuthentication yes
+PasswordAuthentication no
+EOL
+
+service ssh reload
+
+# Warning about disks
+warning "This setup does not set disk volumes. If the server need this kind of setup, please do it manually."
+
+# Switch to ZSH
+ask_yes_no SWITCH_TO_ZSH "Y" "Do you want to switch to ZSH?"
+
+if [ $SWITCH_TO_ZSH == "Y" ]; then
+    info "Switching to ZSH..."
+    chsh -s /bin/zsh
+    zsh
+fi

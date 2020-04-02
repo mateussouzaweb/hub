@@ -1,0 +1,18 @@
+ask_sudo_password
+
+# Install package
+apt-get install -y fail2ban
+
+# Add startup at boot
+systemctl enable fail2ban.service
+
+# Copy configs
+ask FAIL2BAN_EMAIL "" "What is the fail2ban sender email?"
+ask ADMIN_EMAIL "mateussouzaweb@gmail.com" "What is the administrator email? (to receive fail2ban alerts)"
+
+copy jail.local /etc/fail2ban/jail.local
+copy filter.d/nginx-req-limit.conf /etc/fail2ban/filter.d/nginx-req-limit.conf
+copy filter.d/http-ddos.conf /etc/fail2ban/filter.d/http-ddos.conf
+
+# Restart service
+service fail2ban restart

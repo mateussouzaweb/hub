@@ -1,0 +1,20 @@
+[Unit]
+Description=promtail log agent
+After=network-online.target
+Wants=network-online.target systemd-networkd-wait-online.service
+
+[Service]
+Restart=on-abnormal
+User=promtail
+Group=promtail
+ExecStart=/usr/local/bin/promtail -config.file=/etc/promtail/promtail.yaml
+LimitNOFILE=1048576
+PrivateTmp=true
+PrivateDevices=false
+ProtectHome=true
+ProtectSystem=full
+ReadWriteDirectories=/etc/promtail
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+/var/log/php/fpm/*.log {
+    daily
+    missingok
+    rotate 14
+    compress
+    delaycompress
+    notifempty
+    create 0640 www-data adm
+    sharedscripts
+    postrotate
+        /usr/lib/php/php7.4-fpm-reopenlogs
+    endscript
+}

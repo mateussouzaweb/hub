@@ -1,0 +1,13 @@
+/var/log/traefik/*.log {
+    daily
+    missingok
+    rotate 14
+    compress
+    delaycompress
+    notifempty
+    create 0640 traefik traefik
+    sharedscripts
+    postrotate
+        systemctl kill --signal="USR1" traefik
+    endscript
+}

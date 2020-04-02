@@ -1,0 +1,11 @@
+[http]
+  [http.routers]
+    [http.routers.monit]
+      entryPoints = ["https"]
+      middlewares = ["monit-auth"]
+      port = 2812
+      rule = "Host(`${TRAEFIK_MONIT_DOMAIN}`)"
+
+[http.middlewares]
+  [http.middlewares.monit-auth.basicAuth]
+    users = ["${TRAEFIK_MONIT_AUTH}"]

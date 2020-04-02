@@ -1,0 +1,131 @@
+ask_sudo_password
+
+# Setup workspace
+groupadd -g 321 traefik
+useradd -g traefik --no-user-group \
+    --home-dir /var/www --no-create-home \
+    --shell /usr/sbin/nologin \
+    --system --uid 321 traefik
+
+usermod -a -G www-data,adm traefik
+
+# Create folders
+mkdir -p /etc/traefik/conf.d
+chown -R root:root /etc/traefik
+
+mkdir /etc/traefik/acme
+chown -R traefik:traefik /etc/traefik/acme
+
+mkdir /var/log/traefik/
+chown -R traefik:traefik /var/log/traefik/
+
+# Install traefik from source
+# https://github.com/containous/traefik/releases
+curl -L "https://github.com/containous/traefik/releases/download/v2.2/traefik_v2.2_linux_amd64.tar.gz" -o /etc/traefik/traefik.tar.gz
+tar -zxvf /etc/traefik/traefik.tar.gz
+
+mv /etc/traefik/traefik /usr/local/bin/traefik
+rm /etc/traefik/traefik.tar.gz
+
+# Set file permissions
+chown root:root /usr/local/bin/traefik
+chmod 755 /usr/local/bin/traefik
+setcap 'cap_net_bind_service=+ep' /usr/local/bin/traefik
+
+# Add startup service script
+copy traefik.service /etc/systemd/system/traefik.service
+chown root:root /etc/systemd/system/traefik.service
+chmod 644 /etc/systemd/system/traefik.service
+
+# Setup base config
+copy acme/letsencrypt.json /etc/traefik/acme/letsencrypt.json
+chown traefik:traefik /etc/traefik/acme/letsencrypt.json
+chmod 600 /etc/traefik/acme/letsencrypt.json
+
+ask ADMIN_EMAIL "mateussouzaweb@gmail.com" "What is the admin email for Lets Encrypt notifications?"
+copy traefik.toml /etc/traefik/traefik.toml
+chown root:root /etc/traefik/traefik.toml
+chmod 644 /etc/traefik/traefik.toml
+
+# Add metrics
+ask_yes_no TRAEFIK_INFLUXDB_METRICS "Y" "Do you want to use InfluxDB as Metrics for Traefik?"
+
+if [ $TRAEFIK_INFLUXDB_METRICS == "Y" ]; then
+
+    ask INFLUXDB_URL "http://127.0.0.1:8086" "What is the InfluxDB url for Metrics?"
+    ask INFLUXDB_DATABASE "metrics" "What is the InfluxDB database for Metrics?"
+    ask INFLUXDB_USERNAME "metrics" "What is the InfluxDB username for Metrics?"
+    ask INFLUXDB_PASSWORD "" "What is the InfluxDB password for Metrics?"
+    append metrics.toml /etc/traefik/traefik.toml
+
+fi
+
+# Add dashboard config
+ask_yes_no TRAEFIK_ENABLE_DASHBOARD "Y" "Do you want to enable dashboard?"
+
+if [ $TRAEFIK_ENABLE_DASHBOARD == "Y" ]; then
+
+    apt-get install -y apache2-utils
+    ask TRAEFIK_DOMAIN "" "What is the traefik dashboard domain?"
+    ask TRAEFIK_USER "traefik" "What is the traefik dashboard username?"
+    ask TRAEFIK_PASSWORD "" "What is the traefik dashboard password?"
+
+    export TRAEFIK_AUTH=$(htpasswd -nb $TRAEFIK_USER $TRAEFIK_PASSWORD)
+    copy conf.d/dashboard.toml /etc/traefik/conf.d/dashboard.toml
+
+fi
+
+# Add monit config
+ask_yes_no TRAEFIK_MONIT_PROXY "Y" "Do you want to use traefik as Monit proxy?"
+
+if [ $TRAEFIK_MONIT_PROXY == "Y" ]; then
+
+    ask TRAEFIK_MONIT_DOMAIN "" "What is the traefik Monit domain?"
+    ask MONIT_USER "monit" "What is the Monit username?"
+    ask MONIT_PASSWORD "" "What is the Monit password?"
+
+    export TRAEFIK_MONIT_AUTH=$(htpasswd -nb $MONIT_USER $MONIT_PASSWORD)
+    copy conf.d/monit.toml /etc/traefik/conf.d/monit.toml
+
+fi
+
+# Add grafana config
+ask_yes_no TRAEFIK_GRAFANA_PROXY "Y" "Do you want to use traefik as Grafana proxy?"
+
+if [ $TRAEFIK_GRAFANA_PROXY == "Y" ]; then
+
+    ask TRAEFIK_GRAFANA_DOMAIN "" "What is the traefik Grafana domain?"
+    copy conf.d/grafana.toml /etc/traefik/conf.d/grafana.toml
+
+fi
+
+# Add loki config
+ask_yes_no TRAEFIK_LOKI_PROXY "Y" "Do you want to use traefik as Loki proxy?"
+
+if [ $TRAEFIK_LOKI_PROXY == "Y" ]; then
+
+    ask TRAEFIK_LOKI_DOMAIN "" "What is the traefik Loki domain?"
+    copy conf.d/loki.toml /etc/traefik/conf.d/loki.toml
+
+fi
+
+# Add influxdb config
+ask_yes_no TRAEFIK_INFLUXDB_PROXY "Y" "Do you want to use traefik as InfluxDB proxy?"
+
+if [ $TRAEFIK_INFLUXDB_PROXY == "Y" ]; then
+
+    ask TRAEFIK_INFLUXDB_DOMAIN "" "What is the traefik InfluxDB domain?"
+    copy conf.d/influxdb.toml /etc/traefik/conf.d/influxdb.toml
+
+fi
+
+# Install log rotate
+append logrotate /etc/logrotate.d/traefik
+logrotate -d
+logrotate -f -v /etc/logrotate.d/traefik
+
+# Enable and restart traefik
+systemctl daemon-reload
+systemctl enable traefik.service
+
+warning "Traefik has been installed. You must include your specific configurations now..."

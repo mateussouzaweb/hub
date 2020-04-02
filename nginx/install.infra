@@ -1,0 +1,76 @@
+ask_sudo_password
+
+# Add source
+apt-get install -y python-software-properties
+add-apt-repository -y ppa:nginx/stable
+apt-get update
+apt-get upgrade
+
+# Install package
+apt-get install -y nginx
+
+# Copy files from repository
+REPOSITORY="https://raw.githubusercontent.com/mateus007/webserver-config/master/nginx"
+
+wget -O /etc/nginx/nginx.conf $REPOSITORY/nginx.conf
+wget -O /etc/nginx/mime.types $REPOSITORY/mime.types
+
+# Proxy and FastCGI Cache
+mkdir -p /var/nginx/tmp
+mkdir -p /var/nginx/cache/proxy
+mkdir -p /var/nginx/cache/fastcgi
+
+# Conf.d Config
+wget -O /etc/nginx/conf.d/fastcgi.conf $REPOSITORY/conf.d/fastcgi.conf
+wget -O /etc/nginx/conf.d/gzip.conf $REPOSITORY/conf.d/gzip.conf
+wget -O /etc/nginx/conf.d/limit.conf $REPOSITORY/conf.d/limit.conf
+wget -O /etc/nginx/conf.d/logs.conf $REPOSITORY/conf.d/logs.conf
+wget -O /etc/nginx/conf.d/openfile.conf $REPOSITORY/conf.d/openfile.conf
+wget -O /etc/nginx/conf.d/proxy.conf $REPOSITORY/conf.d/proxy.conf
+wget -O /etc/nginx/conf.d/security.conf $REPOSITORY/conf.d/security.conf
+wget -O /etc/nginx/conf.d/ssl.conf $REPOSITORY/conf.d/ssl.conf
+
+# Global Config
+mkdir /etc/nginx/global
+mkdir /etc/nginx/global/common
+mkdir /etc/nginx/global/maps
+mkdir /etc/nginx/global/magento
+mkdir /etc/nginx/global/wordpress
+
+wget -O /etc/nginx/global/common/block.conf $REPOSITORY/global/common/block.conf
+wget -O /etc/nginx/global/common/general.conf $REPOSITORY/global/common/general.conf
+wget -O /etc/nginx/global/common/php.conf $REPOSITORY/global/common/php.conf
+
+wget -O /etc/nginx/global/magento/entrypoint.conf $REPOSITORY/global/magento/entrypoint.conf
+wget -O /etc/nginx/global/magento/media.conf $REPOSITORY/global/magento/media.conf
+wget -O /etc/nginx/global/magento/public.conf $REPOSITORY/global/magento/public.conf
+wget -O /etc/nginx/global/magento/setup.conf $REPOSITORY/global/magento/setup.conf
+wget -O /etc/nginx/global/magento/static.conf $REPOSITORY/global/magento/static.conf
+wget -O /etc/nginx/global/magento/update.conf $REPOSITORY/global/magento/update.conf
+
+wget -O /etc/nginx/global/maps/bots.conf $REPOSITORY/global/maps/bots.conf
+wget -O /etc/nginx/global/maps/exploit.conf $REPOSITORY/global/maps/exploit.conf
+wget -O /etc/nginx/global/maps/injection.conf $REPOSITORY/global/maps/injection.conf
+wget -O /etc/nginx/global/maps/referer.conf $REPOSITORY/global/maps/referer.conf
+wget -O /etc/nginx/global/maps/fastcgi.conf $REPOSITORY/global/maps/fastcgi.conf
+wget -O /etc/nginx/global/maps/webp.conf $REPOSITORY/global/maps/webp.conf
+
+wget -O /etc/nginx/global/wordpress/rewrite.conf $REPOSITORY/global/wordpress/rewrite.conf
+wget -O /etc/nginx/global/wordpress/security.conf $REPOSITORY/global/wordpress/security.conf
+
+# Fix nginx configuration
+rm /etc/nginx/sites-enabled/default
+rm -f -R /usr/share/nginx/html/
+touch /etc/nginx/conf.d/default.conf
+
+# Add status configuration
+copy conf.d/status.conf /etc/nginx/sites-enabled/status.conf
+
+# Add startup at boot and start
+systemctl enable nginx.service
+
+# Restart service
+nginx -t
+service nginx restart
+
+warning "You must set up your own nginx domain configuration now..."

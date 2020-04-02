@@ -1,0 +1,37 @@
+ask_sudo_password
+
+# Setup workspace
+groupadd -g 322 loki
+useradd -g loki --no-user-group \
+    --home-dir /var/log --no-create-home \
+    --shell /usr/sbin/nologin \
+    --system --uid 322 loki
+
+# Create folders
+mkdir -p /etc/loki
+chown -R root:root /etc/loki
+
+# Install from package
+curl -O -L "https://github.com/grafana/loki/releases/download/v1.4.0/loki-linux-amd64.zip"
+
+unzip "loki-linux-amd64.zip"
+rm loki-linux-amd64.zip
+mv loki-linux-amd64 /usr/local/bin/loki
+
+# Set file permissions
+chown root:root /usr/local/bin/loki
+chmod a+x /usr/local/bin/loki
+
+# Add startup service script
+copy loki.service /etc/systemd/system/loki.service
+chown root:root /etc/systemd/system/loki.service
+chmod 644 /etc/systemd/system/loki.service
+
+# Copy configuration
+copy loki.yaml /etc/loki/loki.yaml
+chown loki:loki /etc/loki/loki.yaml
+chmod 644 /etc/loki/loki.yaml
+
+# Enable and restart loki
+systemctl daemon-reload
+systemctl enable loki.service

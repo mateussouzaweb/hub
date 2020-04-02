@@ -1,0 +1,10 @@
+ask_sudo_password
+
+# Install GoAccess
+echo "deb http://deb.goaccess.io/ $(lsb_release -cs) main" | tee -a /etc/apt/sources.list.d/goaccess.list
+wget -O - https://deb.goaccess.io/gnugpg.key | apt-key add -
+apt-get update
+apt-get install goaccess -y
+
+# Install images optimization
+apt-get install -y jpegoptim optipng libjpeg-progs gifsicle webp

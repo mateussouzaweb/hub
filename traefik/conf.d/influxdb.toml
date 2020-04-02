@@ -1,0 +1,11 @@
+[http]
+  [http.routers]
+    [http.routers.influxdb]
+      entryPoints = ["https"]
+      middlewares = ["influxdb-whitelist"]
+      port = 8086
+      rule = "Host(`{TRAEFIK_INFLUXDB_DOMAIN}`)"
+
+[http.middlewares]
+  [http.middlewares.influxdb-whitelist.ipWhiteList]
+    sourceRange = ["127.0.0.1/32", "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]

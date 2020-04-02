@@ -1,0 +1,10 @@
+[metrics]
+  [metrics.influxDB]
+    address = "${INFLUXDB_URL}"
+    protocol = "http"
+    database = "${INFLUXDB_DATABASE}"
+    username = "${INFLUXDB_USERNAME}"
+    password = "${INFLUXDB_PASSWORD}"
+    addEntryPointsLabels = true
+    addServicesLabels = true
+    pushInterval = 10s

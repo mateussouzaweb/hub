@@ -1,0 +1,35 @@
+defaultEntryPoints = ["http", "https"]
+
+[entryPoints]
+  [entryPoints.http]
+    address = ":80"
+  [entryPoints.http.http]
+    [entryPoints.http.http.redirections]
+      [entryPoints.http.http.redirections.entryPoint]
+        to = "https"
+        scheme = "https"
+
+  [entryPoints.https]
+    address = ":443"
+    [entryPoints.https.http.tls]
+      certResolver = "letsencrypt"
+
+[log]
+  filePath = "/var/log/traefik/traefik.log"
+
+[accessLog]
+  filePath = "/var/log/traefik/access.log"
+
+[api]
+  dashboard = true
+
+[providers.file]
+  directory = "/etc/traefik/conf.d"
+
+[certificatesResolvers.letsencrypt.acme]
+  email = "${ADMIN_EMAIL}"
+  storage = "/etc/traefik/acme/letsencrypt.json"
+  caServer = "https://acme-v02.api.letsencrypt.org/directory"
+  [certificatesResolvers.letsencrypt.acme.tlsChallenge]
+  [certificatesResolvers.letsencrypt.acme.httpChallenge]
+    entryPoint = "https"

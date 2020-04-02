@@ -1,0 +1,10 @@
+set alert ${ADMIN_EMAIL}
+
+set mail-format {
+    from: Monit Alerts <${MONIT_EMAIL}>
+}
+
+set mailserver ${MONIT_SMTP_HOST} port ${MONIT_SMTP_PORT}
+    username "${MONIT_SMTP_USERNAME}" password "${MONIT_SMTP_PASSWORD}"
+    using hostname ${MONIT_SMTP_HOST}
+    using tls

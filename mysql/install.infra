@@ -1,0 +1,13 @@
+ask_sudo_password
+
+# Install
+apt install -y mariadb-server
+mysql_secure_installation
+
+# Copy configs
+copy conf.d/mysqld.cnf /etc/mysql/conf.d/mysqld.cnf
+
+# Restart service
+service mysql restart
+
+warning "Please tweak your MySQL configurations"
