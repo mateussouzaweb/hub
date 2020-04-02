@@ -20,12 +20,13 @@ mkdir /var/log/traefik/
 chown -R traefik:traefik /var/log/traefik/
 
 # Install traefik from source
-# https://github.com/containous/traefik/releases
-curl -L "https://github.com/containous/traefik/releases/download/v2.2/traefik_v2.2_linux_amd64.tar.gz" -o /etc/traefik/traefik.tar.gz
-tar -zxvf /etc/traefik/traefik.tar.gz
+REPOSITORY="https://github.com/containous/traefik/releases/download"
+curl -L "$REPOSITORY/v2.2.0/traefik_v2.2.0_linux_amd64.tar.gz" -o /etc/traefik/traefik.tar.gz
+tar -zxvf /etc/traefik/traefik.tar.gz --directory /etc/traefik/
+sleep 2
 
-mv /etc/traefik/traefik /usr/local/bin/traefik
 rm /etc/traefik/traefik.tar.gz
+mv /etc/traefik/traefik /usr/local/bin/traefik
 
 # Set file permissions
 chown root:root /usr/local/bin/traefik
@@ -120,7 +121,7 @@ if [ $TRAEFIK_INFLUXDB_PROXY == "Y" ]; then
 fi
 
 # Install log rotate
-append log.rotate /etc/logrotate.d/traefik
+copy log.rotate /etc/logrotate.d/traefik
 logrotate -d
 logrotate -f -v /etc/logrotate.d/traefik
 
