@@ -19,6 +19,13 @@ ask INFLUXDB_PASSWORD "" "What is the InfluxDB password?"
 
 copy telegraf.conf /etc/telegraf/telegraf.conf
 
+# Add InfluxDB
+ask_yes_no TELEGRAF_INPUT_INFLUXDB "N" "Do you want to input InfluxDB on Telegraf?"
+
+if [ $TELEGRAF_INPUT_INFLUXDB == "Y" ]; then
+    copy conf.d/influxdb.conf /etc/telegraf/telegraf.d/influxdb.conf
+fi
+
 # Add MongoDB
 ask_yes_no TELEGRAF_INPUT_MONGODB "N" "Do you want to input MongoDB on Telegraf?"
 
