@@ -120,7 +120,7 @@ if [ $TRAEFIK_INFLUXDB_PROXY == "Y" ]; then
 fi
 
 # Install log rotate
-append logrotate /etc/logrotate.d/traefik
+append log.rotate /etc/logrotate.d/traefik
 logrotate -d
 logrotate -f -v /etc/logrotate.d/traefik
 

@@ -7,8 +7,9 @@ echo "deb https://repos.influxdata.com/ubuntu bionic stable" | tee /etc/apt/sour
 apt-get update
 apt-get install -y influxdb
 
-# Add startup at boot
+# Add startup at boot and start
 systemctl enable influxdb.service
+service influxdb start
 sleep 20
 
 # Enable auth

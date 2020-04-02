@@ -28,6 +28,15 @@ if [ $TELEGRAF_INPUT_MONGODB == "Y" ]; then
     copy conf.d/mongodb.conf /etc/telegraf/telegraf.d/mongodb.conf
 fi
 
+# Add MySQL
+ask_yes_no TELEGRAF_INPUT_MYSQL "N" "Do you want to input MySQL on Telegraf?"
+
+if [ $TELEGRAF_INPUT_MYSQL == "Y" ]; then
+    ask MYSQL_USER "admin" "What is the MySQL user?"
+    ask MYSQL_PASSWORD "" "What is the MySQL password?"
+    copy conf.d/mysql.conf /etc/telegraf/telegraf.d/mysql.conf
+fi
+
 # Add Nginx
 ask_yes_no TELEGRAF_INPUT_NGINX "N" "Do you want to input Nginx on Telegraf?"
 

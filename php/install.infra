@@ -36,6 +36,7 @@ apt-get install -y \
     php7.4-memcache \
     php7.4-redis \
     php7.4-imagick \
+    php7.4-pear \
     php7.4-dev
 
 # MongoDB
@@ -59,22 +60,11 @@ service php7.4-fpm restart
 update-alternatives --config php
 
 # Install libsodium
-cd /usr/local/
-git clone -b stable https://github.com/jedisct1/libsodium.git
-
-cd libsodium/
-./configure && make check && make install
-
 pecl install -f libsodium
-
-# cat > /etc/php/7.4/mods-available/libsodium.ini <<EOL
-# ; priority=10
-# extension=sodium.so
-# EOL
-# phpenmod libsodium
+phpenmod libsodium
 
 # Install log rotate
-append logrotate /etc/logrotate.d/php-fpm
+append log.rotate /etc/logrotate.d/php-fpm
 logrotate -d
 logrotate -f -v /etc/logrotate.d/php-fpm
 

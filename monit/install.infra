@@ -18,6 +18,7 @@ wget -O /etc/monit/conf-available/redis $REPOSITORY/redis
 wget -O /etc/monit/conf-available/system $REPOSITORY/system
 
 # Copy configurations
+ask ADMIN_EMAIL "mateussouzaweb@gmail.com" "What is the administrator email? (to receive alert messages)"
 ask MONIT_USERNAME "monit" "What is the monit admin username?"
 ask MONIT_PASSWORD "" "What is the monit admin password?"
 ask MONIT_EMAIL "" "What is the monit email? (to delivery alert messages)"
@@ -31,50 +32,50 @@ copy conf.d/httpd /etc/monit/conf-available/httpd
 
 # Enable monitors
 info "Enabling system monitors..."
-ln -s /etc/monit/conf-available/alerts /etc/monit/conf-enabled/alerts
-ln -s /etc/monit/conf-available/httpd /etc/monit/conf-enabled/httpd
-ln -s /etc/monit/conf-available/cron /etc/monit/conf-enabled/cron
-ln -s /etc/monit/conf-available/system /etc/monit/conf-enabled/system
+symlink /etc/monit/conf-available/alerts /etc/monit/conf-enabled/alerts
+symlink /etc/monit/conf-available/httpd /etc/monit/conf-enabled/httpd
+symlink /etc/monit/conf-available/cron /etc/monit/conf-enabled/cron
+symlink /etc/monit/conf-available/system /etc/monit/conf-enabled/system
 
 # Other monitors
 if which apache2 >/dev/null; then
     info "Enabling apache2 monitor..."
-    ln -s /etc/monit/conf-available/apache2 /etc/monit/conf-enabled/apache2
+    symlink /etc/monit/conf-available/apache2 /etc/monit/conf-enabled/apache2
 fi
 
 if which memcached >/dev/null; then
     info "Enabling memcached monitor..."
-    ln -s /etc/monit/conf-available/memcached /etc/monit/conf-enabled/memcached
+    symlink /etc/monit/conf-available/memcached /etc/monit/conf-enabled/memcached
 fi
 
 if which mongod >/dev/null; then
     info "Enabling mongod monitor..."
-    ln -s /etc/monit/conf-available/mongod /etc/monit/conf-enabled/mongod
+    symlink /etc/monit/conf-available/mongod /etc/monit/conf-enabled/mongod
 fi
 
 if which mysql >/dev/null; then
     info "Enabling mysql monitor..."
-    ln -s /etc/monit/conf-available/mysql /etc/monit/conf-enabled/mysql
+    symlink /etc/monit/conf-available/mysql /etc/monit/conf-enabled/mysql
 fi
 
 if which nginx >/dev/null; then
     info "Enabling nginx monitor..."
-    ln -s /etc/monit/conf-available/nginx /etc/monit/conf-enabled/nginx
+    symlink /etc/monit/conf-available/nginx /etc/monit/conf-enabled/nginx
 fi
 
 if which php7.4-fpm >/dev/null; then
     info "Enabling php monitor..."
-    ln -s /etc/monit/conf-available/php /etc/monit/conf-enabled/php
+    symlink /etc/monit/conf-available/php /etc/monit/conf-enabled/php
 fi
 
 if which postfix >/dev/null; then
     info "Enabling postfix monitor..."
-    ln -s /etc/monit/conf-available/postfix /etc/monit/conf-enabled/postfix
+    symlink /etc/monit/conf-available/postfix /etc/monit/conf-enabled/postfix
 fi
 
 if which redis >/dev/null; then
     info "Enabling redis monitor..."
-    ln -s /etc/monit/conf-available/redis /etc/monit/conf-enabled/redis
+    symlink /etc/monit/conf-available/redis /etc/monit/conf-enabled/redis
 fi
 
 # Restart service

@@ -26,7 +26,7 @@ apt-get install -y build-essential vim wget \
 # Install Oh-my-ZSH
 ask_yes_no INSTALL_OH_MY_ZSH "Y" "Do you want to install oh-my-ZSH?"
 
-if [ $INSTALL_OH_MY_ZSH == "y" ]; then
+if [ $INSTALL_OH_MY_ZSH == "Y" ]; then
     wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
 fi
 

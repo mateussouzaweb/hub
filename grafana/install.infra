@@ -13,7 +13,7 @@ systemctl daemon-reload
 systemctl enable grafana-server.service
 
 # Add config
-ask GRAFANA_EMAIL "" "What is the monit email? (to delivery alert messages)"
+ask GRAFANA_EMAIL "" "What is the grafana email? (to delivery alert messages)"
 ask GRAFANA_SMTP_HOST "smtp.gmail.com" "What is the grafana SMTP host?"
 ask GRAFANA_SMTP_PORT "587" "What is the grafana SMTP port?"
 ask GRAFANA_SMTP_USERNAME "" "What is the grafana SMTP username?"
