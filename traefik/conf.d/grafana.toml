@@ -2,5 +2,10 @@
   [http.routers]
     [http.routers.grafana]
       entryPoints = ["https"]
-      port = 3000
-      rule = "Host(`{TRAEFIK_GRAFANA_DOMAIN}`)"
+      service = "grafana"
+      rule = "Host(`${TRAEFIK_GRAFANA_DOMAIN}`)"
+
+[http.services]
+  [http.services.grafana.loadBalancer]
+    [[http.services.grafana.loadBalancer.servers]]
+      url = "http://127.0.0.1:3000"

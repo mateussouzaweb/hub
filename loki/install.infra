@@ -3,13 +3,18 @@ ask_sudo_password
 # Setup workspace
 groupadd -g 322 loki
 useradd -g loki --no-user-group \
-    --home-dir /var/log --no-create-home \
+    --home-dir /loki --no-create-home \
     --shell /usr/sbin/nologin \
     --system --uid 322 loki
 
 # Create folders
 mkdir -p /etc/loki
 chown -R root:root /etc/loki
+
+mkdir /loki
+mkdir /loki/index
+mkdir /loki/chunks
+chown -R loki:loki /loki
 
 # Install from package
 curl -O -L "https://github.com/grafana/loki/releases/download/v1.4.0/loki-linux-amd64.zip"

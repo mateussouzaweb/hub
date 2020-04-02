@@ -10,18 +10,19 @@ apt-get install -y influxdb
 # Add startup at boot and start
 systemctl enable influxdb.service
 service influxdb start
-sleep 20
+sleep 30
 
-# Enable auth
-sed -i "s/auth-enabled = false/auth-enabled = true/g" /etc/influxdb/influxdb.conf
-
+# Create user
 ask INFLUXDB_USERNAME "metrics" "What is the InfluxDB username?"
 ask INFLUXDB_PASSWORD "" "What is the InfluxDB password?"
-influx -execute "CREATE USER $INFLUXDB_USERNAME WITH PASSWORD '$INFLUXDB_PASSWORD' WITH ALL PRIVILEGES"
-
-# Create database
 ask INFLUXDB_DATABASE "metrics" "What is the InfluxDB database?"
-influx -execute "CREATE DATABASE '$INFLUXDB_DATABASE'"
+
+influx -host 127.0.0.1 -port 8086 -execute \
+    "CREATE USER $INFLUXDB_USERNAME WITH PASSWORD '$INFLUXDB_PASSWORD' WITH ALL PRIVILEGES; CREATE DATABASE '$INFLUXDB_DATABASE'"
+
+# Enable auth
+sed -i "s/# auth-enabled = false/auth-enabled = true/g" /etc/influxdb/influxdb.conf
+sed -i "s/# auth-enabled = true/auth-enabled = true/g" /etc/influxdb/influxdb.conf
 
 # Restart service
 service influxdb restart

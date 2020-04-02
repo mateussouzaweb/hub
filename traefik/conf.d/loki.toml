@@ -3,9 +3,14 @@
     [http.routers.loki]
       entryPoints = ["https"]
       middlewares = ["loki-whitelist"]
-      port = 3100
-      rule = "Host(`{TRAEFIK_LOKI_DOMAIN}`)"
+      service = "loki"
+      rule = "Host(`${TRAEFIK_LOKI_DOMAIN}`)"
 
 [http.middlewares]
   [http.middlewares.loki-whitelist.ipWhiteList]
     sourceRange = ["127.0.0.1/32", "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16"]
+
+[http.services]
+  [http.services.loki.loadBalancer]
+    [[http.services.loki.loadBalancer.servers]]
+      url = "http://127.0.0.1:3100"

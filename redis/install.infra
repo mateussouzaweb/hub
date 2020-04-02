@@ -14,8 +14,8 @@ include /etc/redis/custom.conf
 EOL
 
 # Restart add to startup boot
-systemctl restart redis.service
 systemctl enable redis.service
+systemctl restart redis.service
 
 # Set as PHP session handler
 ask_yes_no REDIS_AS_PHP_SESSION "Y" "Do you want to use redis as PHP session?"

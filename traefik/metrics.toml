@@ -7,4 +7,4 @@
     password = "${INFLUXDB_PASSWORD}"
     addEntryPointsLabels = true
     addServicesLabels = true
-    pushInterval = 10s
+    pushInterval = "10s"

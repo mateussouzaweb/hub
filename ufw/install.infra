@@ -12,3 +12,5 @@ systemctl enable ufw.service
 
 # Enable connections
 ufw allow 22/tcp # SSH
+
+warning "We enabled just port 22. You need to enable others ports like 80 and 443 manually..."

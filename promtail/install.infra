@@ -1,11 +1,11 @@
 ask_sudo_password
 
 # Setup workspace
-groupadd -g 322 promtail
+groupadd -g 323 promtail
 useradd -g promtail --no-user-group \
     --home-dir /var/log --no-create-home \
     --shell /usr/sbin/nologin \
-    --system --uid 322 promtail
+    --system --uid 323 promtail
 
 # Create folders
 mkdir -p /etc/promtail
