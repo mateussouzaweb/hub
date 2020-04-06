@@ -7,9 +7,14 @@ useradd -g promtail --no-user-group \
     --shell /usr/sbin/nologin \
     --system --uid 323 promtail
 
+usermod -a -G www-data,adm promtail
+
 # Create folders
 mkdir -p /etc/promtail
 chown -R root:root /etc/promtail
+
+mkdir -p /etc/promtail/positions
+chown -R promtail:promtail /etc/promtail/positions
 
 # Install from package
 curl -O -L "https://github.com/grafana/loki/releases/download/v1.4.0/promtail-linux-amd64.zip"
@@ -32,6 +37,9 @@ ask PROMTAIL_LOKI_URL "http://127.0.0.1:3100/loki/api/v1/push" "What is the loki
 copy promtail.yaml /etc/promtail/promtail.yaml
 chown promtail:promtail /etc/promtail/promtail.yaml
 chmod 644 /etc/promtail/promtail.yaml
+
+touch /etc/promtail/positions/main.yaml
+chown promtail:promtail /etc/promtail/positions/main.yaml
 
 # Enable and restart promtail
 systemctl daemon-reload

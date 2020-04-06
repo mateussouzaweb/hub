@@ -1,30 +1,38 @@
 server:
   http_listen_port: 9080
-  grpc_listen_port: 0
-
-positions:
-  filename: /tmp/positions.yaml
+  grpc_listen_port: 9096
 
 clients:
   - url: ${PROMTAIL_LOKI_URL}
+    tls_config:
+      insecure_skip_verify: true
+
+positions:
+  filename: /etc/promtail/positions/main.yaml
+  sync_period: 10s
 
 scrape_configs:
   - job_name: system
+    pipeline_stages:
     static_configs:
     - targets:
         - localhost
       labels:
         job: varlogs
-        __path__: /var/log/*log
+        __path__: /var/log/*.log
   - job_name: journal
     journal:
-      json: false
       max_age: 12h
-      path: /var/log/journal
       labels:
         job: systemd-journal
     relabel_configs:
       - source_labels: ['__journal__systemd_unit']
         target_label: 'unit'
-      - source_labels: ['__journal__hostname']
+  - job_name: syslog
+    syslog:
+      listen_address: 0.0.0.0:1514
+      labels:
+        job: "syslog"
+    relabel_configs:
+      - source_labels: ['__syslog_message_hostname']
         target_label: 'host'

@@ -19,7 +19,7 @@ ask GRAFANA_SMTP_PORT "587" "What is the grafana SMTP port?"
 ask GRAFANA_SMTP_USERNAME "" "What is the grafana SMTP username?"
 ask GRAFANA_SMTP_PASSWORD "" "What is the grafana SMTP password?"
 
-sed -i "s/[smtp]/;[smtp]/g" /etc/grafana/grafana.ini
+sed -i "s/\[smtp\]/;\[smtp\]/g" /etc/grafana/grafana.ini
 append smtp.ini /etc/grafana/grafana.ini
 
 # Restart service
