@@ -63,6 +63,10 @@ update-alternatives --config php
 pecl install -f libsodium
 phpenmod libsodium
 
+# Fix log permissions
+chown -R www-data:adm /var/log/php
+chmod -R 640 /var/log/php/fpm/*.log
+
 # Install log rotate
 append log.rotate /etc/logrotate.d/php7.4-fpm
 logrotate -d

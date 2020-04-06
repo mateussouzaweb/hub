@@ -64,7 +64,9 @@ rm -f -R /usr/share/nginx/html/
 touch /etc/nginx/conf.d/default.conf
 
 # Add status configuration
-copy conf.d/status.conf /etc/nginx/sites-enabled/status.conf
+copy conf.d/status.conf /etc/nginx/sites-available/status.conf
+symlink /etc/nginx/sites-available/status.conf \
+    /etc/nginx/sites-enabled/status.conf
 
 # Add startup at boot and start
 systemctl enable nginx.service

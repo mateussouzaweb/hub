@@ -37,43 +37,56 @@ symlink /etc/monit/conf-available/httpd /etc/monit/conf-enabled/httpd
 symlink /etc/monit/conf-available/cron /etc/monit/conf-enabled/cron
 symlink /etc/monit/conf-available/system /etc/monit/conf-enabled/system
 
-# Other monitors
-if which apache2 >/dev/null; then
+ask_yes_no MONIT_ENABLE_APACHE2 "Y" "Do you want to enable Apache2 on Monit?"
+if [ $MONIT_ENABLE_APACHE2 == "Y" ]; then
     info "Enabling apache2 monitor..."
     symlink /etc/monit/conf-available/apache2 /etc/monit/conf-enabled/apache2
 fi
 
-if which memcached >/dev/null; then
+ask_yes_no MONIT_ENABLE_FAIL2BAN "Y" "Do you want to enable Fail2Ban on Monit?"
+if [ $MONIT_ENABLE_FAIL2BAN == "Y" ]; then
+    info "Enabling fail2ban monitor..."
+    symlink /etc/monit/conf-available/fail2ban /etc/monit/conf-enabled/fail2ban
+fi
+
+ask_yes_no MONIT_ENABLE_MEMCACHED "Y" "Do you want to enable Memcached on Monit?"
+if [ $MONIT_ENABLE_MEMCACHED == "Y" ]; then
     info "Enabling memcached monitor..."
     symlink /etc/monit/conf-available/memcached /etc/monit/conf-enabled/memcached
 fi
 
-if which mongod >/dev/null; then
+ask_yes_no MONIT_ENABLE_MONGOD "Y" "Do you want to enable MongoDB on Monit?"
+if [ $MONIT_ENABLE_MONGOD == "Y" ]; then
     info "Enabling mongod monitor..."
     symlink /etc/monit/conf-available/mongod /etc/monit/conf-enabled/mongod
 fi
 
-if which mysql >/dev/null; then
+ask_yes_no MONIT_ENABLE_MYSQL "Y" "Do you want to enable MySQL on Monit?"
+if [ $MONIT_ENABLE_MYSQL == "Y" ]; then
     info "Enabling mysql monitor..."
     symlink /etc/monit/conf-available/mysql /etc/monit/conf-enabled/mysql
 fi
 
-if which nginx >/dev/null; then
+ask_yes_no MONIT_ENABLE_NGINX "Y" "Do you want to enable Nginx on Monit?"
+if [ $MONIT_ENABLE_NGINX == "Y" ]; then
     info "Enabling nginx monitor..."
     symlink /etc/monit/conf-available/nginx /etc/monit/conf-enabled/nginx
 fi
 
-if which php7.4-fpm >/dev/null; then
+ask_yes_no MONIT_ENABLE_PHP "Y" "Do you want to enable PHP on Monit?"
+if [ $MONIT_ENABLE_PHP == "Y" ]; then
     info "Enabling php monitor..."
     symlink /etc/monit/conf-available/php /etc/monit/conf-enabled/php
 fi
 
-if which postfix >/dev/null; then
+ask_yes_no MONIT_ENABLE_POSTFIX "Y" "Do you want to enable Postfix on Monit?"
+if [ $MONIT_ENABLE_POSTFIX == "Y" ]; then
     info "Enabling postfix monitor..."
     symlink /etc/monit/conf-available/postfix /etc/monit/conf-enabled/postfix
 fi
 
-if which redis >/dev/null; then
+ask_yes_no MONIT_ENABLE_REDIS "Y" "Do you want to enable Redis on Monit?"
+if [ $MONIT_ENABLE_REDIS == "Y" ]; then
     info "Enabling redis monitor..."
     symlink /etc/monit/conf-available/redis /etc/monit/conf-enabled/redis
 fi
