@@ -40,3 +40,4 @@ chmod 644 /etc/loki/loki.yaml
 # Enable and restart loki
 systemctl daemon-reload
 systemctl enable loki.service
+service loki restart

@@ -34,6 +34,8 @@ chmod 644 /etc/systemd/system/promtail.service
 
 # Copy configuration
 ask PROMTAIL_LOKI_URL "http://127.0.0.1:3100/loki/api/v1/push" "What is the loki url? (to receive promtail data)"
+ask SERVER_NAME "" "What is the server hostname?"
+
 copy promtail.yaml /etc/promtail/promtail.yaml
 chown promtail:promtail /etc/promtail/promtail.yaml
 chmod 644 /etc/promtail/promtail.yaml
@@ -44,3 +46,4 @@ chown promtail:promtail /etc/promtail/positions/main.yaml
 # Enable and restart promtail
 systemctl daemon-reload
 systemctl enable promtail.service
+service promtail restart

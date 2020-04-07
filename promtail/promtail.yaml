@@ -19,6 +19,7 @@ scrape_configs:
         - localhost
       labels:
         job: varlogs
+        host: ${SERVER_NAME}
         __path__: /var/log/*.log
   - job_name: journal
     journal:
@@ -28,11 +29,5 @@ scrape_configs:
     relabel_configs:
       - source_labels: ['__journal__systemd_unit']
         target_label: 'unit'
-  - job_name: syslog
-    syslog:
-      listen_address: 0.0.0.0:1514
-      labels:
-        job: "syslog"
-    relabel_configs:
-      - source_labels: ['__syslog_message_hostname']
+      - source_labels: ['__journal__hostname']
         target_label: 'host'

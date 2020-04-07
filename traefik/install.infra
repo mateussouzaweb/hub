@@ -128,5 +128,6 @@ logrotate -f -v /etc/logrotate.d/traefik
 # Enable and restart traefik
 systemctl daemon-reload
 systemctl enable traefik.service
+service traefik restart
 
 warning "Traefik has been installed. You must include your specific configurations now..."
