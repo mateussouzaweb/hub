@@ -1,9 +1,20 @@
 [mysqld]
+
+# Connections
+max_connections         = 512
+
+# Optimizations
+thread_handling = pool-of-threads
+innodb_thread_concurrency = 6
+innodb_io_capacity = 1000
+innodb_io_capacity_max = 1500
+
+# Cache
 query_cache_limit       = 64M
 query_cache_size        = 256M
 thread_cache_size       = 32
-max_connections         = 256
 
+# Buffer size
 sort_buffer_size        = 8M
 join_buffer_size        = 8M
 tmp_table_size          = 64M
@@ -20,7 +31,4 @@ myisam_sort_buffer_size = 128M
 innodb_buffer_pool_size = 1503238553
 innodb_log_file_size = 64M
 innodb_flush_log_at_trx_commit = 2
-innodb_thread_concurrency = 6
 innodb_log_buffer_size = 10M
-innodb_io_capacity = 1000
-innodb_io_capacity_max = 1500

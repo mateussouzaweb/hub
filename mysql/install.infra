@@ -4,6 +4,18 @@ ask_sudo_password
 apt install -y mariadb-server
 mysql_secure_installation
 
+# Add additional user
+ask MYSQL_USER "admin" "What is the additional MySQL user?"
+ask MYSQL_PASSWORD "" "What is the additional MySQL password?"
+
+mysql -u root -p <<EOF
+CREATE USER '$MYSQL_USER'@'localhost' IDENTIFIED BY '$MYSQL_PASSWORD';
+GRANT ALL PRIVILEGES ON *.* TO '$MYSQL_USER'@'localhost' WITH GRANT OPTION;
+CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';
+GRANT ALL PRIVILEGES ON *.* TO '$MYSQL_USER'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+EOF
+
 # Copy configs
 copy conf.d/mysqld.cnf /etc/mysql/conf.d/mysqld.cnf
 

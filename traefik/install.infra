@@ -82,10 +82,10 @@ ask_yes_no TRAEFIK_MONIT_PROXY "Y" "Do you want to use traefik as Monit proxy?"
 if [ $TRAEFIK_MONIT_PROXY == "Y" ]; then
 
     ask TRAEFIK_MONIT_DOMAIN "" "What is the traefik Monit domain?"
-    ask MONIT_USER "monit" "What is the Monit username?"
+    ask MONIT_USERNAME "monit" "What is the Monit username?"
     ask MONIT_PASSWORD "" "What is the Monit password?"
 
-    export TRAEFIK_MONIT_AUTH=$(htpasswd -nb $MONIT_USER $MONIT_PASSWORD)
+    export TRAEFIK_MONIT_AUTH=$(htpasswd -nb $MONIT_USERNAME $MONIT_PASSWORD)
     copy conf.d/monit.toml /etc/traefik/conf.d/monit.toml
 
 fi
