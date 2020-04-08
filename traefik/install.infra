@@ -49,16 +49,10 @@ chown root:root /etc/traefik/traefik.toml
 chmod 644 /etc/traefik/traefik.toml
 
 # Add metrics
-ask_yes_no TRAEFIK_INFLUXDB_METRICS "Y" "Do you want to use InfluxDB as Metrics for Traefik?"
+ask_yes_no TRAEFIK_INFLUXDB_METRICS "Y" "Do you want to use InfluxDB as Metrics for Traefik? (Using Telegraf proxy)"
 
 if [ $TRAEFIK_INFLUXDB_METRICS == "Y" ]; then
-
-    ask INFLUXDB_URL "http://127.0.0.1:8086" "What is the InfluxDB url for Metrics?"
-    ask INFLUXDB_DATABASE "metrics" "What is the InfluxDB database for Metrics?"
-    ask INFLUXDB_USERNAME "metrics" "What is the InfluxDB username for Metrics?"
-    ask INFLUXDB_PASSWORD "" "What is the InfluxDB password for Metrics?"
     append metrics.toml /etc/traefik/traefik.toml
-
 fi
 
 # Add dashboard config

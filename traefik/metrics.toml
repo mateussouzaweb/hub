@@ -1,10 +1,7 @@
 [metrics]
   [metrics.influxDB]
-    address = "${INFLUXDB_URL}"
+    address = "http://127.0.0.1:8186"
     protocol = "http"
-    database = "${INFLUXDB_DATABASE}"
-    username = "${INFLUXDB_USERNAME}"
-    password = "${INFLUXDB_PASSWORD}"
     addEntryPointsLabels = true
     addServicesLabels = true
     pushInterval = "10s"
