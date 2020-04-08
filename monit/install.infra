@@ -43,10 +43,34 @@ if [ $MONIT_ENABLE_APACHE2 == "Y" ]; then
     symlink /etc/monit/conf-available/apache2 /etc/monit/conf-enabled/apache2
 fi
 
+ask_yes_no MONIT_ENABLE_DOVECOT "Y" "Do you want to enable Dovecot on Monit?"
+if [ $MONIT_ENABLE_DOVECOT == "Y" ]; then
+    info "Enabling dovecot monitor..."
+    symlink /etc/monit/conf-available/dovecot /etc/monit/conf-enabled/dovecot
+fi
+
 ask_yes_no MONIT_ENABLE_FAIL2BAN "Y" "Do you want to enable Fail2Ban on Monit?"
 if [ $MONIT_ENABLE_FAIL2BAN == "Y" ]; then
     info "Enabling fail2ban monitor..."
     symlink /etc/monit/conf-available/fail2ban /etc/monit/conf-enabled/fail2ban
+fi
+
+ask_yes_no MONIT_ENABLE_GRAFANA "Y" "Do you want to enable Grafana on Monit?"
+if [ $MONIT_ENABLE_GRAFANA == "Y" ]; then
+    info "Enabling grafana monitor..."
+    symlink /etc/monit/conf-available/grafana /etc/monit/conf-enabled/grafana
+fi
+
+ask_yes_no MONIT_ENABLE_INFLUXD "Y" "Do you want to enable InfluxDB on Monit?"
+if [ $MONIT_ENABLE_INFLUXD == "Y" ]; then
+    info "Enabling influxd monitor..."
+    symlink /etc/monit/conf-available/influxd /etc/monit/conf-enabled/influxd
+fi
+
+ask_yes_no MONIT_ENABLE_LOKI "Y" "Do you want to enable Loki on Monit?"
+if [ $MONIT_ENABLE_LOKI == "Y" ]; then
+    info "Enabling loki monitor..."
+    symlink /etc/monit/conf-available/loki /etc/monit/conf-enabled/loki
 fi
 
 ask_yes_no MONIT_ENABLE_MEMCACHED "Y" "Do you want to enable Memcached on Monit?"
@@ -85,10 +109,34 @@ if [ $MONIT_ENABLE_POSTFIX == "Y" ]; then
     symlink /etc/monit/conf-available/postfix /etc/monit/conf-enabled/postfix
 fi
 
+ask_yes_no MONIT_ENABLE_PROMTAIL "Y" "Do you want to enable Promtail on Monit?"
+if [ $MONIT_ENABLE_PROMTAIL == "Y" ]; then
+    info "Enabling promtail monitor..."
+    symlink /etc/monit/conf-available/promtail /etc/monit/conf-enabled/promtail
+fi
+
 ask_yes_no MONIT_ENABLE_REDIS "Y" "Do you want to enable Redis on Monit?"
 if [ $MONIT_ENABLE_REDIS == "Y" ]; then
     info "Enabling redis monitor..."
     symlink /etc/monit/conf-available/redis /etc/monit/conf-enabled/redis
+fi
+
+ask_yes_no MONIT_ENABLE_RSPAMD "Y" "Do you want to enable Rspamd on Monit?"
+if [ $MONIT_ENABLE_RSPAMD == "Y" ]; then
+    info "Enabling rspamd monitor..."
+    symlink /etc/monit/conf-available/rspamd /etc/monit/conf-enabled/rspamd
+fi
+
+ask_yes_no MONIT_ENABLE_TELEGRAF "Y" "Do you want to enable Telegraf on Monit?"
+if [ $MONIT_ENABLE_TELEGRAF == "Y" ]; then
+    info "Enabling telegraf monitor..."
+    symlink /etc/monit/conf-available/telegraf /etc/monit/conf-enabled/telegraf
+fi
+
+ask_yes_no MONIT_ENABLE_TRAEFIK "Y" "Do you want to enable Traefik on Monit?"
+if [ $MONIT_ENABLE_TRAEFIK == "Y" ]; then
+    info "Enabling traefik monitor..."
+    symlink /etc/monit/conf-available/traefik /etc/monit/conf-enabled/traefik
 fi
 
 # Restart service
