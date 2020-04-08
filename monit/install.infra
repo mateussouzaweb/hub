@@ -8,14 +8,22 @@ systemctl enable monit.service
 # Copy configurations from repository
 REPOSITORY="https://raw.githubusercontent.com/mateus007/webserver-config/master/monit/conf-available"
 
+wget -O /etc/monit/conf-available/dovecot $REPOSITORY/dovecot
 wget -O /etc/monit/conf-available/fail2ban $REPOSITORY/fail2ban
+wget -O /etc/monit/conf-available/grafana $REPOSITORY/grafana
+wget -O /etc/monit/conf-available/influxd $REPOSITORY/influxd
+wget -O /etc/monit/conf-available/loki $REPOSITORY/loki
 wget -O /etc/monit/conf-available/mongod $REPOSITORY/mongod
 wget -O /etc/monit/conf-available/mysql $REPOSITORY/mysql
 wget -O /etc/monit/conf-available/nginx $REPOSITORY/nginx
 wget -O /etc/monit/conf-available/php $REPOSITORY/php
 wget -O /etc/monit/conf-available/postfix $REPOSITORY/postfix
+wget -O /etc/monit/conf-available/promtail $REPOSITORY/promtail
 wget -O /etc/monit/conf-available/redis $REPOSITORY/redis
+wget -O /etc/monit/conf-available/rspamd $REPOSITORY/rspamd
 wget -O /etc/monit/conf-available/system $REPOSITORY/system
+wget -O /etc/monit/conf-available/telegraf $REPOSITORY/telegraf
+wget -O /etc/monit/conf-available/traefik $REPOSITORY/traefik
 
 # Copy configurations
 ask ADMIN_EMAIL "mateussouzaweb@gmail.com" "What is the administrator email? (to receive alert messages)"
