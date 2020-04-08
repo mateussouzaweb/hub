@@ -1,7 +1,6 @@
 ask_sudo_password
 
 # Install source
-apt-get install -y python-software-properties
 add-apt-repository -y ppa:ondrej/php
 apt-get update
 

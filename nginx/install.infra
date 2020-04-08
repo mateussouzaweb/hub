@@ -1,7 +1,6 @@
 ask_sudo_password
 
 # Add source
-apt-get install -y python-software-properties
 add-apt-repository -y ppa:nginx/stable
 apt-get update
 apt-get upgrade
