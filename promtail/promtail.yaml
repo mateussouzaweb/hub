@@ -20,7 +20,7 @@ scrape_configs:
       labels:
         job: varlogs
         host: ${SERVER_NAME}
-        __path__: /var/log/*.log
+        __path__: /var/log/{*.log,*/*.log}
   - job_name: journal
     journal:
       max_age: 12h

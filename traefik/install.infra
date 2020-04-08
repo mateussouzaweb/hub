@@ -39,7 +39,7 @@ chown root:root /etc/systemd/system/traefik.service
 chmod 644 /etc/systemd/system/traefik.service
 
 # Setup base config
-copy acme/letsencrypt.json /etc/traefik/acme/letsencrypt.json
+touch /etc/traefik/acme/letsencrypt.json
 chown traefik:traefik /etc/traefik/acme/letsencrypt.json
 chmod 600 /etc/traefik/acme/letsencrypt.json
 
@@ -122,8 +122,7 @@ fi
 
 # Install log rotate
 copy log.rotate /etc/logrotate.d/traefik
-logrotate -d
-logrotate -f -v /etc/logrotate.d/traefik
+logrotate -f /etc/logrotate.d/traefik
 
 # Enable and restart traefik
 systemctl daemon-reload

@@ -69,8 +69,7 @@ chmod -R 640 /var/log/php/fpm/*.log
 
 # Install log rotate
 append log.rotate /etc/logrotate.d/php7.4-fpm
-logrotate -d
-logrotate -f -v /etc/logrotate.d/php7.4-fpm
+logrotate -f /etc/logrotate.d/php7.4-fpm
 
 # Restart PHP
 service php7.4-fpm restart
