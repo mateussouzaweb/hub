@@ -5,37 +5,47 @@ Personal hub with modules to infralet: \
 
 ```bash
 # General
-infralet install server
-infralet install ufw
-infralet install fail2ban
-infralet install tools
+infralet server/install
+infralet ufw/install
+infralet fail2ban/install
+infralet tools/install
 
 # Web Server
-infralet install nginx
-infralet install php
-infralet install mongodb
-infralet install mysql
-infralet install redis
+infralet nginx/install
+infralet php/install
+infralet mongodb/install
+infralet mysql/install
+infralet redis/install
 
 # Monitoring Server
-infralet install grafana
-infralet install influxdb
-infralet install loki
+infralet grafana/install
+infralet influxdb/install
+infralet loki/install
 
 # Email Server
-# infralet install dovecot
-# infralet install mutt
-# infralet install postfix
-# infralet install rspamd
+# infralet dovecot/install
+# infralet mutt/install
+# infralet postfix/install
+# infralet rspamd/install
 
 # Monitoring Agent
-infralet install monit
-infralet install telegraf
-infralet install promtail
+infralet monit/install
+infralet telegraf/install
+infralet promtail/install
 
 # Reverse Proxy
-infralet install traefik
+infralet traefik/install
 
 # Backups
-# infralet install backups
+infralet rsync/files
+infralet mongodb/dump/backup
+infralet mysql/dump/backup
+infralet borg/install
+infralet borg/snapshot
+infralet rclone/install
+infralet rclone/sync
+
+# Restore
+infralet mysql/dump/restore
+infralet mongodb/dump/restore
 ```

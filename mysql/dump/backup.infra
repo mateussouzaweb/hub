@@ -7,7 +7,7 @@ ask MYSQL_PASSWORD "" "What is the MySQL password?"
 ask MYSQL_BACKUP_FOLDER "/backup/files/mysql" "What is the MySQL backups folder?"
 ask MYSQL_BACKUP_DATABASES "ALL" "What database(s) do you want to backup? (comman separated)"
 
-if[ "$MYSQL_BACKUP_DATABASES" == "ALL" ]; then
+if [ "$MYSQL_BACKUP_DATABASES" == "ALL" ]; then
 
     # Fill the list of databases
     DATABASES=`/usr/bin/mysql --host=$MYSQL_HOST --user=$MYSQL_USER -p$MYSQL_PASSWORD -e "SHOW DATABASES;" | grep -Ev "(Database|information_schema|performance_schema|mysql)"`
