@@ -1,0 +1,37 @@
+ask_sudo_password
+
+ask MYSQL_HOST "localhost" "What is the MySQL host?"
+ask MYSQL_USER "admin" "What is the MySQL user?"
+ask MYSQL_PASSWORD "" "What is the MySQL password?"
+
+ask MYSQL_BACKUP_FOLDER "/backup/files/mysql" "What is the MySQL backups folder?"
+ask MYSQL_BACKUP_DATABASES "ALL" "What database(s) do you want to backup? (comman separated)"
+
+if[ "$MYSQL_BACKUP_DATABASES" == "ALL" ]; then
+
+    # Fill the list of databases
+    DATABASES=`/usr/bin/mysql --host=$MYSQL_HOST --user=$MYSQL_USER -p$MYSQL_PASSWORD -e "SHOW DATABASES;" | grep -Ev "(Database|information_schema|performance_schema|mysql)"`
+
+else
+
+    DATABASES=$(echo $MYSQL_BACKUP_DATABASES | awk 'BEGIN{RS=";"} {print}')
+
+fi
+
+# Create backups for each database
+for DATABASE in ${DATABASES[*]}; do
+
+    info "Creating backup for $DATABASE MySQL database"
+
+    /bin/mkdir -p "$MYSQL_BACKUP_FOLDER"
+
+    /usr/bin/mysqldump \
+        --host="$MYSQL_HOST" \
+        --user="$MYSQL_USER" \
+        --password="$MYSQL_PASSWORD" \
+        --single-transaction \
+        --routines \
+        --triggers \
+        "$DATABASE" > "$MYSQL_BACKUP_FOLDER/$DATABASE.sql"
+
+done

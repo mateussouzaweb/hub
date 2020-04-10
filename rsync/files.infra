@@ -1,0 +1,16 @@
+ask_sudo_password
+
+ask RSYNC_FILES_SOURCE "/usr/share/stack/" "What is the rsync files source?"
+ask RSYNC_FILES_DESTINATION "/backup/files/stack" "What is the rsync files destination?"
+
+info "Rsync files from $RSYNC_FILES_SOURCE to $RSYNC_FILES_DESTINATION"
+
+/bin/mkdir -p "$RSYNC_FILES_DESTINATION"
+
+/usr/bin/rsync \
+    --archive \
+    --delete \
+    --recursive \
+    --perms \
+    --bwlimit 15000 \
+    "$RSYNC_FILES_SOURCE" "$RSYNC_FILES_DESTINATION"

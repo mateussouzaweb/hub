@@ -1,0 +1,33 @@
+ask_sudo_password
+
+ask BORG_REPOSITORY "/backup/repository" "What is the Borg repository folder?"
+ask BORG_PASSPHRASE "" "What is the Borg passphrase?"
+
+ask BORG_SNAPSHOT_SOURCE "/backup/files" "What is the source path to create the snapshot?"
+ask BORG_SNAPSHOT_ARCHIVE "{hostname}" "What is the backup archive prefix?"
+
+# Create snapshot
+borg create \
+    --stats \
+    --show-rc \
+    --compression lz4 \
+    --exclude-caches \
+    --exclude '*.~' \
+    --exclude '*.*~' \
+    --exclude '*.swp' \
+    --exclude '.DS_Store' \
+    $BORG_REPOSITORY::$BORG_SNAPSHOT_ARCHIVE'-{now}' \
+    $BORG_SNAPSHOT_SOURCE
+
+info "Pruning old repository snapshots"
+
+# Run pruning on repository
+# maintain 7 daily, 4 weekly and 6 monthly archives
+borg prune \
+    --list \
+    --prefix $BORG_SNAPSHOT_ARCHIVE'-' \
+    --show-rc \
+    --keep-daily 7 \
+    --keep-weekly 4 \
+    --keep-monthly 6 \
+    $BORG_REPOSITORY

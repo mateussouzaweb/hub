@@ -1,0 +1,16 @@
+ask_sudo_password
+
+# Install
+apt-get install -y borgbackup
+
+# Init repository
+ask BORG_REPOSITORY "/backup/repository" "What is the Borg repository folder?"
+ask BORG_PASSPHRASE "" "What is the Borg passphrase?"
+
+info "Creating borg backup repository on $BORG_REPOSITORY"
+
+mkdir -p "$BORG_REPOSITORY"
+
+borg init \
+    --encryption=repokey-blake2 \
+    $BORG_REPOSITORY
