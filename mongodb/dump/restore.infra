@@ -4,8 +4,8 @@ ask MONGODB_HOST "127.0.0.1" "What is the MongoDB host?"
 ask MONGODB_USER "admin" "What is the MongoDB user?"
 ask MONGODB_PASSWORD "" "What is the MongoDB password?"
 
-ask MONGODB_BACKUP_FOLDER "/backup/mongodb" "What is the MongoDB backups folder?"
-ask MONGODB_RESTORE_DATABASES "" "What database(s) do you want to restore? (comman separated)"
+ask MONGODB_BACKUP_FOLDER "/backup/files/mongodb" "What is the MongoDB backups folder?"
+ask MONGODB_RESTORE_DATABASES "" "What database(s) do you want to restore? (conman separated)"
 
 MONGODB_URI="mongodb://$MONGODB_USER:$MONGODB_PASSWORD@$MONGODB_HOST:27017"
 DATABASES=$(echo $MONGODB_RESTORE_DATABASES | awk 'BEGIN{RS=";"} {print}')
@@ -14,11 +14,10 @@ DATABASES=$(echo $MONGODB_RESTORE_DATABASES | awk 'BEGIN{RS=";"} {print}')
 for DATABASE in ${DATABASES[*]}; do
 
     info "Restoring $DATABASE MongoDB database"
-
     /usr/bin/mongorestore \
         --drop \
         --uri="$MONGODB_URI/$DATABASE?authSource=admin" \
         --db="$DATABASE" \
-        --dir="$MONGODB_BACKUP_FOLDER/$DATABASE/"
+        --gzip --archive="$MONGODB_BACKUP_FOLDER/$DATABASE.gz"
 
 done

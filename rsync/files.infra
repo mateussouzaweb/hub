@@ -1,7 +1,7 @@
 ask_sudo_password
 
 ask RSYNC_FILES_SOURCE "/usr/share/stack/" "What is the rsync files source?"
-ask RSYNC_FILES_DESTINATION "/backup/files/stack" "What is the rsync files destination?"
+ask RSYNC_FILES_DESTINATION "/backup/files/stack/" "What is the rsync files destination?"
 
 info "Rsync files from $RSYNC_FILES_SOURCE to $RSYNC_FILES_DESTINATION"
 

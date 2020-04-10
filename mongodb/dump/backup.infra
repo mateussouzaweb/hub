@@ -4,21 +4,20 @@ ask MONGODB_HOST "127.0.0.1" "What is the MongoDB host?"
 ask MONGODB_USER "admin" "What is the MongoDB user?"
 ask MONGODB_PASSWORD "" "What is the MongoDB password?"
 
-ask MONGODB_BACKUP_FOLDER "/backup/mongodb" "What is the MongoDB backups folder?"
-ask MONGODB_BACKUP_DATABASES "" "What database(s) do you want to backup? (comman separated)"
+ask MONGODB_BACKUP_FOLDER "/backup/files/mongodb" "What is the MongoDB backups folder?"
+ask MONGODB_BACKUP_DATABASES "" "What database(s) do you want to backup? (conman separated)"
 
 MONGODB_URI="mongodb://$MONGODB_USER:$MONGODB_PASSWORD@$MONGODB_HOST:27017"
 DATABASES=$(echo $MONGODB_BACKUP_DATABASES | awk 'BEGIN{RS=";"} {print}')
+
+/bin/mkdir -p "$MONGODB_BACKUP_FOLDER"
 
 # Create backups for each database
 for DATABASE in ${DATABASES[*]}; do
 
     info "Creating backup for $DATABASE MongoDB database"
-
-    /bin/mkdir -p "$MONGODB_BACKUP_FOLDER/$DATABASE"
-
     /usr/bin/mongodump \
         --uri="$MONGODB_URI/$DATABASE?authSource=admin" \
-        --out="$MONGODB_BACKUP_FOLDER/"
+        --gzip --archive="$MONGODB_BACKUP_FOLDER/$DATABASE.gz"
 
 done

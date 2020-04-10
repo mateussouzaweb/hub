@@ -37,12 +37,13 @@ infralet promtail/install
 infralet traefik/install
 
 # Backups
+infralet borg/install
+infralet rclone/install
+
 infralet rsync/files
 infralet mongodb/dump/backup
 infralet mysql/dump/backup
-infralet borg/install
 infralet borg/snapshot
-infralet rclone/install
 infralet rclone/sync
 
 # Restore

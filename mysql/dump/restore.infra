@@ -5,7 +5,7 @@ ask MYSQL_USER "admin" "What is the MySQL user?"
 ask MYSQL_PASSWORD "" "What is the MySQL password?"
 
 ask MYSQL_BACKUP_FOLDER "/backup/files/mysql" "What is the MySQL backups folder?"
-ask MYSQL_RESTORE_DATABASES "" "What MySQL database should be restored? (comman separated)"
+ask MYSQL_RESTORE_DATABASES "" "What MySQL database should be restored? (conman separated)"
 
 # Fill the list of databases
 DATABASES=$(echo $MYSQL_RESTORE_DATABASES | awk 'BEGIN{RS=";"} {print}')
@@ -14,12 +14,11 @@ DATABASES=$(echo $MYSQL_RESTORE_DATABASES | awk 'BEGIN{RS=";"} {print}')
 for DATABASE in ${DATABASES[*]}; do
 
     info "Restoring $DATABASE MySQL database"
-
     (
         echo "SET AUTOCOMMIT=0;"
         echo "SET UNIQUE_CHECKS=0;"
         echo "SET FOREIGN_KEY_CHECKS=0;"
-        /bin/cat "$MYSQL_BACKUP_FOLDER/$DATABASE.sql"
+        gunzip < "$MYSQL_BACKUP_FOLDER/$DATABASE.sql.gz"
         echo "SET FOREIGN_KEY_CHECKS=1;"
         echo "SET UNIQUE_CHECKS=1;"
         echo "SET AUTOCOMMIT=1;"
