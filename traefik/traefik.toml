@@ -29,7 +29,6 @@ defaultEntryPoints = ["http", "https"]
 [certificatesResolvers.letsencrypt.acme]
   email = "${ADMIN_EMAIL}"
   storage = "/etc/traefik/acme/letsencrypt.json"
-  caServer = "https://acme-v02.api.letsencrypt.org/directory"
   [certificatesResolvers.letsencrypt.acme.tlsChallenge]
   [certificatesResolvers.letsencrypt.acme.httpChallenge]
     entryPoint = "https"
