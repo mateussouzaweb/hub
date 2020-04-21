@@ -1,6 +1,6 @@
 hosts = 127.0.0.1
-user = ${POSTFIX_MYSQL_USER}
-password = ${POSTFIX_MYSQL_PASSWORD}
-dbname = ${POSTFIX_MYSQL_DATABASE}
+user = ${MAIL_MYSQL_USER}
+password = ${MAIL_MYSQL_PASSWORD}
+dbname = ${MAIL_MYSQL_DATABASE}
 
 query = SELECT goto FROM alias WHERE address = '%s' AND active = '1'

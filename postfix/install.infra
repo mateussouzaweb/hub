@@ -6,23 +6,23 @@ apt-get install -y postfix postfix-mysql
 # Add to startup at boot
 systemctl enable postfix.service
 
-ask "POSTFIX_MYSQL_USER" "postfix" "What is the MySQL user? (used by postfix)"
-ask "POSTFIX_MYSQL_PASSWORD" "" "What is the MySQL password? (used by postfix)"
-ask "POSTFIX_MYSQL_DATABASE" "postfix" "What is the MySQL database? (used by postfix)"
+ask MAIL_MYSQL_USER "postfix" "What is the MySQL user? (used by postfix)"
+ask MAIL_MYSQL_PASSWORD "" "What is the MySQL password? (used by postfix)"
+ask MAIL_MYSQL_DATABASE "postfix" "What is the MySQL database? (used by postfix)"
 
 # Create database
 mysql -u root -p <<EOF
 
-CREATE DATABASE ${POSTFIX_MYSQL_DATABASE};
-CREATE USER ${POSTFIX_MYSQL_USER}@localhost IDENTIFIED BY '$POSTFIX_MYSQL_PASSWORD';
-GRANT ALL PRIVILEGES ON ${POSTFIX_MYSQL_DATABASE}.* TO ${POSTFIX_MYSQL_USER}@localhost;
+CREATE DATABASE ${MAIL_MYSQL_DATABASE};
+CREATE USER ${MAIL_MYSQL_USER}@localhost IDENTIFIED BY '$MAIL_MYSQL_PASSWORD';
+GRANT ALL PRIVILEGES ON ${MAIL_MYSQL_DATABASE}.* TO ${MAIL_MYSQL_USER}@localhost;
 FLUSH PRIVILEGES;
 
 EOF
 
 # Create tables
 mysql -u root -p <<EOF
-use ${POSTFIX_MYSQL_DATABASE};
+use ${MAIL_MYSQL_DATABASE};
 
 CREATE TABLE domain (
     domain VARCHAR(255) NOT NULL,
@@ -88,19 +88,19 @@ postconf -e "smtpd_sender_login_maps = mysql:/etc/postfix/sql/smtpd_sender_login
 cp conf.d/master.cf /etc/postfix/master.cf
 
 # Update configurations related to domain and TLS
-ask "POSTFIX_MAIL_DOMAIN" "mail.site.com" "What is the mail domain?"
-ask "POSTFIX_MAIL_TLS_CERT" "/etc/letsencrypt/live/mail.site.com/fullchain.pem" "What is the mail domain TLS cert file?"
-ask "POSTFIX_MAIL_TLS_KEY" "/etc/letsencrypt/live/mail.site.com/privkey.pem" "What is the mail domain TLS cert key?"
-postconf -e "myhostname ${POSTFIX_MAIL_DOMAIN}"
+ask MAIL_DOMAIN "mail.site.com" "What is the mail domain?"
+ask MAIL_TLS_CERT "/etc/letsencrypt/live/mail.site.com/fullchain.pem" "What is the mail domain TLS cert file?"
+ask MAIL_TLS_KEY "/etc/letsencrypt/live/mail.site.com/privkey.pem" "What is the mail domain TLS cert key?"
 
-postconf -e 'smtp_tls_note_starttls_offer = yes'
-postconf -e 'smtp_tls_security_level = may'
-postconf -e 'smtpd_tls_auth_only=yes'
-postconf -e 'smtpd_tls_security_level = may'
-postconf -e 'smtpd_tls_loglevel = 1'
-postconf -e 'smtpd_tls_received_header = yes'
-postconf -e 'smtpd_tls_cert_file = ${POSTFIX_MAIL_DOMAIN}'
-postconf -e 'smtpd_tls_key_file = ${POSTFIX_MAIL_DOMAIN}'
+postconf -e "myhostname = ${MAIL_DOMAIN}"
+postconf -e "smtp_tls_note_starttls_offer = yes"
+postconf -e "smtp_tls_security_level = may"
+postconf -e "smtpd_tls_auth_only=yes"
+postconf -e "smtpd_tls_security_level = may"
+postconf -e "smtpd_tls_loglevel = 1"
+postconf -e "smtpd_tls_received_header = yes"
+postconf -e "smtpd_tls_cert_file = ${MAIL_TLS_CERT}"
+postconf -e "smtpd_tls_key_file = ${MAIL_TLS_KEY}"
 
 # Check and restart
 postfix check

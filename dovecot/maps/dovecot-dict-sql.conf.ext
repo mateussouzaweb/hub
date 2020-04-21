@@ -1,4 +1,4 @@
-connect = host=127.0.0.1 dbname=${DOVECOT_MYSQL_DATABASE} user=${DOVECOT_MYSQL_USER} password=${DOVECOT_MYSQL_PASSWORD}
+connect = host=127.0.0.1 dbname=${MAIL_MYSQL_DATABASE} user=${MAIL_MYSQL_USER} password=${MAIL_MYSQL_PASSWORD}
 
 map {
   pattern = priv/quota/storage

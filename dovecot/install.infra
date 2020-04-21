@@ -18,24 +18,24 @@ useradd -u 5000 -g vmail -s /usr/sbin/nologin -d /var/mail/vmail -m vmail
 
 # Update postfix
 postconf -e "virtual_transport = lmtp:unix:private/dovecot-lmtp"
-postconf -e 'smtpd_sasl_type = dovecot'
-postconf -e 'smtpd_sasl_path = private/auth'
-postconf -e 'smtpd_sasl_local_domain ='
-postconf -e 'smtpd_sasl_security_options = noanonymous'
-postconf -e 'broken_sasl_auth_clients = yes'
-postconf -e 'smtpd_sasl_auth_enable = yes'
-postconf -e 'smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination,check_policy_service unix:private/quota-status'
+postconf -e "smtpd_sasl_type = dovecot"
+postconf -e "smtpd_sasl_path = private/auth"
+postconf -e "smtpd_sasl_local_domain ="
+postconf -e "smtpd_sasl_security_options = noanonymous"
+postconf -e "broken_sasl_auth_clients = yes"
+postconf -e "smtpd_sasl_auth_enable = yes"
+postconf -e "smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination,check_policy_service unix:private/quota-status"
 
 # Copy configurations
-ask "DOVECOT_MYSQL_USER" "postfix" "What is the MySQL user? (used by postfix)"
-ask "DOVECOT_MYSQL_PASSWORD" "" "What is the MySQL password? (used by postfix)"
-ask "DOVECOT_MYSQL_DATABASE" "postfix" "What is the MySQL database? (used by postfix)"
+ask MAIL_MYSQL_USER "postfix" "What is the MySQL user? (used by postfix)"
+ask MAIL_MYSQL_PASSWORD "" "What is the MySQL password? (used by postfix)"
+ask MAIL_MYSQL_DATABASE "postfix" "What is the MySQL database? (used by postfix)"
 
-ask "DOVECOT_MAIL_DOMAIN" "mail.site.com" "What is the mail domain?"
-ask "DOVECOT_MAIL_TLS_CERT" "/etc/letsencrypt/live/mail.site.com/fullchain.pem" "What is the mail domain TLS cert file?"
-ask "DOVECOT_MAIL_TLS_KEY" "/etc/letsencrypt/live/mail.site.com/privkey.pem" "What is the mail domain TLS cert key?"
+ask MAIL_DOMAIN "mail.site.com" "What is the mail domain?"
+ask MAIL_TLS_CERT "/etc/letsencrypt/live/mail.site.com/fullchain.pem" "What is the mail domain TLS cert file?"
+ask MAIL_TLS_KEY "/etc/letsencrypt/live/mail.site.com/privkey.pem" "What is the mail domain TLS cert key?"
 
-ask "DOVECOT_POSTMASTER_MAIL" "postmaster@site.com" "What is the postmaster email address?"
+ask DOVECOT_POSTMASTER_MAIL "postmaster@site.com" "What is the postmaster email address?"
 
 copy conf.d/auth.conf /etc/dovecot/conf.d/10-auth.conf
 copy conf.d/master.conf /etc/dovecot/conf.d/10-master.conf
