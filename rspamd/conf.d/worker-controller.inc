@@ -1,0 +1,1 @@
+password = "${THE_RSPAMD_PASSWORD}";

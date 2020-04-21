@@ -1,0 +1,60 @@
+ask_sudo_password
+
+apt-get install -Y \
+    dovecot-imapd \
+    dovecot-lmtpd \
+    dovecot-pop3d \
+    dovecot-ldap \
+    dovecot-mysql \
+    dovecot-sieve \
+    dovecot-managesieved
+
+# Add startup at boot
+systemctl enable dovecot.service
+
+# Vmail user
+groupadd -g 5000 vmail
+useradd -u 5000 -g vmail -s /usr/sbin/nologin -d /var/mail/vmail -m vmail
+
+# Update postfix
+postconf -e "virtual_transport = lmtp:unix:private/dovecot-lmtp"
+postconf -e 'smtpd_sasl_type = dovecot'
+postconf -e 'smtpd_sasl_path = private/auth'
+postconf -e 'smtpd_sasl_local_domain ='
+postconf -e 'smtpd_sasl_security_options = noanonymous'
+postconf -e 'broken_sasl_auth_clients = yes'
+postconf -e 'smtpd_sasl_auth_enable = yes'
+postconf -e 'smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination,check_policy_service unix:private/quota-status'
+
+# Copy configurations
+ask "DOVECOT_MYSQL_USER" "postfix" "What is the MySQL user? (used by postfix)"
+ask "DOVECOT_MYSQL_PASSWORD" "" "What is the MySQL password? (used by postfix)"
+ask "DOVECOT_MYSQL_DATABASE" "postfix" "What is the MySQL database? (used by postfix)"
+
+ask "DOVECOT_MAIL_DOMAIN" "mail.site.com" "What is the mail domain?"
+ask "DOVECOT_MAIL_TLS_CERT" "/etc/letsencrypt/live/mail.site.com/fullchain.pem" "What is the mail domain TLS cert file?"
+ask "DOVECOT_MAIL_TLS_KEY" "/etc/letsencrypt/live/mail.site.com/privkey.pem" "What is the mail domain TLS cert key?"
+
+ask "DOVECOT_POSTMASTER_MAIL" "postmaster@site.com" "What is the postmaster email address?"
+
+copy conf.d/auth.conf /etc/dovecot/conf.d/10-auth.conf
+copy conf.d/master.conf /etc/dovecot/conf.d/10-master.conf
+copy conf.d/mail.conf /etc/dovecot/conf.d/10-mail.conf
+copy conf.d/ssl.conf /etc/dovecot/conf.d/10-ssl.conf
+copy conf.d/mailboxes.conf /etc/dovecot/conf.d/15-mailboxes.conf
+copy conf.d/imap.conf /etc/dovecot/conf.d/20-imap.conf
+copy conf.d/lmtp.conf /etc/dovecot/conf.d/20-lmtp.conf
+copy conf.d/managesieve.conf /etc/dovecot/conf.d/20-managesieve.conf
+copy conf.d/quota.conf /etc/dovecot/conf.d/90-quota.conf
+copy conf.d/sieve.conf /etc/dovecot/conf.d/90-sieve.conf
+
+copy maps/dovecot-sql.conf.ext /etc/dovecot/dovecot-sql.conf.ext
+copy maps/dovecot-dict-sql.conf.ext /etc/dovecot/dovecot-dict-sql.conf.ext
+
+cp scripts/quota-warning.sh /usr/local/bin/quota-warning.sh
+chmod +x /usr/local/bin/quota-warning.sh
+vim /usr/local/bin/quota-warning.sh
+
+# Restart service
+service postfix restart
+service dovecot restart

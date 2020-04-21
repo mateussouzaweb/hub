@@ -1,0 +1,129 @@
+ask_sudo_password
+
+# Install service
+apt-get install -y postfix postfix-mysql
+
+# Add to startup at boot
+systemctl enable postfix.service
+
+ask "POSTFIX_MYSQL_USER" "postfix" "What is the MySQL user? (used by postfix)"
+ask "POSTFIX_MYSQL_PASSWORD" "" "What is the MySQL password? (used by postfix)"
+ask "POSTFIX_MYSQL_DATABASE" "postfix" "What is the MySQL database? (used by postfix)"
+
+# Create database
+mysql -u root -p <<EOF
+
+CREATE DATABASE ${POSTFIX_MYSQL_DATABASE};
+CREATE USER ${POSTFIX_MYSQL_USER}@localhost IDENTIFIED BY '$POSTFIX_MYSQL_PASSWORD';
+GRANT ALL PRIVILEGES ON ${POSTFIX_MYSQL_DATABASE}.* TO ${POSTFIX_MYSQL_USER}@localhost;
+FLUSH PRIVILEGES;
+
+EOF
+
+# Create tables
+mysql -u root -p <<EOF
+use ${POSTFIX_MYSQL_DATABASE};
+
+CREATE TABLE domain (
+    domain VARCHAR(255) NOT NULL,
+    quota bigint(20) NOT NULL DEFAULT '0',
+    active BOOLEAN NOT NULL
+);
+
+CREATE TABLE alias (
+    address VARCHAR(255) NOT NULL,
+    goto VARCHAR(255) NOT NULL,
+    domain VARCHAR(255) NOT NULL,
+    active BOOLEAN NOT NULL
+);
+
+CREATE TABLE alias_domain (
+    alias_domain VARCHAR(255) NOT NULL,
+    target_domain VARCHAR(255) NOT NULL,
+    active BOOLEAN NOT NULL
+);
+
+CREATE TABLE mailbox (
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    maildir VARCHAR(255) NOT NULL,
+    quota bigint(20) NOT NULL DEFAULT '0',
+    domain VARCHAR(255) NOT NULL,
+    active BOOLEAN NOT NULL
+);
+EOF
+
+# Copy configurations
+mkdir -p /etc/postfix/sql
+
+copy conf.d/maps/smtpd_sender_login_maps.cf \
+    /etc/postfix/sql/smtpd_sender_login_maps.cf
+
+copy conf.d/maps/virtual_alias_domain_catchall_maps.cf \
+    /etc/postfix/sql/virtual_alias_domain_catchall_maps.cf
+
+copy conf.d/maps/virtual_alias_domain_mailbox_maps.cf \
+    /etc/postfix/sql/virtual_alias_domain_mailbox_maps.cf
+
+copy conf.d/maps/virtual_alias_domain_maps.cf \
+    /etc/postfix/sql/virtual_alias_domain_maps.cf
+
+copy conf.d/maps/virtual_alias_maps.cf \
+    /etc/postfix/sql/virtual_alias_maps.cf
+
+copy conf.d/maps/virtual_domains_maps.cf \
+    /etc/postfix/sql/virtual_domains_maps.cf
+
+copy conf.d/maps/virtual_mailbox_maps.cf \
+    /etc/postfix/sql/virtual_mailbox_maps.cf
+
+postconf -e "virtual_mailbox_domains = mysql:/etc/postfix/sql/virtual_domains_maps.cf"
+postconf -e "virtual_alias_maps = mysql:/etc/postfix/sql/virtual_alias_maps.cf, mysql:/etc/postfix/sql/virtual_alias_domain_maps.cf, mysql:/etc/postfix/sql/virtual_alias_domain_catchall_maps.cf"
+postconf -e "virtual_mailbox_maps = mysql:/etc/postfix/sql/virtual_mailbox_maps.cf, mysql:/etc/postfix/sql/virtual_alias_domain_mailbox_maps.cf"
+postconf -e "smtpd_sender_login_maps = mysql:/etc/postfix/sql/smtpd_sender_login_maps.cf"
+
+# Copy master conf
+# We use CP to avoid variable substitution
+cp conf.d/master.cf /etc/postfix/master.cf
+
+# Update configurations related to domain and TLS
+ask "POSTFIX_MAIL_DOMAIN" "mail.site.com" "What is the mail domain?"
+ask "POSTFIX_MAIL_TLS_CERT" "/etc/letsencrypt/live/mail.site.com/fullchain.pem" "What is the mail domain TLS cert file?"
+ask "POSTFIX_MAIL_TLS_KEY" "/etc/letsencrypt/live/mail.site.com/privkey.pem" "What is the mail domain TLS cert key?"
+postconf -e "myhostname ${POSTFIX_MAIL_DOMAIN}"
+
+postconf -e 'smtp_tls_note_starttls_offer = yes'
+postconf -e 'smtp_tls_security_level = may'
+postconf -e 'smtpd_tls_auth_only=yes'
+postconf -e 'smtpd_tls_security_level = may'
+postconf -e 'smtpd_tls_loglevel = 1'
+postconf -e 'smtpd_tls_received_header = yes'
+postconf -e 'smtpd_tls_cert_file = ${POSTFIX_MAIL_DOMAIN}'
+postconf -e 'smtpd_tls_key_file = ${POSTFIX_MAIL_DOMAIN}'
+
+# Check and restart
+postfix check
+service postfix restart
+service postfix status
+
+# Allow firewall
+ufw allow 25/tcp # SMTP
+ufw allow 110/tcp # POP3
+ufw allow 143/tcp # IMAP
+ufw allow 465/tcp # Client SSL
+ufw allow 587/tcp # Client TLS
+ufw allow 993/tcp # IMAP TLS/SSL
+ufw allow 995/tcp # POP3 TLS/SSL
+
+# Show additional info
+warning "You must manually setup DNS entries for mail service, including:"
+warning "- Static IP"
+warning "- rDNS / PTR"
+warning "- DKIM, SPF and DMARC"
+
+warning "Also, does not forgot to create required RFC emails (they can be alias to another one):"
+warning "- postmaster@site.com"
+warning "- webmaster@site.com"
+warning "- hostmaster@site.com"
+warning "- abuse@site.com"

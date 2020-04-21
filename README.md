@@ -23,10 +23,11 @@ infralet influxdb/install
 infralet loki/install
 
 # Email Server
-# infralet dovecot/install
-# infralet mutt/install
-# infralet postfix/install
-# infralet rspamd/install
+infralet mysql/install
+infralet redis/install
+infralet postfix/install
+infralet dovecot/install
+infralet rspamd/install
 
 # Monitoring Agent
 infralet monit/install

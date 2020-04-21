@@ -8,3 +8,6 @@ apt-get install goaccess -y
 
 # Install images optimization
 apt-get install -y jpegoptim optipng libjpeg-progs gifsicle webp
+
+# Mutt email client
+apt-get install mutt

@@ -1,0 +1,55 @@
+ask_sudo_password
+
+apt-get install software-properties-common lsb-release wget
+wget -O- https://rspamd.com/apt-stable/gpg.key | sudo apt-key add -
+echo "deb http://rspamd.com/apt-stable/ $(lsb_release -cs) main" | sudo tee -a /etc/apt/sources.list.d/rspamd.list
+
+apt-get update
+apt-get install -y rspamd
+
+# Add startup at boot
+systemctl enable rspamd.service
+
+# DKIM Signing
+mkdir -p /var/lib/rspamd/dkim
+chown _rspamd:_rspamd /var/lib/rspamd/dkim
+
+# Ask settings
+ask "RSPAMD_PASSWORD" "" "What is the Rspamd password?"
+ask "REDIS_PASSWORD" "" "What is the redis password?"
+export THE_RSPAMD_PASSWORD=$(rspamadm pw --encrypt -p $RSPAMD_PASSWORD)
+
+# Copy configurations
+copy conf.d/dkim_signing.conf /etc/rspamd/local.d/dkim_signing.conf
+copy conf.d/classifier-bayes.conf /etc/rspamd/local.d/classifier-bayes.conf
+copy conf.d/milter_headers.conf /etc/rspamd/local.d/milter_headers.conf
+
+copy conf.d/worker-normal.inc /etc/rspamd/local.d/worker-normal.inc
+copy conf.d/worker-proxy.inc /etc/rspamd/local.d/worker-proxy.inc
+copy conf.d/worker-controller.inc /etc/rspamd/local.d/worker-controller.inc
+
+mkdir -p /var/mail/vmail/sieve/global
+copy sieve/spam-global.sieve /var/mail/vmail/sieve/global/spam-global.sieve
+copy sieve/report-spam.sieve /var/mail/vmail/sieve/global/report-spam.sieve
+copy sieve/report-ham.sieve /var/mail/vmail/sieve/global/report-ham.sieve
+
+# Build sieve rules
+service dovecot restart
+sievec /var/mail/vmail/sieve/global/spam-global.sieve
+sievec /var/mail/vmail/sieve/global/report-spam.sieve
+sievec /var/mail/vmail/sieve/global/report-ham.sieve
+chown -R vmail: /var/mail/vmail/sieve/
+
+# Update postfix configurations
+postconf -e "milter_protocol = 6"
+postconf -e "milter_mail_macros = i {mail_addr} {client_addr} {client_name} {auth_authen}"
+postconf -e "milter_default_action = accept"
+postconf -e "smtpd_milters = inet:127.0.0.1:11332"
+postconf -e "non_smtpd_milters = inet:127.0.0.1:11332"
+
+# Check and restart
+rspamadm configtest
+
+service rspamd restart
+service postfix restart
+service dovecot restart
