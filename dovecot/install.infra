@@ -1,6 +1,6 @@
 ask_sudo_password
 
-apt-get install -Y \
+apt-get install -y \
     dovecot-imapd \
     dovecot-lmtpd \
     dovecot-pop3d \
