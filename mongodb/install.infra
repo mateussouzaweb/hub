@@ -1,13 +1,15 @@
 ask_sudo_password
 
 # Install source
-apt-get install -y gnupg
-wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | apt-key add -
-
-echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+if [ ! -f /etc/apt/sources.list.d/mongodb-org-4.2.list ]; then
+    apt-get install -y gnupg
+    wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | apt-key add -
+    echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.2 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+fi
 
 # Install Mongodb
-apt-get update && apt-get install -y mongodb-org
+apt-get update
+apt-get install -y mongodb-org
 
 # Add to startup at boot
 systemctl enable mongod.service

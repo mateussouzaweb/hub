@@ -1,8 +1,10 @@
 ask_sudo_password
 
 # Add source
-wget -qO- https://repos.influxdata.com/influxdb.key | apt-key add -
-echo "deb https://repos.influxdata.com/ubuntu bionic stable" | tee /etc/apt/sources.list.d/influxdb.list
+if [ ! -f /etc/apt/sources.list.d/influxdb.list ]; then
+    wget -qO- https://repos.influxdata.com/influxdb.key | apt-key add -
+    echo "deb https://repos.influxdata.com/ubuntu bionic stable" | tee /etc/apt/sources.list.d/influxdb.list
+fi
 
 apt-get update
 apt-get install -y influxdb
