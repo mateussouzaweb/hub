@@ -53,8 +53,6 @@ fi
 
 # Configure SSH
 cat >> /etc/ssh/sshd_config <<EOL
-ClientAliveInterval 60
-ClientAliveCountMax 10
 PubkeyAuthentication yes
 PasswordAuthentication no
 EOL
