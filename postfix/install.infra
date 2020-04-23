@@ -107,15 +107,6 @@ postfix check
 service postfix restart
 service postfix status
 
-# Allow firewall
-ufw allow 25/tcp # SMTP
-ufw allow 110/tcp # POP3
-ufw allow 143/tcp # IMAP
-ufw allow 465/tcp # Client SSL
-ufw allow 587/tcp # Client TLS
-ufw allow 993/tcp # IMAP TLS/SSL
-ufw allow 995/tcp # POP3 TLS/SSL
-
 # Show additional info
 warning "You must manually setup DNS entries for mail service, including:"
 warning "- Static IP"
