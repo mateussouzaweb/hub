@@ -8,7 +8,7 @@ apt install -y tcl8.5 redis-server
 ask REDIS_PASSWORD "" "What is the redis password?"
 copy redis.conf /etc/redis/custom.conf
 
-if ! grep -q "custom.conf" "/etc/redis/redis.conf"; then
+if ! grep -q "custom.conf" /etc/redis/redis.conf; then
     cat >> /etc/redis/redis.conf <<EOL
 include /etc/redis/custom.conf
 EOL

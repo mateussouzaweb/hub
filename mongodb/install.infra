@@ -42,10 +42,12 @@ db.createUser({
 EOF
 
 # Allow only authenticated connection
-cat >> /etc/mongod.conf <<EOL
+if ! grep -q "authorization: enabled" /etc/mongod.conf; then
+    cat >> /etc/mongod.conf <<EOL
 security:
     authorization: enabled
 EOL
+fi
 
 # Restart service
 service mongod restart

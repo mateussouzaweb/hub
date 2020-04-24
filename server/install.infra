@@ -62,10 +62,10 @@ if [ -f "$SSH_FILE" ]; then
 fi
 
 # Configure SSH
-cat >> /etc/ssh/sshd_config <<EOL
-PubkeyAuthentication yes
-PasswordAuthentication no
-EOL
+sed -i "s/#PubkeyAuthentication.*/PubkeyAuthentication yes/g" \
+    /etc/ssh/sshd_config
+sed -i "s/#PasswordAuthentication.*/PasswordAuthentication no/g" \
+    /etc/ssh/sshd_config
 
 service ssh reload
 
