@@ -12,38 +12,36 @@ ask MAIL_MYSQL_DATABASE "postfix" "What is the MySQL database? (used by postfix)
 
 # Create database
 mysql -u root -p <<EOF
-
-CREATE DATABASE ${MAIL_MYSQL_DATABASE};
-CREATE USER ${MAIL_MYSQL_USER}@localhost IDENTIFIED BY '$MAIL_MYSQL_PASSWORD';
-GRANT ALL PRIVILEGES ON ${MAIL_MYSQL_DATABASE}.* TO ${MAIL_MYSQL_USER}@localhost;
+CREATE DATABASE IF NOT EXISTS '$MAIL_MYSQL_DATABASE';
+CREATE USER IF NOT EXISTS '$MAIL_MYSQL_USER'@'localhost' IDENTIFIED BY '$MAIL_MYSQL_PASSWORD';
+GRANT ALL PRIVILEGES ON '$MAIL_MYSQL_DATABASE'.* TO '$MAIL_MYSQL_USER'@'localhost';
 FLUSH PRIVILEGES;
-
 EOF
 
 # Create tables
 mysql -u root -p <<EOF
 use ${MAIL_MYSQL_DATABASE};
 
-CREATE TABLE domain (
+CREATE TABLE IF NOT EXISTS domain (
     domain VARCHAR(255) NOT NULL,
     quota bigint(20) NOT NULL DEFAULT '0',
     active BOOLEAN NOT NULL
 );
 
-CREATE TABLE alias (
+CREATE TABLE IF NOT EXISTS alias (
     address VARCHAR(255) NOT NULL,
     goto VARCHAR(255) NOT NULL,
     domain VARCHAR(255) NOT NULL,
     active BOOLEAN NOT NULL
 );
 
-CREATE TABLE alias_domain (
+CREATE TABLE IF NOT EXISTS alias_domain (
     alias_domain VARCHAR(255) NOT NULL,
     target_domain VARCHAR(255) NOT NULL,
     active BOOLEAN NOT NULL
 );
 
-CREATE TABLE mailbox (
+CREATE TABLE IF NOT EXISTS mailbox (
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
