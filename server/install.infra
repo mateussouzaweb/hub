@@ -53,12 +53,10 @@ SSH_FILE="id_rsa.pub"
 
 if [ -f "$SSH_FILE" ]; then
     info "$SSH_FILE found. Appending it to the server"
-    cat "$SSH_FILE"
+    SSH_CONTENT=$(cat "$SSH_FILE")
+    echo $SSH_CONTENT
     echo ""
-
-    if ! grep -q -F "$SSH_FILE" /root/.ssh/authorized_keys; then
-        append $SSH_FILE /root/.ssh/authorized_keys
-    fi
+    grep -q -F "$SSH_CONTENT" /root/.ssh/authorized_keys 2>/dev/null || echo "$SSH_CONTENT" >> /root/.ssh/authorized_keys
 fi
 
 # Configure SSH
@@ -78,5 +76,5 @@ ask_yes_no SWITCH_TO_ZSH "Y" "Do you want to switch to ZSH?"
 if [ $SWITCH_TO_ZSH == "Y" ]; then
     info "Switching to ZSH..."
     chsh -s /bin/zsh
-    zsh
+    cd $RUN_PATH && zsh
 fi
