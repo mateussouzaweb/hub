@@ -43,7 +43,7 @@ apt-get install -y libpcre3-dev libsasl2-dev php7.4-mongodb
 
 # Create log folders
 mkdir -p /run/php
-mkdir -p /var/log/php/fpm
+mkdir -p /var/log/php
 mkdir -p /var/lib/php/sessions
 chown -R www-data:www-data /var/lib/php/sessions
 chown -R www-data:adm /var/log/php
@@ -64,10 +64,10 @@ phpenmod libsodium
 
 # Fix log permissions
 chown -R www-data:adm /var/log/php
-chmod -R 640 /var/log/php/fpm/*.log
+chmod -R 640 /var/log/php/*.log
 
 # Install log rotate
-append log.rotate /etc/logrotate.d/php7.4-fpm
+copy log.rotate /etc/logrotate.d/php7.4-fpm
 logrotate -f /etc/logrotate.d/php7.4-fpm
 
 # Restart PHP

@@ -1,4 +1,16 @@
-/var/log/php/fpm/*.log {
+/var/log/php7.4-fpm.log {
+    rotate 12
+    weekly
+    missingok
+    notifempty
+    compress
+    delaycompress
+    postrotate
+        /usr/lib/php/php7.4-fpm-reopenlogs
+    endscript
+}
+
+/var/log/php/*.log {
     daily
     missingok
     rotate 14
