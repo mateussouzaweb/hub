@@ -55,7 +55,6 @@ if [ -f "$SSH_FILE" ]; then
     info "$SSH_FILE found. Appending it to the server"
     SSH_CONTENT=$(cat "$SSH_FILE")
     echo $SSH_CONTENT
-    echo ""
     grep -q -F "$SSH_CONTENT" /root/.ssh/authorized_keys 2>/dev/null || echo "$SSH_CONTENT" >> /root/.ssh/authorized_keys
 fi
 
