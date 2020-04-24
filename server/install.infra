@@ -55,7 +55,10 @@ if [ -f "$SSH_FILE" ]; then
     info "$SSH_FILE found. Appending it to the server"
     cat "$SSH_FILE"
     echo ""
-    append $SSH_FILE /root/.ssh/authorized_keys
+
+    if ! grep -q -F "$SSH_FILE" /root/.ssh/authorized_keys; then
+        append $SSH_FILE /root/.ssh/authorized_keys
+    fi
 fi
 
 # Configure SSH
