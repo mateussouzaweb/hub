@@ -19,13 +19,13 @@ mkdir -p /var/nginx/cache/fastcgi
 
 # Conf.d config
 copy conf.d/fastcgi.conf /etc/nginx/conf.d/fastcgi.conf
-copy conf.d/fastcgi.conf /etc/nginx/conf.d/gzip.conf
-copy conf.d/fastcgi.conf /etc/nginx/conf.d/limit.conf
-copy conf.d/fastcgi.conf /etc/nginx/conf.d/logs.conf
-copy conf.d/fastcgi.conf /etc/nginx/conf.d/openfile.conf
-copy conf.d/fastcgi.conf /etc/nginx/conf.d/proxy.conf f
-copy conf.d/fastcgi.conf /etc/nginx/conf.d/security.conf
-copy conf.d/fastcgi.conf /etc/nginx/conf.d/ssl.conf
+copy conf.d/gzip.conf /etc/nginx/conf.d/gzip.conf
+copy conf.d/limit.conf /etc/nginx/conf.d/limit.conf
+copy conf.d/logs.conf /etc/nginx/conf.d/logs.conf
+copy conf.d/openfile.conf /etc/nginx/conf.d/openfile.conf
+copy conf.d/proxy.conf /etc/nginx/conf.d/proxy.conf f
+copy conf.d/security.conf /etc/nginx/conf.d/security.conf
+copy conf.d/ssl.conf /etc/nginx/conf.d/ssl.conf
 
 # Global config
 mkdir /etc/nginx/global
