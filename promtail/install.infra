@@ -7,7 +7,10 @@ useradd -g promtail --no-user-group \
     --shell /usr/sbin/nologin \
     --system --uid 323 promtail
 
-usermod -a -G www-data,adm promtail
+usermod -a -G www-data promtail
+usermod -a -G adm promtail
+usermod -a -G traefik promtail
+usermod -a -G grafana promtail
 
 # Create folders
 mkdir -p /etc/promtail
