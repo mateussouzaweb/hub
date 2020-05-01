@@ -1,0 +1,5 @@
+[tls.stores]
+  [tls.stores.default]
+    [tls.stores.default.defaultCertificate]
+      certFile = "/etc/ssl/private/local.io.pem"
+      keyFile  = "/etc/ssl/private/local.io.key.pem"

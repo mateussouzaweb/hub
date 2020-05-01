@@ -37,6 +37,9 @@ infralet promtail/install
 # Reverse Proxy
 infralet traefik/install
 
+# Development
+infralet mkcert/install
+
 # Backups
 infralet borg/install
 infralet rclone/install
