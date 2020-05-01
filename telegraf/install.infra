@@ -3,7 +3,7 @@ ask_sudo_password
 # Add source
 if [ ! -f /etc/apt/sources.list.d/influxdb.list ]; then
     wget -qO- https://repos.influxdata.com/influxdb.key | apt-key add -
-    echo "deb https://repos.influxdata.com/ubuntu bionic stable" | tee /etc/apt/sources.list.d/influxdb.list
+    echo "deb https://repos.influxdata.com/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/influxdb.list
 fi
 
 # Install telegraf
