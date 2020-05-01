@@ -2,7 +2,7 @@ ask_sudo_password
 
 # Install redis
 apt update
-apt install -y tcl8.5 redis-server
+apt install -y redis
 
 # Set configs
 ask REDIS_PASSWORD "" "What is the redis password?"
