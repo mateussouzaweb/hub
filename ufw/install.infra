@@ -7,7 +7,7 @@ ufw default deny incoming
 ufw allow ssh
 
 # Enable UFW
-ufw enable
+echo "y" | ufw enable
 systemctl enable ufw.service
 
 # Enable connections

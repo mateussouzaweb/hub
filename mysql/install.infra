@@ -3,6 +3,7 @@ ask_sudo_password
 # Install
 apt install -y mariadb-server
 mysql_secure_installation
+sleep 2
 
 # Add additional user
 ask MYSQL_USER "admin" "What is the additional MySQL user?"

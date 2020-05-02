@@ -43,7 +43,7 @@ if [ ! -d /root/.ssh ]; then
 fi
 
 ask SERVER_EMAIL "" "What is the server email for SSH key?"
-ssh-keygen -t rsa -C $SERVER_EMAIL
+cat /dev/zero | ssh-keygen -t rsa -C $SERVER_EMAIL -q -N ""
 
 info "SSH key generated. Place the following code on conected platforms (Private/GitHub/BitBucket) ..."
 cat /root/.ssh/id_rsa.pub
@@ -62,6 +62,10 @@ fi
 sed -i "s/#PubkeyAuthentication.*/PubkeyAuthentication yes/g" \
     /etc/ssh/sshd_config
 sed -i "s/#PasswordAuthentication.*/PasswordAuthentication no/g" \
+    /etc/ssh/sshd_config
+sed -i "s/^PubkeyAuthentication.*/PubkeyAuthentication yes/g" \
+    /etc/ssh/sshd_config
+sed -i "s/^PasswordAuthentication.*/PasswordAuthentication no/g" \
     /etc/ssh/sshd_config
 
 service ssh reload

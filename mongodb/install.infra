@@ -10,12 +10,7 @@ fi
 # Install Mongodb
 apt-get update
 apt-get install -y mongodb-org
-
-# Add to startup at boot
-systemctl enable mongod.service
-
-# Wait MongoDB start
-sleep 20
+sleep 2
 
 # Add admin user
 ask MONGODB_USER "admin" "What is the mongodb admin user?"
@@ -48,6 +43,9 @@ security:
     authorization: enabled
 EOL
 fi
+
+# Add to startup at boot
+systemctl enable mongod.service
 
 # Restart service
 service mongod restart

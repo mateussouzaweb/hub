@@ -12,7 +12,7 @@ apt-get install -y influxdb
 # Add startup at boot and start
 systemctl enable influxdb.service
 service influxdb start
-sleep 30
+sleep 2
 
 # Create user
 ask INFLUXDB_USERNAME "admin" "What is the InfluxDB username?"
