@@ -1,0 +1,16 @@
+check process grafana with pidfile /var/run/grafana/grafana-server.pid
+    group www
+    group grafana
+    start program = "/etc/init.d/grafana-server start"
+    stop program = "/etc/init.d/grafana-server stop"
+    restart program = "/etc/init.d/grafana-server restart"
+    depends on grafana_bin
+    depends on grafana_init
+
+check file grafana_bin with path /usr/sbin/grafana-server
+    group grafana
+    include /etc/monit/templates/rootbin
+
+check file grafana_init with path /etc/init.d/grafana-server
+    group grafana
+    include /etc/monit/templates/rootbin

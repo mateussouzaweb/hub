@@ -1,0 +1,16 @@
+check process redis with pidfile /var/run/redis/redis-server.pid
+    group cache
+    group redis
+    start program = "/usr/sbin/service redis-server start"
+    stop program = "/usr/sbin/service redis-server stop"
+    restart program = "/usr/sbin/service redis-server restart"
+    depends on redis_bin
+    depends on redis_init
+
+check file redis_bin with path /usr/bin/redis-server
+    group redis
+    include /etc/monit/templates/rootbin
+
+check file redis_init with path /etc/init.d/redis-server
+    group redis
+    include /etc/monit/templates/rootbin

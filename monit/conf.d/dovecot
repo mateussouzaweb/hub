@@ -1,0 +1,16 @@
+check process dovecot with pidfile /var/run/dovecot/master.pid
+    group mail
+    group dovecot
+    start program = "/etc/init.d/dovecot start"
+    stop program = "/etc/init.d/dovecot stop"
+    restart program = "/etc/init.d/dovecot restart"
+    depends on dovecot_bin
+    depends on dovecot_init
+
+check file dovecot_bin with path /usr/sbin/dovecot
+    group dovecot
+    include /etc/monit/templates/rootbin
+
+check file dovecot_init with path /etc/init.d/dovecot
+    group dovecot
+    include /etc/monit/templates/rootbin

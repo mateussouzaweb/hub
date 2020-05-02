@@ -1,0 +1,11 @@
+check process mongod matching /usr/bin/mongod
+    group database
+    group mongod
+    start program = "/usr/sbin/service mongod start"
+    stop program = "/usr/sbin/service mongod stop"
+    restart program = "/usr/sbin/service mongod restart"
+    depends on mongod_bin
+
+check file mongod_bin with path /usr/bin/mongod
+    group mongod
+    include /etc/monit/templates/rootbin

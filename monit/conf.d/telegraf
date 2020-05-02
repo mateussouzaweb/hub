@@ -1,0 +1,11 @@
+check process telegraf matching /usr/bin/telegraf
+    group www
+    group telegraf
+    start program = "/usr/sbin/service telegraf start"
+    stop program = "/usr/sbin/service telegraf stop"
+    restart program = "/usr/sbin/service telegraf restart"
+    depends on telegraf_bin
+
+check file telegraf_bin with path /usr/bin/telegraf
+    group telegraf
+    include /etc/monit/templates/rootbin

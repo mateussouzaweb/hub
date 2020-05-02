@@ -5,26 +5,6 @@ apt-get install monit -y
 # Adiciona startup at boot
 systemctl enable monit.service
 
-# Copy configurations from repository
-REPOSITORY="https://raw.githubusercontent.com/mateus007/webserver-config/master/monit/conf-available"
-
-wget -O /etc/monit/conf-available/dovecot $REPOSITORY/dovecot
-wget -O /etc/monit/conf-available/fail2ban $REPOSITORY/fail2ban
-wget -O /etc/monit/conf-available/grafana $REPOSITORY/grafana
-wget -O /etc/monit/conf-available/influxd $REPOSITORY/influxd
-wget -O /etc/monit/conf-available/loki $REPOSITORY/loki
-wget -O /etc/monit/conf-available/mongod $REPOSITORY/mongod
-wget -O /etc/monit/conf-available/mysql $REPOSITORY/mysql
-wget -O /etc/monit/conf-available/nginx $REPOSITORY/nginx
-wget -O /etc/monit/conf-available/php $REPOSITORY/php
-wget -O /etc/monit/conf-available/postfix $REPOSITORY/postfix
-wget -O /etc/monit/conf-available/promtail $REPOSITORY/promtail
-wget -O /etc/monit/conf-available/redis $REPOSITORY/redis
-wget -O /etc/monit/conf-available/rspamd $REPOSITORY/rspamd
-wget -O /etc/monit/conf-available/system $REPOSITORY/system
-wget -O /etc/monit/conf-available/telegraf $REPOSITORY/telegraf
-wget -O /etc/monit/conf-available/traefik $REPOSITORY/traefik
-
 # Copy configurations
 ask ADMIN_EMAIL "mateussouzaweb@gmail.com" "What is the administrator email? (to receive alert messages)"
 ask MONIT_USERNAME "monit" "What is the monit admin username?"
@@ -36,7 +16,23 @@ ask MONIT_SMTP_USERNAME "" "What is the monit SMTP username?"
 ask MONIT_SMTP_PASSWORD "" "What is the monit SMTP password?"
 
 copy conf.d/alerts /etc/monit/conf-available/alerts
+copy conf.d/dovecot /etc/monit/conf-available/dovecot
+copy conf.d/fail2ban /etc/monit/conf-available/fail2ban
+copy conf.d/grafana /etc/monit/conf-available/grafana
 copy conf.d/httpd /etc/monit/conf-available/httpd
+copy conf.d/influxdb /etc/monit/conf-available/influxdb
+copy conf.d/loki /etc/monit/conf-available/loki
+copy conf.d/mongodb /etc/monit/conf-available/mongodb
+copy conf.d/mysql /etc/monit/conf-available/mysql
+copy conf.d/nginx /etc/monit/conf-available/nginx
+copy conf.d/php /etc/monit/conf-available/php
+copy conf.d/postfix /etc/monit/conf-available/postfix
+copy conf.d/promtail /etc/monit/conf-available/promtail
+copy conf.d/redis /etc/monit/conf-available/redis
+copy conf.d/rspamd /etc/monit/conf-available/rspamd
+copy conf.d/system /etc/monit/conf-available/system
+copy conf.d/telegraf /etc/monit/conf-available/telegraf
+copy conf.d/traefik /etc/monit/conf-available/traefik
 
 # Enable monitors
 info "Enabling system monitors..."

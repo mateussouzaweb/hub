@@ -1,0 +1,11 @@
+check process rspamd matching /usr/bin/rspamd
+    group mail
+    group rspamd
+    start program = "/usr/sbin/service rspamd start"
+    stop program = "/usr/sbin/service rspamd stop"
+    restart program = "/usr/sbin/service rspamd restart"
+    depends on rspamd_bin
+
+check file rspamd_bin with path /usr/bin/rspamd
+    group rspamd
+    include /etc/monit/templates/rootbin

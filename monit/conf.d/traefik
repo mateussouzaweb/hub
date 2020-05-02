@@ -1,0 +1,11 @@
+check process traefik matching /usr/local/bin/traefik
+    group www
+    group traefik
+    start program = "/usr/sbin/service traefik start"
+    stop program = "/usr/sbin/service traefik stop"
+    restart program = "/usr/sbin/service traefik restart"
+    depends on traefik_bin
+
+check file traefik_bin with path /usr/local/bin/traefik
+    group traefik
+    include /etc/monit/templates/rootbin

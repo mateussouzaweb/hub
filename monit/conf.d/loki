@@ -1,0 +1,11 @@
+check process loki matching /usr/local/bin/loki
+    group database
+    group loki
+    start program = "/usr/sbin/service loki start"
+    stop program = "/usr/sbin/service loki stop"
+    restart program = "/usr/sbin/service loki restart"
+    depends on loki_bin
+
+check file loki_bin with path /usr/local/bin/loki
+    group loki
+    include /etc/monit/templates/rootbin

@@ -1,0 +1,11 @@
+check process promtail matching /usr/local/bin/promtail
+    group services
+    group promtail
+    start program = "/usr/sbin/service promtail start"
+    stop program = "/usr/sbin/service promtail stop"
+    restart program = "/usr/sbin/service promtail restart"
+    depends on promtail_bin
+
+check file promtail_bin with path /usr/local/bin/promtail
+    group promtail
+    include /etc/monit/templates/rootbin

@@ -1,0 +1,11 @@
+check process influxd matching /usr/bin/influxd
+    group database
+    group influxd
+    start program = "/usr/sbin/service influxdb start"
+    stop program = "/usr/sbin/service influxdb stop"
+    restart program = "/usr/sbin/service influxdb restart"
+    depends on influxd_bin
+
+check file influxd_bin with path /usr/bin/influxd
+    group influxd
+    include /etc/monit/templates/rootbin
