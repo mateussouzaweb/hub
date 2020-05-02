@@ -5,6 +5,7 @@
       middlewares = ["monit-auth"]
       service = "monit"
       rule = "Host(`${TRAEFIK_MONIT_DOMAIN}`)"
+      priority = 100
 
 [http.middlewares]
   [http.middlewares.monit-auth.basicAuth]

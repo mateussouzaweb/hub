@@ -5,6 +5,7 @@
       middlewares = ["dashboard-auth"]
       service = "api@internal"
       rule = "Host(`${TRAEFIK_DOMAIN}`)"
+      priority = 100
 
 [http.middlewares]
   [http.middlewares.dashboard-auth.basicAuth]

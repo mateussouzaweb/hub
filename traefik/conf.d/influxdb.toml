@@ -5,6 +5,7 @@
       middlewares = ["influxdb-whitelist"]
       service = "influxdb"
       rule = "Host(`${TRAEFIK_INFLUXDB_DOMAIN}`)"
+      priority = 100
 
 [http.middlewares]
   [http.middlewares.influxdb-whitelist.ipWhiteList]

@@ -4,6 +4,7 @@
       entryPoints = ["https"]
       service = "grafana"
       rule = "Host(`${TRAEFIK_GRAFANA_DOMAIN}`)"
+      priority = 100
 
 [http.services]
   [http.services.grafana.loadBalancer]

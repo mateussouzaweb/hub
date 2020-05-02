@@ -5,6 +5,7 @@
       middlewares = ["loki-whitelist"]
       service = "loki"
       rule = "Host(`${TRAEFIK_LOKI_DOMAIN}`)"
+      priority = 100
 
 [http.middlewares]
   [http.middlewares.loki-whitelist.ipWhiteList]
