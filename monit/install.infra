@@ -22,7 +22,7 @@ copy conf.d/grafana /etc/monit/conf-available/grafana
 copy conf.d/httpd /etc/monit/conf-available/httpd
 copy conf.d/influxd /etc/monit/conf-available/influxd
 copy conf.d/loki /etc/monit/conf-available/loki
-copy conf.d/mongodb /etc/monit/conf-available/mongodb
+copy conf.d/mongod /etc/monit/conf-available/mongod
 copy conf.d/mysql /etc/monit/conf-available/mysql
 copy conf.d/nginx /etc/monit/conf-available/nginx
 copy conf.d/php /etc/monit/conf-available/php
