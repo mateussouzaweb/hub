@@ -15,8 +15,8 @@ EOL
 fi
 
 # Restart add to startup boot
-systemctl enable redis.service
-systemctl restart redis.service
+systemctl enable redis-server.service
+systemctl restart redis-server.service
 
 # Set as PHP session handler
 ask_yes_no REDIS_AS_PHP_SESSION "Y" "Do you want to use redis as PHP session?"
