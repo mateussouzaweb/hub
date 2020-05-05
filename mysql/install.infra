@@ -9,6 +9,8 @@ sleep 2
 ask MYSQL_USER "admin" "What is the additional MySQL user?"
 ask MYSQL_PASSWORD "" "What is the additional MySQL password?"
 
+info "Creating MySQL user..."
+
 mysql -u root -p <<EOF
 CREATE USER IF NOT EXISTS '$MYSQL_USER'@'localhost' IDENTIFIED BY '$MYSQL_PASSWORD';
 GRANT ALL PRIVILEGES ON *.* TO '$MYSQL_USER'@'localhost' WITH GRANT OPTION;
