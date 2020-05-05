@@ -57,8 +57,14 @@ copy global/wordpress/rewrite.conf /etc/nginx/global/wordpress/rewrite.conf
 copy global/wordpress/security.conf /etc/nginx/global/wordpress/security.conf
 
 # Fix nginx configuration
-rm /etc/nginx/sites-enabled/default
-rm -f -R /usr/share/nginx/html/
+if [ -f /etc/nginx/sites-enabled/default ]; then
+    rm /etc/nginx/sites-enabled/default
+fi
+
+if [ -d /usr/share/nginx/html/ ]; then
+    rm -f -R /usr/share/nginx/html/
+fi
+
 touch /etc/nginx/conf.d/default.conf
 
 # Add status configuration
