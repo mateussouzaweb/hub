@@ -16,25 +16,34 @@ sleep 2
 ask MONGODB_USER "admin" "What is the mongodb admin user?"
 ask MONGODB_PASSWORD "" "What is the mongodb admin password?"
 
-mongo <<EOF
-use admin
-db.createUser({
-    user: "$MONGODB_USER",
-    pwd: "$MONGODB_PASSWORD",
-    roles:
-    [
-      {role: "read", db: "admin"},
-      {role: "readWrite", db: "admin"},
-      {role: "dbAdmin", db: "admin"},
-      {role: "userAdmin", db: "admin"},
-      {role: "clusterAdmin", db: "admin"},
-      {role: "readAnyDatabase", db: "admin"},
-      {role: "readWriteAnyDatabase", db: "admin"},
-      {role: "userAdminAnyDatabase", db: "admin"},
-      {role: "dbAdminAnyDatabase", db: "admin"}
-    ]
-})
+MONGODB_EXISTS=$(mongo --quiet -u "$MONGODB_USER" -p "$MONGODB_PASSWORD" \
+    --eval "db.system.users.find({user: '"$MONGODB_USER"'}).count()" admin)
+
+if [ ! $MONGODB_EXISTS ]; then
+
+    info "Creating MongoDB user..."
+
+    mongo <<EOF
+    use admin
+    db.createUser({
+        user: "$MONGODB_USER",
+        pwd: "$MONGODB_PASSWORD",
+        roles:
+        [
+        {role: "read", db: "admin"},
+        {role: "readWrite", db: "admin"},
+        {role: "dbAdmin", db: "admin"},
+        {role: "userAdmin", db: "admin"},
+        {role: "clusterAdmin", db: "admin"},
+        {role: "readAnyDatabase", db: "admin"},
+        {role: "readWriteAnyDatabase", db: "admin"},
+        {role: "userAdminAnyDatabase", db: "admin"},
+        {role: "dbAdminAnyDatabase", db: "admin"}
+        ]
+    })
 EOF
+
+fi
 
 # Allow only authenticated connection
 if ! grep -q "authorization: enabled" /etc/mongod.conf; then
