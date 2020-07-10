@@ -100,6 +100,9 @@ postconf -e "smtpd_tls_received_header = yes"
 postconf -e "smtpd_tls_cert_file = ${MAIL_TLS_CERT}"
 postconf -e "smtpd_tls_key_file = ${MAIL_TLS_KEY}"
 
+# Adjust email size limit to 25MB
+postconf -e message_size_limit=26214400
+
 # Check and restart
 postfix check
 service postfix restart
