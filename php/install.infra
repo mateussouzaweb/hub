@@ -58,10 +58,6 @@ copy fpm/conf.d/opcache.ini /etc/php/7.4/mods-available/opcache.ini ";"
 service php7.4-fpm restart
 update-alternatives --config php
 
-# Install libsodium
-pecl install -f libsodium
-phpenmod libsodium
-
 # Fix log permissions
 chown -R www-data:adm /var/log/php
 chmod -R 640 /var/log/php/*.log
