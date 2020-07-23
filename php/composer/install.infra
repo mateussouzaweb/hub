@@ -1,0 +1,16 @@
+ask_sudo_password
+
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+
+EXPECTED_CHECKSUM="$(wget -q -O - https://composer.github.io/installer.sig)"
+ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
+
+if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]; then
+    echo "ERROR: Invalid installer checksum"
+    rm composer-setup.php
+else
+    php composer-setup.php
+    php -r "unlink('composer-setup.php');"
+fi
+
+mv composer.phar /usr/local/bin/composer
