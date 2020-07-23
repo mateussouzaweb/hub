@@ -16,10 +16,9 @@ sleep 2
 ask MONGODB_USER "admin" "What is the mongodb admin user?"
 ask MONGODB_PASSWORD "" "What is the mongodb admin password?"
 
-MONGODB_EXISTS=$(mongo --quiet -u "$MONGODB_USER" -p "$MONGODB_PASSWORD" \
-    --eval "db.system.users.find({user: '"$MONGODB_USER"'}).count()" admin)
+MONGODB_EXISTS=$(mongo -u "$MONGODB_USER" -p "$MONGODB_PASSWORD" admin --quiet --eval "db.system.users.find({user: '"$MONGODB_USER"'}).count()")
 
-if [ ! $MONGODB_EXISTS ]; then
+if [ "$MONGODB_EXISTS" == "0" ]; then
 
     info "Creating MongoDB user..."
 
