@@ -1,0 +1,22 @@
+ask RSYNC_INCREMENTAL_SOURCE "/usr/share/stack/" "What is the rsync incremental source?"
+ask RSYNC_INCREMENTAL_DESTINATION "/backup/incremental/stack/" "What is the rsync incremental destination?"
+ask RSYNC_INCREMENTAL_DATETIME "$(date '+%Y-%m-%d-%H-%M-%S')" "What is the desired rsync incremental datetime?"
+
+info "Creating incremental rsync files backup from $RSYNC_INCREMENTAL_SOURCE to $RSYNC_INCREMENTAL_DESTINATION with datetime $RSYNC_INCREMENTAL_DATETIME"
+
+INCREMENTAL_BACKUP_PATH="${RSYNC_INCREMENTAL_DESTINATION}${RSYNC_INCREMENTAL_DATETIME}"
+INCREMENTAL_LATEST_LINK="${RSYNC_INCREMENTAL_DESTINATION}latest"
+
+mkdir -p "$RSYNC_INCREMENTAL_DESTINATION"
+
+/usr/bin/rsync \
+    --archive \
+    --verbose \
+    --delete \
+    --exclude 'cache/' \
+    --bwlimit 15000 \
+    --link-dest "$INCREMENTAL_LATEST_LINK" \
+    "$RSYNC_INCREMENTAL_SOURCE" "$INCREMENTAL_BACKUP_PATH"
+
+rm -rf "$INCREMENTAL_LATEST_LINK"
+ln -s "$INCREMENTAL_BACKUP_PATH" "$INCREMENTAL_LATEST_LINK"
