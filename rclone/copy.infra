@@ -1,13 +1,10 @@
-ask_sudo_password
+ask RCLONE_COPY_FILES_SOURCE "/backup/repository" "What is the source folder to copy from?"
+ask RCLONE_COPY_FILES_DESTIONATION "blackblaze:bucket" "What is the Rclone files destination?"
 
-ask RCLONE_REMOTE "blackblaze" "What is the Rclone remote ID?"
-ask RCLONE_BUCKET "bucket" "What is the Rclone remote bucket?"
-ask RCLONE_FILES_SOURCE "/backup/repository" "What is the source folder to copy from?"
-
-info "Copying $RCLONE_FILES_SOURCE to external bucket $RCLONE_REMOTE:$RCLONE_BUCKET"
+info "Copying $RCLONE_COPY_FILES_SOURCE to external bucket $RCLONE_COPY_FILES_DESTIONATION"
 
 rclone copy \
     --progress \
     --transfers 16 \
-    "$RCLONE_FILES_SOURCE" \
-    "$RCLONE_REMOTE:$RCLONE_BUCKET"
+    "$RCLONE_COPY_FILES_SOURCE" \
+    "$RCLONE_COPY_FILES_DESTIONATION"

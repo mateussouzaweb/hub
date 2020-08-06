@@ -1,0 +1,13 @@
+ask RCLONE_CDN_FILES_SOURCE "/usr/share/stack/src/files" "What is the source folder to copy CDN files from?"
+ask RCLONE_CDN_FILES_DESTIONATION "blackblaze:cdn" "What is the Rclone CDN files destination?"
+ask RCLONE_CDN_MAX_AGE "48h" "What is the period of each CDN sync?"
+
+info "Copying CDN files created or updated with the lastest $RCLONE_CDN_MAX_AGE from $RCLONE_CDN_FILES_SOURCE to $RCLONE_CDN_FILES_DESTIONATION"
+
+rclone copy \
+    --progress \
+    --max-age "$RCLONE_CDN_MAX_AGE" \
+    --no-traverse \
+    --exclude 'cache/**' \
+    "$RCLONE_CDN_FILES_SOURCE" \
+    "$RCLONE_CDN_FILES_DESTIONATION"
