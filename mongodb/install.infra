@@ -1,10 +1,10 @@
 ask_sudo_password
 
 # Install source
-if [ ! -f /etc/apt/sources.list.d/mongodb-org-4.2.list ]; then
+if [ ! -f /etc/apt/sources.list.d/mongodb-org-4.4.list ]; then
     apt-get install -y gnupg
-    wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | apt-key add -
-    echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/4.2 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.2.list
+    wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add -
+    echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/4.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list
 fi
 
 # Install Mongodb
