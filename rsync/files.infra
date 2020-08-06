@@ -9,8 +9,10 @@ info "Rsync files from $RSYNC_FILES_SOURCE to $RSYNC_FILES_DESTINATION"
 
 /usr/bin/rsync \
     --archive \
-    --delete \
     --recursive \
     --perms \
+    --copy-unsafe-links \
+    --delete-during \
+    --exclude 'cache/' \
     --bwlimit 15000 \
     "$RSYNC_FILES_SOURCE" "$RSYNC_FILES_DESTINATION"
