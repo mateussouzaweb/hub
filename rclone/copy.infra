@@ -1,10 +1,10 @@
-ask RCLONE_COPY_FILES_SOURCE "/backup/repository" "What is the source folder to copy from?"
-ask RCLONE_COPY_FILES_DESTIONATION "blackblaze:bucket" "What is the Rclone files destination?"
+ask RCLONE_COPY_SOURCE "/backup/repository" "What is the source folder to copy from?"
+ask RCLONE_COPY_DESTIONATION "blackblaze:bucket" "What is the Rclone files destination?"
 
-info "Copying $RCLONE_COPY_FILES_SOURCE to external bucket $RCLONE_COPY_FILES_DESTIONATION"
+info "Copying $RCLONE_COPY_SOURCE to external bucket $RCLONE_COPY_DESTIONATION"
 
 rclone copy \
     --progress \
     --transfers 16 \
-    "$RCLONE_COPY_FILES_SOURCE" \
-    "$RCLONE_COPY_FILES_DESTIONATION"
+    "$RCLONE_COPY_SOURCE" \
+    "$RCLONE_COPY_DESTIONATION"
