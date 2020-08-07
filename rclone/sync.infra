@@ -1,7 +1,7 @@
 ask RCLONE_SYNC_SOURCE "/backup/repository" "What is the source folder to sync from?"
 ask RCLONE_SYNC_DESTIONATION "blackblaze:bucket" "What is the Rclone files destination?"
 
-info "Synchronizing $RCLONE_SYNC_SOURCE to  $RCLONE_SYNC_DESTIONATION"
+info "Synchronizing $RCLONE_SYNC_SOURCE to $RCLONE_SYNC_DESTIONATION"
 
 rclone sync \
     --progress \
