@@ -1,11 +1,11 @@
 infralet ask RCLONE_SYNC_SOURCE "/backup/repository" "What is the source folder to sync from?"
-infralet ask RCLONE_SYNC_DESTIONATION "blackblaze:bucket" "What is the Rclone files destination?"
+infralet ask RCLONE_SYNC_DESTINATION "blackblaze:bucket" "What is the Rclone files destination?"
 
-infralet info "Synchronizing $RCLONE_SYNC_SOURCE to $RCLONE_SYNC_DESTIONATION"
+infralet info "Synchronizing $RCLONE_SYNC_SOURCE to $RCLONE_SYNC_DESTINATION"
 
 rclone sync \
     --progress \
     --transfers 16 \
     --exclude 'cache/**' \
     "$RCLONE_SYNC_SOURCE" \
-    "$RCLONE_SYNC_DESTIONATION"
+    "$RCLONE_SYNC_DESTINATION"

@@ -1,8 +1,8 @@
 infralet ask RCLONE_CDN_SOURCE "/usr/share/stack/src/files" "What is the source folder to copy CDN files from?"
-infralet ask RCLONE_CDN_DESTIONATION "blackblaze:cdn" "What is the Rclone CDN files destination?"
+infralet ask RCLONE_CDN_DESTINATION "blackblaze:cdn" "What is the Rclone CDN files destination?"
 infralet ask RCLONE_CDN_MAX_AGE "48h" "What is the period of each CDN sync?"
 
-infralet info "Copying CDN files created or updated with the lastest $RCLONE_CDN_MAX_AGE from $RCLONE_CDN_SOURCE to $RCLONE_CDN_DESTIONATION"
+infralet info "Copying CDN files created or updated with the lastest $RCLONE_CDN_MAX_AGE from $RCLONE_CDN_SOURCE to $RCLONE_CDN_DESTINATION"
 
 rclone copy \
     --progress \
@@ -10,4 +10,4 @@ rclone copy \
     --no-traverse \
     --exclude 'cache/**' \
     "$RCLONE_CDN_SOURCE" \
-    "$RCLONE_CDN_DESTIONATION"
+    "$RCLONE_CDN_DESTINATION"
