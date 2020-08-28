@@ -1,4 +1,4 @@
-ask_sudo_password
+infralet only_sudo
 
 # Setup workspace
 groupadd -g 323 promtail
@@ -31,15 +31,15 @@ chown root:root /usr/local/bin/promtail
 chmod a+x /usr/local/bin/promtail
 
 # Add startup service script
-copy promtail.service /etc/systemd/system/promtail.service
+infralet copy promtail.service /etc/systemd/system/promtail.service
 chown root:root /etc/systemd/system/promtail.service
 chmod 644 /etc/systemd/system/promtail.service
 
 # Copy configuration
-ask PROMTAIL_LOKI_URL "http://127.0.0.1:3100/loki/api/v1/push" "What is the loki url? (to receive promtail data)"
-ask SERVER_NAME "" "What is the server hostname?"
+infralet ask PROMTAIL_LOKI_URL "http://127.0.0.1:3100/loki/api/v1/push" "What is the loki url? (to receive promtail data)"
+infralet ask SERVER_NAME "" "What is the server hostname?"
 
-copy promtail.yaml /etc/promtail/promtail.yaml
+infralet copy promtail.yaml /etc/promtail/promtail.yaml
 chown promtail:promtail /etc/promtail/promtail.yaml
 chmod 644 /etc/promtail/promtail.yaml
 

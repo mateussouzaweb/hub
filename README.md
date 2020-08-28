@@ -5,52 +5,52 @@ Personal hub with modules to infralet: \
 
 ```bash
 # General
-infralet server/install
-infralet ufw/install
-infralet fail2ban/install
-infralet tools/install
+infralet run server/install
+infralet run ufw/install
+infralet run fail2ban/install
+infralet run tools/install
 
 # Web Server
-infralet nginx/install
-infralet php/install
-infralet mongodb/install
-infralet mysql/install
-infralet redis/install
-
-# Monitoring Server
-infralet grafana/install
-infralet influxdb/install
-infralet loki/install
-
-# Email Server
-infralet mysql/install
-infralet redis/install
-infralet postfix/install
-infralet dovecot/install
-infralet rspamd/install
-
-# Monitoring Agent
-infralet monit/install
-infralet telegraf/install
-infralet promtail/install
+infralet run nginx/install
+infralet run php/install
+infralet run mongodb/install
+infralet run mysql/install
+infralet run redis/install
 
 # Reverse Proxy
-infralet traefik/install
+infralet run traefik/install
+
+# Monitoring Server
+infralet run grafana/install
+infralet run influxdb/install
+infralet run loki/install
+
+# Email Server
+infralet run mysql/install
+infralet run redis/install
+infralet run postfix/install
+infralet run dovecot/install
+infralet run rspamd/install
+
+# Monitoring Agent
+infralet run monit/install
+infralet run telegraf/install
+infralet run promtail/install
 
 # Development
-infralet mkcert/install
+infralet run mkcert/install
 
 # Backups
-infralet borg/install
-infralet rclone/install
+infralet run borg/install
+infralet run rclone/install
 
-infralet rsync/files
-infralet mongodb/dump/backup
-infralet mysql/dump/backup
-infralet borg/snapshot
-infralet rclone/sync
+infralet run rsync/files
+infralet run mongodb/dump/backup
+infralet run mysql/dump/backup
+infralet run borg/snapshot
+infralet run rclone/sync
 
 # Restore
-infralet mysql/dump/restore
-infralet mongodb/dump/restore
+infralet run mysql/dump/restore
+infralet run mongodb/dump/restore
 ```

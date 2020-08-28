@@ -1,4 +1,4 @@
-ask_sudo_password
+infralet only_sudo
 
 # Install service
 apt-get install -y postfix postfix-mysql
@@ -6,9 +6,9 @@ apt-get install -y postfix postfix-mysql
 # Add to startup at boot
 systemctl enable postfix.service
 
-ask MAIL_MYSQL_USER "postfix" "What is the MySQL user? (used by postfix)"
-ask MAIL_MYSQL_PASSWORD "" "What is the MySQL password? (used by postfix)"
-ask MAIL_MYSQL_DATABASE "postfix" "What is the MySQL database? (used by postfix)"
+infralet ask MAIL_MYSQL_USER "postfix" "What is the MySQL user? (used by postfix)"
+infralet ask MAIL_MYSQL_PASSWORD "" "What is the MySQL password? (used by postfix)"
+infralet ask MAIL_MYSQL_DATABASE "postfix" "What is the MySQL database? (used by postfix)"
 
 # Create database
 mysql -u root -p <<EOF
@@ -55,25 +55,25 @@ EOF
 # Copy configurations
 mkdir -p /etc/postfix/sql
 
-copy conf.d/maps/smtpd_sender_login_maps.cf \
+infralet copy conf.d/maps/smtpd_sender_login_maps.cf \
     /etc/postfix/sql/smtpd_sender_login_maps.cf
 
-copy conf.d/maps/virtual_alias_domain_catchall_maps.cf \
+infralet copy conf.d/maps/virtual_alias_domain_catchall_maps.cf \
     /etc/postfix/sql/virtual_alias_domain_catchall_maps.cf
 
-copy conf.d/maps/virtual_alias_domain_mailbox_maps.cf \
+infralet copy conf.d/maps/virtual_alias_domain_mailbox_maps.cf \
     /etc/postfix/sql/virtual_alias_domain_mailbox_maps.cf
 
-copy conf.d/maps/virtual_alias_domain_maps.cf \
+infralet copy conf.d/maps/virtual_alias_domain_maps.cf \
     /etc/postfix/sql/virtual_alias_domain_maps.cf
 
-copy conf.d/maps/virtual_alias_maps.cf \
+infralet copy conf.d/maps/virtual_alias_maps.cf \
     /etc/postfix/sql/virtual_alias_maps.cf
 
-copy conf.d/maps/virtual_domains_maps.cf \
+infralet copy conf.d/maps/virtual_domains_maps.cf \
     /etc/postfix/sql/virtual_domains_maps.cf
 
-copy conf.d/maps/virtual_mailbox_maps.cf \
+infralet copy conf.d/maps/virtual_mailbox_maps.cf \
     /etc/postfix/sql/virtual_mailbox_maps.cf
 
 postconf -e "virtual_mailbox_domains = mysql:/etc/postfix/sql/virtual_domains_maps.cf"
@@ -86,9 +86,9 @@ postconf -e "smtpd_sender_login_maps = mysql:/etc/postfix/sql/smtpd_sender_login
 cp conf.d/master.cf /etc/postfix/master.cf
 
 # Update configurations related to domain and TLS
-ask MAIL_DOMAIN "mail.site.com" "What is the mail domain?"
-ask MAIL_TLS_CERT "/etc/letsencrypt/live/mail.site.com/fullchain.pem" "What is the mail domain TLS cert file?"
-ask MAIL_TLS_KEY "/etc/letsencrypt/live/mail.site.com/privkey.pem" "What is the mail domain TLS cert key?"
+infralet ask MAIL_DOMAIN "mail.site.com" "What is the mail domain?"
+infralet ask MAIL_TLS_CERT "/etc/letsencrypt/live/mail.site.com/fullchain.pem" "What is the mail domain TLS cert file?"
+infralet ask MAIL_TLS_KEY "/etc/letsencrypt/live/mail.site.com/privkey.pem" "What is the mail domain TLS cert key?"
 
 postconf -e "myhostname = ${MAIL_DOMAIN}"
 postconf -e "smtp_tls_note_starttls_offer = yes"
@@ -109,13 +109,13 @@ service postfix restart
 service postfix status
 
 # Show additional info
-warning "You must manually setup DNS entries for mail service, including:"
-warning "- Static IP"
-warning "- rDNS / PTR"
-warning "- DKIM, SPF and DMARC"
+infralet warning "You must manually setup DNS entries for mail service, including:"
+infralet warning "- Static IP"
+infralet warning "- rDNS / PTR"
+infralet warning "- DKIM, SPF and DMARC"
 
-warning "Also, does not forgot to create required RFC emails (they can be alias to another one):"
-warning "- postmaster@site.com"
-warning "- webmaster@site.com"
-warning "- hostmaster@site.com"
-warning "- abuse@site.com"
+infralet warning "Also, does not forgot to create required RFC emails (they can be alias to another one):"
+infralet warning "- postmaster@site.com"
+infralet warning "- webmaster@site.com"
+infralet warning "- hostmaster@site.com"
+infralet warning "- abuse@site.com"

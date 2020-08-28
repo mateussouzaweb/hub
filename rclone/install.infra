@@ -1,4 +1,4 @@
 curl https://rclone.org/install.sh | sudo bash
 
-info "Rclone installed. You must configured it now."
+infralet info "Rclone installed. You must configured it now."
 rclone config

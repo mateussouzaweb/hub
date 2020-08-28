@@ -1,4 +1,4 @@
-ask_sudo_password
+infralet only_sudo
 
 # Add source
 add-apt-repository -y ppa:nginx/stable
@@ -9,8 +9,8 @@ apt-get upgrade
 apt-get install -y nginx
 
 # Copy files from repository
-copy nginx.conf /etc/nginx/nginx.conf
-copy mime.types /etc/nginx/mime.types
+infralet copy nginx.conf /etc/nginx/nginx.conf
+infralet copy mime.types /etc/nginx/mime.types
 
 # Proxy and FastCGI Cache
 mkdir -p /var/nginx/tmp
@@ -18,14 +18,14 @@ mkdir -p /var/nginx/cache/proxy
 mkdir -p /var/nginx/cache/fastcgi
 
 # Conf.d config
-copy conf.d/fastcgi.conf /etc/nginx/conf.d/fastcgi.conf
-copy conf.d/gzip.conf /etc/nginx/conf.d/gzip.conf
-copy conf.d/limit.conf /etc/nginx/conf.d/limit.conf
-copy conf.d/logs.conf /etc/nginx/conf.d/logs.conf
-copy conf.d/openfile.conf /etc/nginx/conf.d/openfile.conf
-copy conf.d/proxy.conf /etc/nginx/conf.d/proxy.conf f
-copy conf.d/security.conf /etc/nginx/conf.d/security.conf
-copy conf.d/ssl.conf /etc/nginx/conf.d/ssl.conf
+infralet copy conf.d/fastcgi.conf /etc/nginx/conf.d/fastcgi.conf
+infralet copy conf.d/gzip.conf /etc/nginx/conf.d/gzip.conf
+infralet copy conf.d/limit.conf /etc/nginx/conf.d/limit.conf
+infralet copy conf.d/logs.conf /etc/nginx/conf.d/logs.conf
+infralet copy conf.d/openfile.conf /etc/nginx/conf.d/openfile.conf
+infralet copy conf.d/proxy.conf /etc/nginx/conf.d/proxy.conf f
+infralet copy conf.d/security.conf /etc/nginx/conf.d/security.conf
+infralet copy conf.d/ssl.conf /etc/nginx/conf.d/ssl.conf
 
 # Global config
 mkdir /etc/nginx/global
@@ -34,27 +34,27 @@ mkdir /etc/nginx/global/maps
 mkdir /etc/nginx/global/magento
 mkdir /etc/nginx/global/wordpress
 
-copy global/common/block.conf /etc/nginx/global/common/block.conf
-copy global/common/general.conf /etc/nginx/global/common/general.conf
-copy global/common/php.conf /etc/nginx/global/common/php.conf
+infralet copy global/common/block.conf /etc/nginx/global/common/block.conf
+infralet copy global/common/general.conf /etc/nginx/global/common/general.conf
+infralet copy global/common/php.conf /etc/nginx/global/common/php.conf
 
-copy global/magento/entrypoint.conf /etc/nginx/global/magento/entrypoint.conf
-copy global/magento/media.conf /etc/nginx/global/magento/media.conf
-copy global/magento/public.conf /etc/nginx/global/magento/public.conf
-copy global/magento/setup.conf /etc/nginx/global/magento/setup.conf
-copy global/magento/static.conf /etc/nginx/global/magento/static.conf
-copy global/magento/update.conf /etc/nginx/global/magento/update.conf
+infralet copy global/magento/entrypoint.conf /etc/nginx/global/magento/entrypoint.conf
+infralet copy global/magento/media.conf /etc/nginx/global/magento/media.conf
+infralet copy global/magento/public.conf /etc/nginx/global/magento/public.conf
+infralet copy global/magento/setup.conf /etc/nginx/global/magento/setup.conf
+infralet copy global/magento/static.conf /etc/nginx/global/magento/static.conf
+infralet copy global/magento/update.conf /etc/nginx/global/magento/update.conf
 
-copy global/maps/bots.conf /etc/nginx/global/maps/bots.conf
-copy global/maps/exploit.conf /etc/nginx/global/maps/exploit.conf
-copy global/maps/fastcgi.conf /etc/nginx/global/maps/fastcgi.conf
-copy global/maps/injection.conf /etc/nginx/global/maps/injection.conf
-copy global/maps/referer.conf /etc/nginx/global/maps/referer.conf
-copy global/maps/upstream.conf /etc/nginx/global/maps/upstream.conf
-copy global/maps/webp.conf /etc/nginx/global/maps/webp.conf
+infralet copy global/maps/bots.conf /etc/nginx/global/maps/bots.conf
+infralet copy global/maps/exploit.conf /etc/nginx/global/maps/exploit.conf
+infralet copy global/maps/fastcgi.conf /etc/nginx/global/maps/fastcgi.conf
+infralet copy global/maps/injection.conf /etc/nginx/global/maps/injection.conf
+infralet copy global/maps/referer.conf /etc/nginx/global/maps/referer.conf
+infralet copy global/maps/upstream.conf /etc/nginx/global/maps/upstream.conf
+infralet copy global/maps/webp.conf /etc/nginx/global/maps/webp.conf
 
-copy global/wordpress/rewrite.conf /etc/nginx/global/wordpress/rewrite.conf
-copy global/wordpress/security.conf /etc/nginx/global/wordpress/security.conf
+infralet copy global/wordpress/rewrite.conf /etc/nginx/global/wordpress/rewrite.conf
+infralet copy global/wordpress/security.conf /etc/nginx/global/wordpress/security.conf
 
 # Fix nginx configuration
 if [ -f /etc/nginx/sites-enabled/default ]; then
@@ -68,8 +68,8 @@ fi
 touch /etc/nginx/conf.d/default.conf
 
 # Add status configuration
-copy sites-available/status.conf /etc/nginx/sites-available/status.conf
-symlink /etc/nginx/sites-available/status.conf \
+infralet copy sites-available/status.conf /etc/nginx/sites-available/status.conf
+infralet symlink /etc/nginx/sites-available/status.conf \
     /etc/nginx/sites-enabled/status.conf
 
 # Add startup at boot and start
@@ -79,4 +79,4 @@ systemctl enable nginx.service
 nginx -t
 service nginx restart
 
-warning "You must set up your own nginx domain configuration now..."
+infralet warning "You must set up your own nginx domain configuration now..."

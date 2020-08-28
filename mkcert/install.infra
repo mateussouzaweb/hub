@@ -1,31 +1,37 @@
 # Mkcert
-info "Installing MKcert"
+infralet info "Installing MKcert"
 
 curl -O -L "https://github.com/FiloSottile/mkcert/releases/download/v1.4.1/mkcert-v1.4.1-linux-amd64"
 sudo mv mkcert-v1.4.1-linux-amd64 /usr/local/bin/mkcert
 sudo chown root:root /usr/local/bin/mkcert
 sudo chmod a+x /usr/local/bin/mkcert
 
-apt-get install libnss3-tools
+sudo apt-get install -y libnss3-tools
+
+# This must be run as normal user
+# Required to browser accept the CA-ROOT certificate
+mkcert -install
 
 # Add to traefik
-ask_yes_no MKCERT_TO_TRAEFIK "Y" "Do you want to install SSL cert to traefik?"
+infralet ask_yes_no MKCERT_TO_TRAEFIK "Y" "Do you want to install SSL cert to traefik?"
 if [ $MKCERT_TO_TRAEFIK == "Y" ]; then
 
-    info "Generating *.local.io certificates"
-    DESTINATION="/etc/traefik/ssl"
+    infralet info "Generating *.local.io certificates"
 
-    mkdir -p $DESTINATION
-
-    mkcert -install
-    mkcert -key-file $DESTINATION/local.io.key.pem \
-        -cert-file $DESTINATION/local.io.pem \
+    mkcert -key-file local.io.key.pem \
+        -cert-file local.io.pem \
         "local.io" "*.local.io" localhost 127.0.0.1 ::1
 
-    # Fix permissions as traefik can't read key file
-    chown -R 777 $DESTINATION
+    # Move to the right place
+    DESTINATION="/etc/traefik/ssl"
+    sudo mkdir -p $DESTINATION
+    sudo mv local.io.key.pem $DESTINATION/local.io.key.pem
+    sudo mv local.io.pem $DESTINATION/local.io.pem
 
-    mkdir -p /etc/traefik/conf.d
-    copy traefik/ssl.toml /etc/traefik/conf.d/ssl.toml
+    # Fix permissions as traefik can't read key file
+    sudo chown -R traefik:traefik $DESTINATION
+
+    sudo mkdir -p /etc/traefik/conf.d
+    sudo infralet copy traefik/ssl.toml /etc/traefik/conf.d/ssl.toml
 
 fi

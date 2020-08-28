@@ -1,11 +1,11 @@
-ask_sudo_password
+infralet only_sudo
 
-ask MYSQL_HOST "localhost" "What is the MySQL host?"
-ask MYSQL_USER "admin" "What is the MySQL user?"
-ask MYSQL_PASSWORD "" "What is the MySQL password?"
+infralet ask MYSQL_HOST "localhost" "What is the MySQL host?"
+infralet ask MYSQL_USER "admin" "What is the MySQL user?"
+infralet ask MYSQL_PASSWORD "" "What is the MySQL password?"
 
-ask MYSQL_BACKUP_FOLDER "/backup/files/mysql" "What is the MySQL backups folder?"
-ask MYSQL_RESTORE_DATABASES "" "What MySQL database should be restored? (conman separated)"
+infralet ask MYSQL_BACKUP_FOLDER "/backup/files/mysql" "What is the MySQL backups folder?"
+infralet ask MYSQL_RESTORE_DATABASES "" "What MySQL database should be restored? (conman separated)"
 
 # Fill the list of databases
 DATABASES=$(echo $MYSQL_RESTORE_DATABASES | awk 'BEGIN{RS=";"} {print}')
@@ -13,7 +13,7 @@ DATABASES=$(echo $MYSQL_RESTORE_DATABASES | awk 'BEGIN{RS=";"} {print}')
 # Run restoration on each database
 for DATABASE in ${DATABASES[*]}; do
 
-    info "Restoring $DATABASE MySQL database"
+    infralet info "Restoring $DATABASE MySQL database"
     (
         echo "SET AUTOCOMMIT=0;"
         echo "SET UNIQUE_CHECKS=0;"

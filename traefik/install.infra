@@ -1,4 +1,4 @@
-ask_sudo_password
+infralet only_sudo
 
 # Setup workspace
 groupadd -g 321 traefik
@@ -34,7 +34,7 @@ chmod 755 /usr/local/bin/traefik
 setcap 'cap_net_bind_service=+ep' /usr/local/bin/traefik
 
 # Add startup service script
-copy traefik.service /etc/systemd/system/traefik.service
+infralet copy traefik.service /etc/systemd/system/traefik.service
 chown root:root /etc/systemd/system/traefik.service
 chmod 644 /etc/systemd/system/traefik.service
 
@@ -43,79 +43,79 @@ touch /etc/traefik/acme/letsencrypt.json
 chown traefik:traefik /etc/traefik/acme/letsencrypt.json
 chmod 600 /etc/traefik/acme/letsencrypt.json
 
-ask ADMIN_EMAIL "mateussouzaweb@gmail.com" "What is the admin email for Lets Encrypt notifications?"
-copy traefik.toml /etc/traefik/traefik.toml
+infralet ask ADMIN_EMAIL "mateussouzaweb@gmail.com" "What is the admin email for Lets Encrypt notifications?"
+infralet copy traefik.toml /etc/traefik/traefik.toml
 chown root:root /etc/traefik/traefik.toml
 chmod 644 /etc/traefik/traefik.toml
 
 # Add metrics
-ask_yes_no TRAEFIK_INFLUXDB_METRICS "Y" "Do you want to use InfluxDB as Metrics for Traefik? (Using Telegraf proxy)"
+infralet ask_yes_no TRAEFIK_INFLUXDB_METRICS "Y" "Do you want to use InfluxDB as Metrics for Traefik? (Using Telegraf proxy)"
 
 if [ $TRAEFIK_INFLUXDB_METRICS == "Y" ]; then
-    append metrics.toml /etc/traefik/traefik.toml
+    infralet append metrics.toml /etc/traefik/traefik.toml
 fi
 
 # Add dashboard config
-ask_yes_no TRAEFIK_ENABLE_DASHBOARD "Y" "Do you want to enable dashboard?"
+infralet ask_yes_no TRAEFIK_ENABLE_DASHBOARD "Y" "Do you want to enable dashboard?"
 
 if [ $TRAEFIK_ENABLE_DASHBOARD == "Y" ]; then
 
     apt-get install -y apache2-utils
-    ask TRAEFIK_DOMAIN "" "What is the traefik dashboard domain?"
-    ask TRAEFIK_USER "traefik" "What is the traefik dashboard username?"
-    ask TRAEFIK_PASSWORD "" "What is the traefik dashboard password?"
+    infralet ask TRAEFIK_DOMAIN "" "What is the traefik dashboard domain?"
+    infralet ask TRAEFIK_USER "traefik" "What is the traefik dashboard username?"
+    infralet ask TRAEFIK_PASSWORD "" "What is the traefik dashboard password?"
 
     export TRAEFIK_AUTH=$(htpasswd -nb $TRAEFIK_USER $TRAEFIK_PASSWORD)
-    copy conf.d/dashboard.toml /etc/traefik/conf.d/dashboard.toml
+    infralet copy conf.d/dashboard.toml /etc/traefik/conf.d/dashboard.toml
 
 fi
 
 # Add monit config
-ask_yes_no TRAEFIK_MONIT_PROXY "Y" "Do you want to use traefik as Monit proxy?"
+infralet ask_yes_no TRAEFIK_MONIT_PROXY "Y" "Do you want to use traefik as Monit proxy?"
 
 if [ $TRAEFIK_MONIT_PROXY == "Y" ]; then
 
-    ask TRAEFIK_MONIT_DOMAIN "" "What is the traefik Monit domain?"
-    ask MONIT_USERNAME "monit" "What is the Monit username?"
-    ask MONIT_PASSWORD "" "What is the Monit password?"
+    infralet ask TRAEFIK_MONIT_DOMAIN "" "What is the traefik Monit domain?"
+    infralet ask MONIT_USERNAME "monit" "What is the Monit username?"
+    infralet ask MONIT_PASSWORD "" "What is the Monit password?"
 
     export TRAEFIK_MONIT_AUTH=$(htpasswd -nb $MONIT_USERNAME $MONIT_PASSWORD)
-    copy conf.d/monit.toml /etc/traefik/conf.d/monit.toml
+    infralet copy conf.d/monit.toml /etc/traefik/conf.d/monit.toml
 
 fi
 
 # Add grafana config
-ask_yes_no TRAEFIK_GRAFANA_PROXY "Y" "Do you want to use traefik as Grafana proxy?"
+infralet ask_yes_no TRAEFIK_GRAFANA_PROXY "Y" "Do you want to use traefik as Grafana proxy?"
 
 if [ $TRAEFIK_GRAFANA_PROXY == "Y" ]; then
 
-    ask TRAEFIK_GRAFANA_DOMAIN "" "What is the traefik Grafana domain?"
-    copy conf.d/grafana.toml /etc/traefik/conf.d/grafana.toml
+    infralet ask TRAEFIK_GRAFANA_DOMAIN "" "What is the traefik Grafana domain?"
+    infralet copy conf.d/grafana.toml /etc/traefik/conf.d/grafana.toml
 
 fi
 
 # Add loki config
-ask_yes_no TRAEFIK_LOKI_PROXY "Y" "Do you want to use traefik as Loki proxy?"
+infralet ask_yes_no TRAEFIK_LOKI_PROXY "Y" "Do you want to use traefik as Loki proxy?"
 
 if [ $TRAEFIK_LOKI_PROXY == "Y" ]; then
 
-    ask TRAEFIK_LOKI_DOMAIN "" "What is the traefik Loki domain?"
-    copy conf.d/loki.toml /etc/traefik/conf.d/loki.toml
+    infralet ask TRAEFIK_LOKI_DOMAIN "" "What is the traefik Loki domain?"
+    infralet copy conf.d/loki.toml /etc/traefik/conf.d/loki.toml
 
 fi
 
 # Add influxdb config
-ask_yes_no TRAEFIK_INFLUXDB_PROXY "Y" "Do you want to use traefik as InfluxDB proxy?"
+infralet ask_yes_no TRAEFIK_INFLUXDB_PROXY "Y" "Do you want to use traefik as InfluxDB proxy?"
 
 if [ $TRAEFIK_INFLUXDB_PROXY == "Y" ]; then
 
-    ask TRAEFIK_INFLUXDB_DOMAIN "" "What is the traefik InfluxDB domain?"
-    copy conf.d/influxdb.toml /etc/traefik/conf.d/influxdb.toml
+    infralet ask TRAEFIK_INFLUXDB_DOMAIN "" "What is the traefik InfluxDB domain?"
+    infralet copy conf.d/influxdb.toml /etc/traefik/conf.d/influxdb.toml
 
 fi
 
 # Install log rotate
-copy log.rotate /etc/logrotate.d/traefik
+infralet copy log.rotate /etc/logrotate.d/traefik
 logrotate -f /etc/logrotate.d/traefik
 
 # Enable and restart traefik
@@ -123,4 +123,4 @@ systemctl daemon-reload
 systemctl enable traefik.service
 service traefik restart
 
-warning "Traefik has been installed. You must include your specific configurations now..."
+infralet warning "Traefik has been installed. You must include your specific configurations now..."

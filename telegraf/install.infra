@@ -1,4 +1,4 @@
-ask_sudo_password
+infralet only_sudo
 
 # Add source
 if [ ! -f /etc/apt/sources.list.d/influxdb.list ]; then
@@ -16,67 +16,67 @@ usermod -a -G www-data,adm telegraf
 systemctl enable telegraf.service
 
 # Copy configuration
-ask INFLUXDB_URL "http://127.0.0.1:8086" "What is the InfluxDB url?"
-ask INFLUXDB_DATABASE "metrics" "What is the InfluxDB database?"
-ask INFLUXDB_USERNAME "metrics" "What is the InfluxDB username?"
-ask INFLUXDB_PASSWORD "" "What is the InfluxDB password?"
+infralet ask INFLUXDB_URL "http://127.0.0.1:8086" "What is the InfluxDB url?"
+infralet ask INFLUXDB_DATABASE "metrics" "What is the InfluxDB database?"
+infralet ask INFLUXDB_USERNAME "metrics" "What is the InfluxDB username?"
+infralet ask INFLUXDB_PASSWORD "" "What is the InfluxDB password?"
 
-copy telegraf.conf /etc/telegraf/telegraf.conf
+infralet copy telegraf.conf /etc/telegraf/telegraf.conf
 
 # Add InfluxDB
-ask_yes_no TELEGRAF_INPUT_INFLUXDB "N" "Do you want to input InfluxDB on Telegraf?"
+infralet ask_yes_no TELEGRAF_INPUT_INFLUXDB "N" "Do you want to input InfluxDB on Telegraf?"
 
 if [ $TELEGRAF_INPUT_INFLUXDB == "Y" ]; then
-    copy conf.d/influxdb.conf /etc/telegraf/telegraf.d/influxdb.conf
+    infralet copy conf.d/influxdb.conf /etc/telegraf/telegraf.d/influxdb.conf
 fi
 
 # Add MongoDB
-ask_yes_no TELEGRAF_INPUT_MONGODB "N" "Do you want to input MongoDB on Telegraf?"
+infralet ask_yes_no TELEGRAF_INPUT_MONGODB "N" "Do you want to input MongoDB on Telegraf?"
 
 if [ $TELEGRAF_INPUT_MONGODB == "Y" ]; then
-    ask MONGODB_USER "admin" "What is the MongoDB user?"
-    ask MONGODB_PASSWORD "" "What is the MongoDB password?"
-    copy conf.d/mongodb.conf /etc/telegraf/telegraf.d/mongodb.conf
+    infralet ask MONGODB_USER "admin" "What is the MongoDB user?"
+    infralet ask MONGODB_PASSWORD "" "What is the MongoDB password?"
+    infralet copy conf.d/mongodb.conf /etc/telegraf/telegraf.d/mongodb.conf
 fi
 
 # Add MySQL
-ask_yes_no TELEGRAF_INPUT_MYSQL "N" "Do you want to input MySQL on Telegraf?"
+infralet ask_yes_no TELEGRAF_INPUT_MYSQL "N" "Do you want to input MySQL on Telegraf?"
 
 if [ $TELEGRAF_INPUT_MYSQL == "Y" ]; then
-    ask MYSQL_USER "admin" "What is the MySQL user?"
-    ask MYSQL_PASSWORD "" "What is the MySQL password?"
-    copy conf.d/mysql.conf /etc/telegraf/telegraf.d/mysql.conf
+    infralet ask MYSQL_USER "admin" "What is the MySQL user?"
+    infralet ask MYSQL_PASSWORD "" "What is the MySQL password?"
+    infralet copy conf.d/mysql.conf /etc/telegraf/telegraf.d/mysql.conf
 fi
 
 # Add Nginx
-ask_yes_no TELEGRAF_INPUT_NGINX "N" "Do you want to input Nginx on Telegraf?"
+infralet ask_yes_no TELEGRAF_INPUT_NGINX "N" "Do you want to input Nginx on Telegraf?"
 
 if [ $TELEGRAF_INPUT_NGINX == "Y" ]; then
-    copy conf.d/nginx.conf /etc/telegraf/telegraf.d/nginx.conf
+    infralet copy conf.d/nginx.conf /etc/telegraf/telegraf.d/nginx.conf
 fi
 
 # Add PHP-FPM
-ask_yes_no TELEGRAF_INPUT_PHP_FPM "N" "Do you want to input PHP-FPM on Telegraf?"
+infralet ask_yes_no TELEGRAF_INPUT_PHP_FPM "N" "Do you want to input PHP-FPM on Telegraf?"
 
 if [ $TELEGRAF_INPUT_PHP_FPM == "Y" ]; then
-    copy conf.d/php-fpm.conf /etc/telegraf/telegraf.d/php-fpm.conf
+    infralet copy conf.d/php-fpm.conf /etc/telegraf/telegraf.d/php-fpm.conf
 fi
 
 # Add Redis
-ask_yes_no TELEGRAF_INPUT_REDIS "N" "Do you want to input Redis on Telegraf?"
+infralet ask_yes_no TELEGRAF_INPUT_REDIS "N" "Do you want to input Redis on Telegraf?"
 
 if [ $TELEGRAF_INPUT_REDIS == "Y" ]; then
-    ask REDIS_PASSWORD "" "What is the Redis password?"
-    copy conf.d/redis.conf /etc/telegraf/telegraf.d/redis.conf
+    infralet ask REDIS_PASSWORD "" "What is the Redis password?"
+    infralet copy conf.d/redis.conf /etc/telegraf/telegraf.d/redis.conf
 fi
 
 # Add Monit
-ask_yes_no TELEGRAF_INPUT_MONIT "Y" "Do you want to input Monit on Telegraf?"
+infralet ask_yes_no TELEGRAF_INPUT_MONIT "Y" "Do you want to input Monit on Telegraf?"
 
 if [ $TELEGRAF_INPUT_MONIT == "Y" ]; then
-    ask MONIT_USERNAME "monit" "What is the Monit username?"
-    ask MONIT_PASSWORD "" "What is the Monit password?"
-    copy conf.d/monit.conf /etc/telegraf/telegraf.d/monit.conf
+    infralet ask MONIT_USERNAME "monit" "What is the Monit username?"
+    infralet ask MONIT_PASSWORD "" "What is the Monit password?"
+    infralet copy conf.d/monit.conf /etc/telegraf/telegraf.d/monit.conf
 fi
 
 # Restart service

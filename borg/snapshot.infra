@@ -1,10 +1,8 @@
-ask_sudo_password
+infralet ask BORG_REPOSITORY "/backup/repository" "What is the Borg repository folder?"
+infralet ask BORG_PASSPHRASE "" "What is the Borg passphrase?"
 
-ask BORG_REPOSITORY "/backup/repository" "What is the Borg repository folder?"
-ask BORG_PASSPHRASE "" "What is the Borg passphrase?"
-
-ask BORG_SNAPSHOT_SOURCE "/backup/files" "What is the source path to create the snapshot?"
-ask BORG_SNAPSHOT_ARCHIVE "{hostname}" "What is the backup archive prefix?"
+infralet ask BORG_SNAPSHOT_SOURCE "/backup/files" "What is the source path to create the snapshot?"
+infralet ask BORG_SNAPSHOT_ARCHIVE "{hostname}" "What is the backup archive prefix?"
 
 # Create snapshot
 borg create \
@@ -19,7 +17,7 @@ borg create \
     $BORG_REPOSITORY::$BORG_SNAPSHOT_ARCHIVE'-{now}' \
     $BORG_SNAPSHOT_SOURCE
 
-info "Pruning old repository snapshots"
+infralet info "Pruning old repository snapshots"
 
 # Run pruning on repository
 # maintain 7 daily, 4 weekly and 6 monthly archives

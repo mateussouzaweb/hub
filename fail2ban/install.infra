@@ -1,4 +1,4 @@
-ask_sudo_password
+infralet only_sudo
 
 # Install package
 apt-get install -y fail2ban
@@ -7,12 +7,12 @@ apt-get install -y fail2ban
 systemctl enable fail2ban.service
 
 # Copy configs
-ask FAIL2BAN_EMAIL "" "What is the fail2ban sender email?"
-ask ADMIN_EMAIL "mateussouzaweb@gmail.com" "What is the administrator email? (to receive fail2ban alerts)"
+infralet ask FAIL2BAN_EMAIL "" "What is the fail2ban sender email?"
+infralet ask ADMIN_EMAIL "mateussouzaweb@gmail.com" "What is the administrator email? (to receive fail2ban alerts)"
 
-copy jail.local /etc/fail2ban/jail.local
-copy filter.d/nginx-req-limit.conf /etc/fail2ban/filter.d/nginx-req-limit.conf
-copy filter.d/http-ddos.conf /etc/fail2ban/filter.d/http-ddos.conf
+infralet copy jail.local /etc/fail2ban/jail.local
+infralet copy filter.d/nginx-req-limit.conf /etc/fail2ban/filter.d/nginx-req-limit.conf
+infralet copy filter.d/http-ddos.conf /etc/fail2ban/filter.d/http-ddos.conf
 
 # Restart service
 service fail2ban restart

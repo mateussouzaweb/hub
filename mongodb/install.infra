@@ -1,4 +1,4 @@
-ask_sudo_password
+infralet only_sudo
 
 # Install source
 if [ ! -f /etc/apt/sources.list.d/mongodb-org-4.4.list ]; then
@@ -13,14 +13,14 @@ apt-get install -y mongodb-org
 sleep 2
 
 # Add admin user
-ask MONGODB_USER "admin" "What is the mongodb admin user?"
-ask MONGODB_PASSWORD "" "What is the mongodb admin password?"
+infralet ask MONGODB_USER "admin" "What is the mongodb admin user?"
+infralet ask MONGODB_PASSWORD "" "What is the mongodb admin password?"
 
 MONGODB_EXISTS=$(mongo -u "$MONGODB_USER" -p "$MONGODB_PASSWORD" admin --quiet --eval "db.system.users.find({user: '"$MONGODB_USER"'}).count()")
 
 if [ "$MONGODB_EXISTS" == "0" ]; then
 
-    info "Creating MongoDB user..."
+    infralet info "Creating MongoDB user..."
 
     mongo <<EOF
     use admin
@@ -47,6 +47,7 @@ fi
 # Allow only authenticated connection
 if ! grep -q "authorization: enabled" /etc/mongod.conf; then
     cat >> /etc/mongod.conf <<EOL
+
 security:
     authorization: enabled
 EOL

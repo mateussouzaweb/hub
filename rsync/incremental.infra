@@ -1,8 +1,8 @@
-ask RSYNC_INCREMENTAL_SOURCE "/usr/share/stack/" "What is the rsync incremental source?"
-ask RSYNC_INCREMENTAL_DESTINATION "/backup/incremental/stack/" "What is the rsync incremental destination?"
-ask RSYNC_INCREMENTAL_DATETIME "$(date '+%Y-%m-%d-%H-%M-%S')" "What is the desired rsync incremental datetime?"
+infralet ask RSYNC_INCREMENTAL_SOURCE "/usr/share/stack/" "What is the rsync incremental source?"
+infralet ask RSYNC_INCREMENTAL_DESTINATION "/backup/incremental/stack/" "What is the rsync incremental destination?"
+infralet ask RSYNC_INCREMENTAL_DATETIME "$(date '+%Y-%m-%d-%H-%M-%S')" "What is the desired rsync incremental datetime?"
 
-info "Creating incremental rsync files backup from $RSYNC_INCREMENTAL_SOURCE to $RSYNC_INCREMENTAL_DESTINATION with datetime $RSYNC_INCREMENTAL_DATETIME"
+infralet info "Creating incremental rsync files backup from $RSYNC_INCREMENTAL_SOURCE to $RSYNC_INCREMENTAL_DESTINATION with datetime $RSYNC_INCREMENTAL_DATETIME"
 
 INCREMENTAL_BACKUP_PATH="${RSYNC_INCREMENTAL_DESTINATION}${RSYNC_INCREMENTAL_DATETIME}"
 INCREMENTAL_LATEST_LINK="${RSYNC_INCREMENTAL_DESTINATION}latest"

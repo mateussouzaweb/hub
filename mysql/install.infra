@@ -1,4 +1,4 @@
-ask_sudo_password
+infralet only_sudo
 
 # Install
 apt install -y mariadb-server
@@ -6,10 +6,10 @@ mysql_secure_installation
 sleep 2
 
 # Add additional user
-ask MYSQL_USER "admin" "What is the additional MySQL user?"
-ask MYSQL_PASSWORD "" "What is the additional MySQL password?"
+infralet ask MYSQL_USER "admin" "What is the additional MySQL user?"
+infralet ask MYSQL_PASSWORD "" "What is the additional MySQL password?"
 
-info "Creating MySQL user..."
+infralet info "Creating MySQL user..."
 
 mysql -u root -p <<EOF
 CREATE USER IF NOT EXISTS '$MYSQL_USER'@'localhost' IDENTIFIED BY '$MYSQL_PASSWORD';
@@ -21,9 +21,9 @@ FLUSH PRIVILEGES;
 EOF
 
 # Copy configs
-copy conf.d/mysqld.cnf /etc/mysql/conf.d/mysqld.cnf
+infralet copy conf.d/mysqld.cnf /etc/mysql/conf.d/mysqld.cnf
 
 # Restart service
 service mysql restart
 
-warning "Please tweak your MySQL configurations"
+infralet warning "Please tweak your MySQL configurations"

@@ -1,7 +1,7 @@
-ask RSYNC_FILES_SOURCE "/usr/share/stack/" "What is the rsync files source?"
-ask RSYNC_FILES_DESTINATION "/backup/files/stack/" "What is the rsync files destination?"
+infralet ask RSYNC_FILES_SOURCE "/usr/share/stack/" "What is the rsync files source?"
+infralet ask RSYNC_FILES_DESTINATION "/backup/files/stack/" "What is the rsync files destination?"
 
-info "Rsync files from $RSYNC_FILES_SOURCE to $RSYNC_FILES_DESTINATION"
+infralet info "Rsync files from $RSYNC_FILES_SOURCE to $RSYNC_FILES_DESTINATION"
 
 /bin/mkdir -p "$RSYNC_FILES_DESTINATION"
 

@@ -1,4 +1,4 @@
-ask_sudo_password
+infralet only_sudo
 
 # Setup workspace
 groupadd -g 322 loki
@@ -28,12 +28,12 @@ chown root:root /usr/local/bin/loki
 chmod a+x /usr/local/bin/loki
 
 # Add startup service script
-copy loki.service /etc/systemd/system/loki.service
+infralet copy loki.service /etc/systemd/system/loki.service
 chown root:root /etc/systemd/system/loki.service
 chmod 644 /etc/systemd/system/loki.service
 
 # Copy configuration
-copy loki.yaml /etc/loki/loki.yaml
+infralet copy loki.yaml /etc/loki/loki.yaml
 chown loki:loki /etc/loki/loki.yaml
 chmod 644 /etc/loki/loki.yaml
 
