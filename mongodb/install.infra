@@ -10,36 +10,35 @@ fi
 # Install Mongodb
 apt-get update
 apt-get install -y mongodb-org
-sleep 2
 
 # Add admin user
-infralet ask MONGODB_USER "admin" "What is the mongodb admin user?"
-infralet ask MONGODB_PASSWORD "" "What is the mongodb admin password?"
+infralet ask_yes_no MONGODB_ADD_USER "N" "Do you want to add a secondary mongodb admin user?"
 
-MONGODB_EXISTS=$(mongo -u "$MONGODB_USER" -p "$MONGODB_PASSWORD" admin --quiet --eval "db.system.users.find({user: '"$MONGODB_USER"'}).count()")
+if [ "$MONGODB_ADD_USER" == "Y" ]; then
 
-if [ "$MONGODB_EXISTS" == "0" ]; then
+    infralet ask MONGODB_USER "admin" "What is the mongodb admin user?"
+    infralet ask MONGODB_PASSWORD "" "What is the mongodb admin password?"
 
     infralet info "Creating MongoDB user..."
 
     mongo <<EOF
-    use admin
-    db.createUser({
-        user: "$MONGODB_USER",
-        pwd: "$MONGODB_PASSWORD",
-        roles:
-        [
-        {role: "read", db: "admin"},
-        {role: "readWrite", db: "admin"},
-        {role: "dbAdmin", db: "admin"},
-        {role: "userAdmin", db: "admin"},
-        {role: "clusterAdmin", db: "admin"},
-        {role: "readAnyDatabase", db: "admin"},
-        {role: "readWriteAnyDatabase", db: "admin"},
-        {role: "userAdminAnyDatabase", db: "admin"},
-        {role: "dbAdminAnyDatabase", db: "admin"}
-        ]
-    })
+use admin
+db.createUser({
+    user: "$MONGODB_USER",
+    pwd: "$MONGODB_PASSWORD",
+    roles:
+    [
+    {role: "read", db: "admin"},
+    {role: "readWrite", db: "admin"},
+    {role: "dbAdmin", db: "admin"},
+    {role: "userAdmin", db: "admin"},
+    {role: "clusterAdmin", db: "admin"},
+    {role: "readAnyDatabase", db: "admin"},
+    {role: "readWriteAnyDatabase", db: "admin"},
+    {role: "userAdminAnyDatabase", db: "admin"},
+    {role: "dbAdminAnyDatabase", db: "admin"}
+    ]
+})
 EOF
 
 fi
