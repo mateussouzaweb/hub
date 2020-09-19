@@ -21,7 +21,7 @@ chown -R traefik:traefik /var/log/traefik/
 
 # Install traefik from source
 REPOSITORY="https://github.com/containous/traefik/releases/download"
-curl -L "$REPOSITORY/v2.2.8/traefik_v2.2.8_linux_amd64.tar.gz" -o /etc/traefik/traefik.tar.gz
+curl -L "$REPOSITORY/v2.2.11/traefik_v2.2.11_linux_amd64.tar.gz" -o /etc/traefik/traefik.tar.gz
 tar -zxvf /etc/traefik/traefik.tar.gz --directory /etc/traefik/
 sleep 2
 
