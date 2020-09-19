@@ -11,6 +11,9 @@ fi
 apt-get update
 apt-get install -y mongodb-org
 
+# Add to startup at boot
+systemctl enable mongod.service
+
 # Add admin user
 infralet ask_yes_no MONGODB_ADD_USER "N" "Do you want to add a secondary mongodb admin user?"
 
@@ -51,9 +54,6 @@ security:
     authorization: enabled
 EOL
 fi
-
-# Add to startup at boot
-systemctl enable mongod.service
 
 # Restart service
 service mongod restart
