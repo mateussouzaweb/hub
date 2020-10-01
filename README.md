@@ -3,55 +3,118 @@
 Personal hub with modules to infralet: \
 <https://github.com/mateussouzaweb/infralet>
 
+## Installation
+
+Install ``infralet`` cli script on the machine:
+
+```bash
+sudo wget https://raw.githubusercontent.com/mateussouzaweb/infralet/master/infralet.sh -O /usr/local/bin/infralet
+sudo chmod +x /usr/local/bin/infralet
+```
+
+Create ``stack`` folder and clone this repository into ``hub`` folder:
+
+```bash
+mkdir -p /usr/share/stack/ && cd /usr/share/stack/
+clone https://github.com/mateussouzaweb/infralet-hub.git hub
+```
+
+We now will extract variables. \
+You should define every software that will be installed. Edit the following command and past it on you console containing only the necessary software:
+
+```bash
+SCRIPTS=(
+    "hub/server/install"
+    "hub/ufw/install"
+    "hub/fail2ban/install"
+    "hub/tools/install"
+    "hub/nginx/install"
+    "hub/php/install"
+    "hub/php/composer/install"
+    "hub/mongodb/install"
+    "hub/mysql/install"
+    "hub/redis/install"
+    "hub/traefik/install"
+    "hub/grafana/install"
+    "hub/influxdb/install"
+    "hub/loki/install"
+    "hub/postfix/install"
+    "hub/dovecot/install"
+    "hub/rspamd/install"
+    "hub/monit/install"
+    "hub/telegraf/install"
+    "hub/promtail/install"
+    "hub/mkcert/install"
+    "hub/borg/install"
+    "hub/rclone/install"
+    "hub/rsync/files"
+    "hub/mongodb/dump/backup"
+    "hub/mysql/dump/backup"
+    "hub/borg/snapshot"
+    "hub/rclone/sync"
+    "hub/mysql/dump/restore"
+    "hub/mongodb/dump/restore"
+)
+```
+
+Once defined, we extract the variables to a file and update its values:
+
+```bash
+infralet extract ${SCRIPTS[@]} | sort | uniq | tee variables.env
+vim variables.env
+```
+
+To finish, just run the scripts for the desired softwares:
+
 ```bash
 # General
-infralet run server/install
-infralet run ufw/install
-infralet run fail2ban/install
-infralet run tools/install
+infralet run hub/server/install
+infralet run hub/ufw/install
+infralet run hub/fail2ban/install
+infralet run hub/tools/install
 
 # Web Server
-infralet run nginx/install
-infralet run php/install
-infralet run php/composer/install
-infralet run mongodb/install
-infralet run mysql/install
-infralet run redis/install
+infralet run hub/nginx/install
+infralet run hub/php/install
+infralet run hub/php/composer/install
+infralet run hub/mongodb/install
+infralet run hub/mysql/install
+infralet run hub/redis/install
 
 # Reverse Proxy
-infralet run traefik/install
+infralet run hub/traefik/install
 
 # Monitoring Server
-infralet run grafana/install
-infralet run influxdb/install
-infralet run loki/install
+infralet run hub/grafana/install
+infralet run hub/influxdb/install
+infralet run hub/loki/install
 
 # Email Server
-infralet run mysql/install
-infralet run redis/install
-infralet run postfix/install
-infralet run dovecot/install
-infralet run rspamd/install
+infralet run hub/mysql/install
+infralet run hub/redis/install
+infralet run hub/postfix/install
+infralet run hub/dovecot/install
+infralet run hub/rspamd/install
 
 # Monitoring Agent
-infralet run monit/install
-infralet run telegraf/install
-infralet run promtail/install
+infralet run hub/monit/install
+infralet run hub/telegraf/install
+infralet run hub/promtail/install
 
 # Development
-infralet run mkcert/install
+infralet run hub/mkcert/install
 
 # Backups
-infralet run borg/install
-infralet run rclone/install
+infralet run hub/borg/install
+infralet run hub/rclone/install
 
-infralet run rsync/files
-infralet run mongodb/dump/backup
-infralet run mysql/dump/backup
-infralet run borg/snapshot
-infralet run rclone/sync
+infralet run hub/rsync/files
+infralet run hub/mongodb/dump/backup
+infralet run hub/mysql/dump/backup
+infralet run hub/borg/snapshot
+infralet run hub/rclone/sync
 
 # Restore
-infralet run mysql/dump/restore
-infralet run mongodb/dump/restore
+infralet run hub/mysql/dump/restore
+infralet run hub/mongodb/dump/restore
 ```
