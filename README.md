@@ -13,6 +13,7 @@ infralet run tools/install
 # Web Server
 infralet run nginx/install
 infralet run php/install
+infralet run php/composer/install
 infralet run mongodb/install
 infralet run mysql/install
 infralet run redis/install
