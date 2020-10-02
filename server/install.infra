@@ -77,7 +77,6 @@ infralet warning "This setup does not set disk volumes. If the server need this 
 infralet ask_yes_no SWITCH_TO_ZSH "Y" "Do you want to switch to ZSH?"
 
 if [ $SWITCH_TO_ZSH == "Y" ]; then
-    infralet info "Switching to ZSH..."
+    infralet info "Switching default shell to ZSH..."
     chsh -s /bin/zsh
-    cd $RUN_PATH && zsh
 fi
