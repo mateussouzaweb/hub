@@ -16,7 +16,7 @@ Create ``stack`` folder and clone this repository into ``hub`` folder:
 
 ```bash
 mkdir -p /usr/share/stack/ && cd /usr/share/stack/
-clone https://github.com/mateussouzaweb/infralet-hub.git hub
+git clone https://github.com/mateussouzaweb/infralet-hub.git hub
 ```
 
 We now will extract variables. \
@@ -117,4 +117,38 @@ infralet run hub/rclone/sync
 # Restore
 infralet run hub/mysql/dump/restore
 infralet run hub/mongodb/dump/restore
+```
+
+## Automated Tasks
+
+Some infralet modules allow running automatic tasks to make you work easy. You can for example, write a backup script with the following content and add it to crontab to be run each night:
+
+```bash
+mkdir scripts && cd scripts/
+touch backup.sh && chmod +x backup.sh
+vim backup.sh
+```
+
+```bash
+#!/usr/bin/env bash
+
+# Go to the defined stack directory
+cd /usr/share/stack/
+
+# Run scripts
+/usr/local/bin/infralet run hub/mysql/dump/backup
+/usr/local/bin/infralet run hub/mongodb/dump/backup
+/usr/local/bin/infralet run hub/rsync/files
+/usr/local/bin/infralet run hub/borg/snapshot
+```
+
+Now, add it to the crontab:
+
+```bash
+crontab -e
+```
+
+```bash
+# APPEND
+30 1 * * * /usr/share/stack/scripts/backup.sh
 ```
