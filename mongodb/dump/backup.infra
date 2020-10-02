@@ -5,7 +5,7 @@ infralet ask MONGODB_USER "admin" "What is the MongoDB user?"
 infralet ask MONGODB_PASSWORD "" "What is the MongoDB password?"
 
 infralet ask MONGODB_BACKUP_FOLDER "/backup/files/mongodb" "What is the MongoDB backups folder?"
-infralet ask MONGODB_BACKUP_DATABASES "" "What database(s) do you want to backup? (conman separated)"
+infralet ask MONGODB_BACKUP_DATABASES "" "What database(s) do you want to backup? (comma separated)"
 
 MONGODB_URI="mongodb://$MONGODB_USER:$MONGODB_PASSWORD@$MONGODB_HOST:27017"
 DATABASES=$(echo $MONGODB_BACKUP_DATABASES | awk 'BEGIN{RS=";"} {print}')

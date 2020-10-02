@@ -5,7 +5,7 @@ infralet ask MYSQL_USER "admin" "What is the MySQL user?"
 infralet ask MYSQL_PASSWORD "" "What is the MySQL password?"
 
 infralet ask MYSQL_BACKUP_FOLDER "/backup/files/mysql" "What is the MySQL backups folder?"
-infralet ask MYSQL_BACKUP_DATABASES "ALL" "What database(s) do you want to backup? (conman separated)"
+infralet ask MYSQL_BACKUP_DATABASES "ALL" "What database(s) do you want to backup? (comma separated)"
 
 if [ "$MYSQL_BACKUP_DATABASES" == "ALL" ]; then
 
