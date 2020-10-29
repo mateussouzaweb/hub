@@ -23,6 +23,7 @@ if [ "$MONGODB_ADD_USER" == "Y" ]; then
     infralet ask MONGODB_PASSWORD "" "What is the mongodb admin password?"
 
     infralet info "Creating MongoDB user..."
+    sleep 20
 
     mongo <<EOF
 use admin
