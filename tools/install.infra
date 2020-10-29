@@ -7,7 +7,7 @@ if [ ! -f /etc/apt/sources.list.d/goaccess.list ]; then
 fi
 
 apt-get update
-apt-get install goaccess -y
+apt-get install apt-transport-https goaccess -y
 
 # Install images optimization
 apt-get install -y jpegoptim optipng libjpeg-progs gifsicle webp
