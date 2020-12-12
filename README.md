@@ -8,15 +8,14 @@ Personal hub with modules to infralet: \
 Install ``infralet`` cli script on the machine:
 
 ```bash
-sudo wget https://raw.githubusercontent.com/mateussouzaweb/infralet/master/infralet.sh -O /usr/local/bin/infralet
-sudo chmod +x /usr/local/bin/infralet
+sudo wget https://raw.githubusercontent.com/mateussouzaweb/infralet/master/infralet.sh -O /usr/local/bin/infralet && sudo chmod +x /usr/local/bin/infralet
 ```
 
 Create ``stack`` folder and clone this repository into ``hub`` folder:
 
 ```bash
 mkdir -p /usr/share/stack/ && cd /usr/share/stack/
-git clone https://github.com/mateussouzaweb/infralet-hub.git hub
+git clone https://github.com/mateussouzaweb/hub.git hub
 ```
 
 We now will extract variables. \
