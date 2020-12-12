@@ -5,7 +5,7 @@ infralet ask MYSQL_USER "admin" "What is the MySQL user?"
 infralet ask MYSQL_PASSWORD "" "What is the MySQL password?"
 
 infralet ask MYSQL_BACKUP_FOLDER "/backup/files/mysql" "What is the MySQL backups folder?"
-infralet ask MYSQL_RESTORE_DATABASES "" "What MySQL database should be restored? (comma separated)"
+infralet ask MYSQL_RESTORE_DATABASES "" "What MySQL database should be restored? (semicolon separated)"
 
 # Fill the list of databases
 DATABASES=$(echo $MYSQL_RESTORE_DATABASES | awk 'BEGIN{RS=";"} {print}')

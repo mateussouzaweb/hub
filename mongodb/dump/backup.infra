@@ -5,10 +5,16 @@ infralet ask MONGODB_USER "admin" "What is the MongoDB user?"
 infralet ask MONGODB_PASSWORD "" "What is the MongoDB password?"
 
 infralet ask MONGODB_BACKUP_FOLDER "/backup/files/mongodb" "What is the MongoDB backups folder?"
-infralet ask MONGODB_BACKUP_DATABASES "" "What database(s) do you want to backup? (comma separated)"
+infralet ask MONGODB_BACKUP_DATABASES "ALL" "What database(s) do you want to backup? (semicolon separated)"
 
 MONGODB_URI="mongodb://$MONGODB_USER:$MONGODB_PASSWORD@$MONGODB_HOST:27017"
-DATABASES=$(echo $MONGODB_BACKUP_DATABASES | awk 'BEGIN{RS=";"} {print}')
+
+if [ "$MONGODB_BACKUP_DATABASES" == "ALL" ]; then
+    # Fill the list of databases
+    DATABASES=$(mongo admin --host $MONGODB_HOST -u $MONGODB_USER -p $MONGODB_PASSWORD --quiet --eval 'db.getMongo().getDBNames().forEach(function(db){print(db)})' | grep -Ev "(admin|config|local)")
+else
+    DATABASES=$(echo $MONGODB_BACKUP_DATABASES | awk 'BEGIN{RS=";"} {print}')
+fi
 
 /bin/mkdir -p "$MONGODB_BACKUP_FOLDER"
 
