@@ -1,7 +1,11 @@
 infralet only_sudo
 
 # Setup hostname
-infralet ask SERVER_NAME "" "What is the server hostname?"
+infralet ask \
+    SERVER_NAME \
+    "" \
+    "What is the server hostname?"
+
 hostname $SERVER_NAME
 echo $SERVER_NAME > /etc/hostname
 
@@ -15,7 +19,11 @@ locale-gen en_US.UTF-8
 locale-gen pt_BR.UTF-8
 apt-get install locales
 
-infralet ask SERVER_TIMEZONE "America/Sao_Paulo" "What is the desired timezone for the server?"
+infralet ask \
+    SERVER_TIMEZONE \
+    "America/Sao_Paulo" \
+    "What is the desired timezone for the server?"
+
 timedatectl set-timezone $SERVER_TIMEZONE
 
 # Install basic packages
@@ -24,7 +32,10 @@ apt-get install -y build-essential vim wget \
     g++ pkg-config zip htop nethogs
 
 # Install Oh-my-ZSH
-infralet ask_yes_no INSTALL_OH_MY_ZSH "Y" "Do you want to install oh-my-ZSH?"
+infralet ask_yes_no \
+    INSTALL_OH_MY_ZSH \
+    "Y" \
+    "Do you want to install oh-my-ZSH?"
 
 if [ $INSTALL_OH_MY_ZSH == "Y" ]; then
 
@@ -42,7 +53,11 @@ if [ ! -d /root/.ssh ]; then
     mkdir /root/.ssh
 fi
 
-infralet ask SERVER_EMAIL "" "What is the server email for SSH key?"
+infralet ask \
+    SERVER_EMAIL \
+    "" \
+    "What is the server email for SSH key?"
+
 cat /dev/zero | ssh-keygen -t rsa -C $SERVER_EMAIL -q -N "" > /dev/null
 
 infralet info "SSH key generated. Place the following code on connected platforms (Private/GitHub/BitBucket) ..."
@@ -74,7 +89,10 @@ service ssh reload
 infralet warning "This setup does not set disk volumes. If the server need this kind of setup, please do it manually."
 
 # Switch to ZSH
-infralet ask_yes_no SWITCH_TO_ZSH "Y" "Do you want to switch to ZSH?"
+infralet ask_yes_no \
+    SWITCH_TO_ZSH \
+    "Y" \
+    "Do you want to switch to ZSH?"
 
 if [ $SWITCH_TO_ZSH == "Y" ]; then
     infralet info "Switching default shell to ZSH..."

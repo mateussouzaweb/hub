@@ -5,7 +5,11 @@ apt update
 apt install -y redis
 
 # Set configs
-infralet ask REDIS_PASSWORD "" "What is the redis password?"
+infralet ask \
+    REDIS_PASSWORD \
+    "" \
+    "What is the redis password?"
+
 infralet copy redis.conf /etc/redis/custom.conf
 
 if ! grep -q "custom.conf" /etc/redis/redis.conf; then
@@ -19,7 +23,10 @@ systemctl enable redis-server.service
 systemctl restart redis-server.service
 
 # Set as PHP session handler
-infralet ask_yes_no REDIS_AS_PHP_SESSION "Y" "Do you want to use redis as PHP session?"
+infralet ask_yes_no \
+    REDIS_AS_PHP_SESSION \
+    "Y" \
+    "Do you want to use redis as PHP session?"
 
 if [ $REDIS_AS_PHP_SESSION == "Y" ]; then
 

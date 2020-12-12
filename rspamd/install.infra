@@ -17,8 +17,16 @@ mkdir -p /var/lib/rspamd/dkim
 chown _rspamd:_rspamd /var/lib/rspamd/dkim
 
 # Ask settings
-infralet ask RSPAMD_PASSWORD "" "What is the Rspamd password?"
-infralet ask REDIS_PASSWORD "" "What is the redis password?"
+infralet ask \
+    RSPAMD_PASSWORD \
+    "" \
+    "What is the Rspamd password?"
+
+infralet ask \
+    REDIS_PASSWORD \
+    "" \
+    "What is the redis password?"
+
 export THE_RSPAMD_PASSWORD=$(rspamadm pw --encrypt -p $RSPAMD_PASSWORD)
 
 # Copy configurations

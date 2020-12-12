@@ -13,7 +13,11 @@ sudo apt-get install -y libnss3-tools
 mkcert -install
 
 # Add to traefik
-infralet ask_yes_no MKCERT_TO_TRAEFIK "Y" "Do you want to install SSL cert to traefik?"
+infralet ask_yes_no \
+    MKCERT_TO_TRAEFIK \
+    "Y" \
+    "Do you want to install SSL cert to traefik?"
+
 if [ $MKCERT_TO_TRAEFIK == "Y" ]; then
 
     infralet info "Generating *.local.io certificates"

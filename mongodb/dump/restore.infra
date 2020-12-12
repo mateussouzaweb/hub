@@ -1,11 +1,29 @@
 infralet only_sudo
 
-infralet ask MONGODB_HOST "127.0.0.1" "What is the MongoDB host?"
-infralet ask MONGODB_USER "admin" "What is the MongoDB user?"
-infralet ask MONGODB_PASSWORD "" "What is the MongoDB password?"
+infralet ask \
+    MONGODB_HOST \
+    "127.0.0.1" \
+    "What is the MongoDB host?"
 
-infralet ask MONGODB_BACKUP_FOLDER "/backup/files/mongodb" "What is the MongoDB backups folder?"
-infralet ask MONGODB_RESTORE_DATABASES "" "What database(s) do you want to restore? (semicolon separated)"
+infralet ask \
+    MONGODB_USER \
+    "admin" \
+    "What is the MongoDB user?"
+
+infralet ask \
+    MONGODB_PASSWORD \
+    "" \
+    "What is the MongoDB password?"
+
+infralet ask \
+    MONGODB_BACKUP_FOLDER \
+    "/backup/files/mongodb" \
+    "What is the MongoDB backups folder?"
+
+infralet ask \
+    MONGODB_RESTORE_DATABASES \
+    "" \
+    "What database(s) do you want to restore? (semicolon separated)"
 
 MONGODB_URI="mongodb://$MONGODB_USER:$MONGODB_PASSWORD@$MONGODB_HOST:27017"
 

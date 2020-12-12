@@ -7,14 +7,29 @@ apt-get install -y postfix
 systemctl enable postfix.service
 
 # MySQL Driver
-infralet ask_yes_no MAIL_USE_MYSQL_DRIVER "Y" "Do you want to use MySQL to maps email users?"
+infralet ask_yes_no \
+    MAIL_USE_MYSQL_DRIVER \
+    "Y" \
+    "Do you want to use MySQL to maps email users?"
+
 if [ $MAIL_USE_MYSQL_DRIVER == "Y" ]; then
 
     apt-get install -y postfix-mysql
 
-    infralet ask MAIL_MYSQL_USER "postfix" "What is the MySQL user? (used by postfix)"
-    infralet ask MAIL_MYSQL_PASSWORD "" "What is the MySQL password? (used by postfix)"
-    infralet ask MAIL_MYSQL_DATABASE "postfix" "What is the MySQL database? (used by postfix)"
+    infralet ask \
+        MAIL_MYSQL_USER \
+        "postfix" \
+        "What is the MySQL user? (used by postfix)"
+
+    infralet ask \
+        MAIL_MYSQL_PASSWORD \
+        "" \
+        "What is the MySQL password? (used by postfix)"
+
+    infralet ask \
+        MAIL_MYSQL_DATABASE \
+        "postfix" \
+        "What is the MySQL database? (used by postfix)"
 
     infralet info "Running MySQL operations. You need to tap the MYSQL root password to continue..."
 
@@ -96,9 +111,20 @@ fi
 cp conf.d/master.cf /etc/postfix/master.cf
 
 # Update configurations related to domain and TLS
-infralet ask MAIL_DOMAIN "mail.site.com" "What is the mail domain?"
-infralet ask MAIL_TLS_CERT "/etc/letsencrypt/live/mail.site.com/fullchain.pem" "What is the mail domain TLS cert file?"
-infralet ask MAIL_TLS_KEY "/etc/letsencrypt/live/mail.site.com/privkey.pem" "What is the mail domain TLS cert key?"
+infralet ask \
+    MAIL_DOMAIN \
+    "mail.site.com" \
+    "What is the mail domain?"
+
+infralet ask \
+    MAIL_TLS_CERT \
+    "/etc/letsencrypt/live/mail.site.com/fullchain.pem" \
+    "What is the mail domain TLS cert file?"
+
+infralet ask \
+    MAIL_TLS_KEY \
+    "/etc/letsencrypt/live/mail.site.com/privkey.pem" \
+    "What is the mail domain TLS cert key?"
 
 postconf -e "myhostname = ${MAIL_DOMAIN}"
 postconf -e "smtp_tls_note_starttls_offer = yes"

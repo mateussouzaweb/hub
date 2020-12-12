@@ -2,8 +2,15 @@
 sudo apt-get install -y borgbackup
 
 # Init repository
-infralet ask BORG_REPOSITORY "/backup/repository" "What is the Borg repository folder?"
-infralet ask BORG_PASSPHRASE "" "What is the Borg passphrase?"
+infralet ask \
+    BORG_REPOSITORY \
+    "/backup/repository" \
+    "What is the Borg repository folder?"
+
+infralet ask \
+    BORG_PASSPHRASE \
+    "" \
+    "What is the Borg passphrase?"
 
 infralet info "Creating borg backup repository on $BORG_REPOSITORY"
 

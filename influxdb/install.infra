@@ -15,9 +15,20 @@ service influxdb start
 sleep 2
 
 # Create user
-infralet ask INFLUXDB_USERNAME "admin" "What is the InfluxDB username?"
-infralet ask INFLUXDB_PASSWORD "" "What is the InfluxDB password?"
-infralet ask INFLUXDB_DATABASE "metrics" "What is the InfluxDB database?"
+infralet ask \
+    INFLUXDB_USERNAME \
+    "admin" \
+    "What is the InfluxDB username?"
+
+infralet ask \
+    INFLUXDB_PASSWORD \
+    "" \
+    "What is the InfluxDB password?"
+
+infralet ask \
+    INFLUXDB_DATABASE \
+    "metrics" \
+    "What is the InfluxDB database?"
 
 infralet info "Creating influxdb database..."
 influx -host 127.0.0.1 -port 8086 -execute "CREATE DATABASE $INFLUXDB_DATABASE"

@@ -13,11 +13,30 @@ systemctl daemon-reload
 systemctl enable grafana-server.service
 
 # Add config
-infralet ask GRAFANA_EMAIL "" "What is the grafana email? (to delivery alert messages)"
-infralet ask GRAFANA_SMTP_HOST "smtp.gmail.com" "What is the grafana SMTP host?"
-infralet ask GRAFANA_SMTP_PORT "587" "What is the grafana SMTP port?"
-infralet ask GRAFANA_SMTP_USERNAME "" "What is the grafana SMTP username?"
-infralet ask GRAFANA_SMTP_PASSWORD "" "What is the grafana SMTP password?"
+infralet ask \
+    GRAFANA_EMAIL \
+    "" \
+    "What is the grafana email? (to delivery alert messages)"
+
+infralet ask \
+    GRAFANA_SMTP_HOST \
+    "smtp.gmail.com" \
+    "What is the grafana SMTP host?"
+
+infralet ask \
+    GRAFANA_SMTP_PORT \
+    "587" \
+    "What is the grafana SMTP port?"
+
+infralet ask \
+    GRAFANA_SMTP_USERNAME \
+    "" \
+    "What is the grafana SMTP username?"
+
+infralet ask \
+    GRAFANA_SMTP_PASSWORD \
+    "" \
+    "What is the grafana SMTP password?"
 
 sed -i "s/\[smtp\]/;\[smtp\]/g" /etc/grafana/grafana.ini
 infralet append smtp.ini /etc/grafana/grafana.ini

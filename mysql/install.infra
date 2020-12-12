@@ -6,8 +6,15 @@ mysql_secure_installation
 sleep 2
 
 # Add additional user
-infralet ask MYSQL_USER "admin" "What is the additional MySQL user?"
-infralet ask MYSQL_PASSWORD "" "What is the additional MySQL password?"
+infralet ask \
+    MYSQL_USER \
+    "admin" \
+    "What is the additional MySQL user?"
+
+infralet ask \
+    MYSQL_PASSWORD \
+    "" \
+    "What is the additional MySQL password?"
 
 infralet info "Creating MySQL user..."
 

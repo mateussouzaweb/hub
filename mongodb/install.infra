@@ -15,12 +15,22 @@ apt-get install -y mongodb-org
 systemctl enable mongod.service
 
 # Add admin user
-infralet ask_yes_no MONGODB_ADD_USER "N" "Do you want to add a secondary mongodb admin user?"
+infralet ask_yes_no \
+    MONGODB_ADD_USER \
+    "N" \
+    "Do you want to add a secondary mongodb admin user?"
 
 if [ "$MONGODB_ADD_USER" == "Y" ]; then
 
-    infralet ask MONGODB_USER "admin" "What is the mongodb admin user?"
-    infralet ask MONGODB_PASSWORD "" "What is the mongodb admin password?"
+    infralet ask \
+        MONGODB_USER \
+        "admin" \
+        "What is the mongodb admin user?"
+
+    infralet ask \
+        MONGODB_PASSWORD \
+        "" \
+        "What is the mongodb admin password?"
 
     infralet info "Creating MongoDB user..."
     sleep 20

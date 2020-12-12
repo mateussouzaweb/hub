@@ -27,15 +27,39 @@ postconf -e "smtpd_sasl_auth_enable = yes"
 postconf -e "smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination,check_policy_service unix:private/quota-status"
 
 # Copy configurations
-infralet ask MAIL_MYSQL_USER "postfix" "What is the MySQL user? (used by postfix)"
-infralet ask MAIL_MYSQL_PASSWORD "" "What is the MySQL password? (used by postfix)"
-infralet ask MAIL_MYSQL_DATABASE "postfix" "What is the MySQL database? (used by postfix)"
+infralet ask \
+    MAIL_MYSQL_USER \
+    "postfix" \
+    "What is the MySQL user? (used by postfix)"
 
-infralet ask MAIL_DOMAIN "mail.site.com" "What is the mail domain?"
-infralet ask MAIL_TLS_CERT "/etc/letsencrypt/live/mail.site.com/fullchain.pem" "What is the mail domain TLS cert file?"
-infralet ask MAIL_TLS_KEY "/etc/letsencrypt/live/mail.site.com/privkey.pem" "What is the mail domain TLS cert key?"
+infralet ask \
+    MAIL_MYSQL_PASSWORD \
+    "" \
+    "What is the MySQL password? (used by postfix)"
 
-infralet ask DOVECOT_POSTMASTER_MAIL "postmaster@site.com" "What is the postmaster email address?"
+infralet ask \
+    MAIL_MYSQL_DATABASE \
+    "postfix" \
+    "What is the MySQL database? (used by postfix)"
+
+infralet ask \
+    MAIL_DOMAIN \
+    "mail.site.com" \
+    "What is the mail domain?"
+
+infralet ask \
+    MAIL_TLS_CERT \
+    "/etc/letsencrypt/live/mail.site.com/fullchain.pem" \
+    "What is the mail domain TLS cert file?"
+
+infralet ask \
+    MAIL_TLS_KEY \
+    "/etc/letsencrypt/live/mail.site.com/privkey.pem" \
+    "What is the mail domain TLS cert key?"
+
+infralet ask \
+    DOVECOT_POSTMASTER_MAIL "postmaster@site.com" \
+    "What is the postmaster email address?"
 
 infralet copy conf.d/auth.conf /etc/dovecot/conf.d/10-auth.conf
 infralet copy conf.d/master.conf /etc/dovecot/conf.d/10-master.conf

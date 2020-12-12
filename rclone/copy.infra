@@ -1,5 +1,12 @@
-infralet ask RCLONE_COPY_SOURCE "/backup/repository" "What is the source folder to copy from?"
-infralet ask RCLONE_COPY_DESTINATION "blackblaze:bucket" "What is the Rclone files destination?"
+infralet ask \
+    RCLONE_COPY_SOURCE \
+    "/backup/repository" \
+    "What is the source folder to copy from?"
+
+infralet ask \
+    RCLONE_COPY_DESTINATION \
+    "backblaze:bucket" \
+    "What is the Rclone files destination?"
 
 infralet info "Copying $RCLONE_COPY_SOURCE to external bucket $RCLONE_COPY_DESTINATION"
 
