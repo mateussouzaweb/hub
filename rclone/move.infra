@@ -1,0 +1,17 @@
+infralet ask \
+    RCLONE_MOVE_SOURCE \
+    "/backup/repository" \
+    "What is the source folder to move from?"
+
+infralet ask \
+    RCLONE_MOVE_DESTINATION \
+    "backblaze:bucket" \
+    "What is the Rclone files destination?"
+
+infralet info "Moving $RCLONE_MOVE_SOURCE to external bucket $RCLONE_MOVE_DESTINATION"
+
+rclone move \
+    --progress \
+    --transfers 16 \
+    "$RCLONE_MOVE_SOURCE" \
+    "$RCLONE_MOVE_DESTINATION"
