@@ -35,7 +35,7 @@ if [ "$MONGODB_ADD_USER" == "Y" ]; then
     infralet info "Creating MongoDB user..."
     sleep 20
 
-    mongo <<EOF
+    mongo admin -h "127.0.0.1" <<EOF
 use admin
 db.createUser({
     user: "$MONGODB_USER",
