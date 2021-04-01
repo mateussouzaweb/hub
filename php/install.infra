@@ -20,7 +20,6 @@ apt-get install -y \
     php8.0-pgsql \
     php8.0-tidy \
     php8.0-xmlrpc \
-    php8.0-json \
     php8.0-sqlite3 \
     php8.0-mysql \
     php8.0-opcache \
