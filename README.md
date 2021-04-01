@@ -43,7 +43,6 @@ SCRIPTS=(
     "monit/install"
     "telegraf/install"
     "promtail/install"
-    "mkcert/install"
     "borg/install"
     "rclone/install"
     "rsync/files"
@@ -99,9 +98,6 @@ infralet run rspamd/install
 infralet run monit/install
 infralet run telegraf/install
 infralet run promtail/install
-
-# Development
-infralet run mkcert/install
 
 # Backups
 infralet run borg/install

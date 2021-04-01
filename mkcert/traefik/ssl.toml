@@ -1,5 +1,0 @@
-[tls.stores]
-  [tls.stores.default]
-    [tls.stores.default.defaultCertificate]
-      certFile = "/etc/traefik/ssl/local.io.pem"
-      keyFile  = "/etc/traefik/ssl/local.io.key.pem"
