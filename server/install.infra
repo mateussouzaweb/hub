@@ -63,16 +63,6 @@ cat /dev/zero | ssh-keygen -t rsa -C $SERVER_EMAIL -q -N "" > /dev/null
 infralet info "SSH key generated. Place the following code on connected platforms (Private/GitHub/BitBucket) ..."
 cat /root/.ssh/id_rsa.pub
 
-# Append SSH key file
-SSH_FILE="id_rsa.pub"
-
-if [ -f "$SSH_FILE" ]; then
-    infralet info "$SSH_FILE found. Appending it to the server"
-    SSH_CONTENT=$(cat "$SSH_FILE")
-    echo $SSH_CONTENT
-    grep -q -F "$SSH_CONTENT" /root/.ssh/authorized_keys 2>/dev/null || echo "$SSH_CONTENT" >> /root/.ssh/authorized_keys
-fi
-
 # Configure SSH
 sed -i "s/#PubkeyAuthentication.*/PubkeyAuthentication yes/g" \
     /etc/ssh/sshd_config
