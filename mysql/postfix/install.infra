@@ -33,7 +33,6 @@ use $MYSQL_DATABASE;
 
 CREATE TABLE IF NOT EXISTS domain (
     domain VARCHAR(255) NOT NULL,
-    quota bigint(20) NOT NULL DEFAULT '0',
     active BOOLEAN NOT NULL
 );
 
@@ -55,7 +54,6 @@ CREATE TABLE IF NOT EXISTS mailbox (
     password VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
     maildir VARCHAR(255) NOT NULL,
-    quota bigint(20) NOT NULL DEFAULT '0',
     domain VARCHAR(255) NOT NULL,
     active BOOLEAN NOT NULL
 );

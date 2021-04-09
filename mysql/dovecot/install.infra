@@ -20,7 +20,6 @@ infralet ask \
 
 # Copy configurations
 infralet append conf.d/auth.conf /etc/dovecot/conf.d/10-auth.conf
-infralet append conf.d/quota.conf /etc/dovecot/conf.d/90-quota.conf
 
 infralet copy maps/dovecot-sql.conf.ext /etc/dovecot/dovecot-sql.conf.ext
 infralet copy maps/dovecot-dict-sql.conf.ext /etc/dovecot/dovecot-dict-sql.conf.ext

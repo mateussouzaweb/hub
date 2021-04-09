@@ -23,7 +23,7 @@ postconf -e "smtpd_sasl_local_domain ="
 postconf -e "smtpd_sasl_security_options = noanonymous"
 postconf -e "broken_sasl_auth_clients = yes"
 postconf -e "smtpd_sasl_auth_enable = yes"
-postconf -e "smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination,check_policy_service unix:private/quota-status"
+postconf -e "smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination,check_policy_service"
 
 # Ask variables
 infralet ask \
@@ -33,16 +33,16 @@ infralet ask \
 
 infralet ask \
     MAIL_TLS_CERT \
-    "/etc/letsencrypt/live/mail.site.com/fullchain.pem" \
+    "/etc/letsencrypt/live/${MAIL_DOMAIN}/fullchain.pem" \
     "What is the mail domain TLS cert file?"
 
 infralet ask \
     MAIL_TLS_KEY \
-    "/etc/letsencrypt/live/mail.site.com/privkey.pem" \
+    "/etc/letsencrypt/live/${MAIL_DOMAIN}/privkey.pem" \
     "What is the mail domain TLS cert key?"
 
 infralet ask \
-    DOVECOT_POSTMASTER_MAIL "postmaster@site.com" \
+    POSTMASTER_MAIL "postmaster@site.com" \
     "What is the postmaster email address?"
 
 # Copy configurations
@@ -54,12 +54,7 @@ infralet copy conf.d/mailboxes.conf /etc/dovecot/conf.d/15-mailboxes.conf
 infralet copy conf.d/imap.conf /etc/dovecot/conf.d/20-imap.conf
 infralet copy conf.d/lmtp.conf /etc/dovecot/conf.d/20-lmtp.conf
 infralet copy conf.d/managesieve.conf /etc/dovecot/conf.d/20-managesieve.conf
-infralet copy conf.d/quota.conf /etc/dovecot/conf.d/90-quota.conf
 infralet copy conf.d/sieve.conf /etc/dovecot/conf.d/90-sieve.conf
-
-cp scripts/quota-warning.sh /usr/local/bin/quota-warning.sh
-chmod +x /usr/local/bin/quota-warning.sh
-vim /usr/local/bin/quota-warning.sh
 
 # Restart service
 service postfix restart
