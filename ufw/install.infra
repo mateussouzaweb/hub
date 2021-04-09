@@ -14,3 +14,15 @@ systemctl enable ufw.service
 ufw allow 22/tcp # SSH
 
 infralet warning "We enabled just port 22. You need to enable others ports like 80 and 443 manually..."
+
+# Enable web ports
+infralet ask_yes_no \
+    UFW_ENABLE_WEB_PORTS \
+    "Y" \
+    "Do you want to enable ports 80 and 443 now?"
+
+if [ $UFW_ENABLE_WEB_PORTS == "Y" ]; then
+    ufw allow 80/tcp # HTTP
+    ufw allow 443/tcp # HTTPS
+    infralet info "Ports 80 and 443 enabled!"
+fi
