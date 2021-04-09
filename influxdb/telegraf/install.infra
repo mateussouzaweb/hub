@@ -1,0 +1,45 @@
+infralet only_sudo
+
+# Copy configuration
+infralet ask \
+    INFLUXDB_URL \
+    "http://127.0.0.1:8086" \
+    "What is the InfluxDB url?"
+
+infralet ask \
+    INFLUXDB_DATABASE \
+    "metrics" \
+    "What is the InfluxDB database?"
+
+infralet ask \
+    INFLUXDB_USERNAME \
+    "metrics" \
+    "What is the InfluxDB username?"
+
+infralet ask \
+    INFLUXDB_PASSWORD \
+    "" \
+    "What is the InfluxDB password?"
+
+# Add InfluxDB output
+infralet ask_yes_no \
+    TELEGRAF_OUTPUT_INFLUXDB \
+    "N" \
+    "Do you want to output Telegraf metrics to InfluxDB?"
+
+if [ $TELEGRAF_OUTPUT_INFLUXDB == "Y" ]; then
+    infralet append output.conf /etc/telegraf/telegraf.conf
+fi
+
+# Add InfluxDB input
+infralet ask_yes_no \
+    TELEGRAF_INPUT_INFLUXDB \
+    "N" \
+    "Do you want to input InfluxDB on Telegraf?"
+
+if [ $TELEGRAF_INPUT_INFLUXDB == "Y" ]; then
+    infralet copy influxdb.conf /etc/telegraf/telegraf.d/influxdb.conf
+fi
+
+# Restart service
+service telegraf restart

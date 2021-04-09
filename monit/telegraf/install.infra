@@ -1,0 +1,23 @@
+infralet only_sudo
+
+# Add Monit
+infralet ask_yes_no \
+    TELEGRAF_INPUT_MONIT \
+    "Y" \
+    "Do you want to input Monit on Telegraf?"
+
+if [ $TELEGRAF_INPUT_MONIT == "Y" ]; then
+
+    infralet ask \
+        MONIT_USERNAME \
+        "monit" \
+        "What is the Monit username?"
+
+    infralet ask \
+        MONIT_PASSWORD \
+        "" \
+        "What is the Monit password?"
+
+    infralet copy monit.conf /etc/telegraf/telegraf.d/monit.conf
+
+fi

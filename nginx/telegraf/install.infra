@@ -1,0 +1,11 @@
+infralet only_sudo
+
+# Add Nginx
+infralet ask_yes_no \
+    TELEGRAF_INPUT_NGINX \
+    "N" \
+    "Do you want to input Nginx on Telegraf?"
+
+if [ $TELEGRAF_INPUT_NGINX == "Y" ]; then
+    infralet copy nginx.conf /etc/telegraf/telegraf.d/nginx.conf
+fi

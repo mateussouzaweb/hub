@@ -1,0 +1,18 @@
+infralet only_sudo
+
+# Add Redis
+infralet ask_yes_no \
+    TELEGRAF_INPUT_REDIS \
+    "N" \
+    "Do you want to input Redis on Telegraf?"
+
+if [ $TELEGRAF_INPUT_REDIS == "Y" ]; then
+
+    infralet ask \
+        REDIS_PASSWORD \
+        "" \
+        "What is the Redis password?"
+
+    infralet copy conf.d/redis.conf /etc/telegraf/telegraf.d/redis.conf
+
+fi
