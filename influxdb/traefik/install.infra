@@ -1,0 +1,31 @@
+infralet only_sudo
+
+# Add metrics
+infralet ask_yes_no \
+    TRAEFIK_INFLUXDB_METRICS \
+    "Y" \
+    "Do you want to use InfluxDB as Metrics for Traefik? (Using Telegraf proxy)"
+
+if [ $TRAEFIK_INFLUXDB_METRICS == "Y" ]; then
+    infralet append metrics.toml /etc/traefik/traefik.toml
+fi
+
+# Add influxdb config
+infralet ask_yes_no \
+    TRAEFIK_INFLUXDB_PROXY \
+    "Y" \
+    "Do you want to use traefik as InfluxDB proxy?"
+
+if [ $TRAEFIK_INFLUXDB_PROXY == "Y" ]; then
+
+    infralet ask \
+        TRAEFIK_INFLUXDB_DOMAIN \
+        "" \
+        "What is the traefik InfluxDB domain?"
+
+    infralet copy conf.d/influxdb.toml /etc/traefik/conf.d/influxdb.toml
+
+fi
+
+# Restart traefik
+service traefik restart

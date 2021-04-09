@@ -1,0 +1,18 @@
+infralet only_sudo
+
+# Add loki config
+infralet ask_yes_no \
+    TRAEFIK_LOKI_PROXY \
+    "Y" \
+    "Do you want to use traefik as Loki proxy?"
+
+if [ $TRAEFIK_LOKI_PROXY == "Y" ]; then
+
+    infralet ask \
+        TRAEFIK_LOKI_DOMAIN \
+        "" \
+        "What is the traefik Loki domain?"
+
+    infralet copy loki.toml /etc/traefik/conf.d/loki.toml
+
+fi

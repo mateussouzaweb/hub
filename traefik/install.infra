@@ -52,16 +52,6 @@ infralet copy traefik.toml /etc/traefik/traefik.toml
 chown root:root /etc/traefik/traefik.toml
 chmod 644 /etc/traefik/traefik.toml
 
-# Add metrics
-infralet ask_yes_no \
-    TRAEFIK_INFLUXDB_METRICS \
-    "Y" \
-    "Do you want to use InfluxDB as Metrics for Traefik? (Using Telegraf proxy)"
-
-if [ $TRAEFIK_INFLUXDB_METRICS == "Y" ]; then
-    infralet append metrics.toml /etc/traefik/traefik.toml
-fi
-
 # Add dashboard config
 infralet ask_yes_no \
     TRAEFIK_ENABLE_DASHBOARD \
@@ -88,86 +78,7 @@ if [ $TRAEFIK_ENABLE_DASHBOARD == "Y" ]; then
         "What is the traefik dashboard password?"
 
     export TRAEFIK_AUTH=$(htpasswd -nb $TRAEFIK_USER $TRAEFIK_PASSWORD)
-    infralet copy conf.d/dashboard.toml /etc/traefik/conf.d/dashboard.toml
-
-fi
-
-# Add monit config
-infralet ask_yes_no \
-    TRAEFIK_MONIT_PROXY \
-    "Y" \
-    "Do you want to use traefik as Monit proxy?"
-
-if [ $TRAEFIK_MONIT_PROXY == "Y" ]; then
-
-    infralet ask \
-        TRAEFIK_MONIT_DOMAIN \
-        "" \
-        "What is the traefik Monit domain?"
-
-    infralet ask \
-        MONIT_USERNAME \
-        "monit" \
-        "What is the Monit username?"
-
-    infralet ask \
-        MONIT_PASSWORD \
-        "" \
-        "What is the Monit password?"
-
-    export TRAEFIK_MONIT_AUTH=$(htpasswd -nb $MONIT_USERNAME $MONIT_PASSWORD)
-    infralet copy conf.d/monit.toml /etc/traefik/conf.d/monit.toml
-
-fi
-
-# Add grafana config
-infralet ask_yes_no \
-    TRAEFIK_GRAFANA_PROXY \
-    "Y" \
-    "Do you want to use traefik as Grafana proxy?"
-
-if [ $TRAEFIK_GRAFANA_PROXY == "Y" ]; then
-
-    infralet ask \
-        TRAEFIK_GRAFANA_DOMAIN \
-        "" \
-        "What is the traefik Grafana domain?"
-
-    infralet copy conf.d/grafana.toml /etc/traefik/conf.d/grafana.toml
-
-fi
-
-# Add loki config
-infralet ask_yes_no \
-    TRAEFIK_LOKI_PROXY \
-    "Y" \
-    "Do you want to use traefik as Loki proxy?"
-
-if [ $TRAEFIK_LOKI_PROXY == "Y" ]; then
-
-    infralet ask \
-        TRAEFIK_LOKI_DOMAIN \
-        "" \
-        "What is the traefik Loki domain?"
-
-    infralet copy conf.d/loki.toml /etc/traefik/conf.d/loki.toml
-
-fi
-
-# Add influxdb config
-infralet ask_yes_no \
-    TRAEFIK_INFLUXDB_PROXY \
-    "Y" \
-    "Do you want to use traefik as InfluxDB proxy?"
-
-if [ $TRAEFIK_INFLUXDB_PROXY == "Y" ]; then
-
-    infralet ask \
-        TRAEFIK_INFLUXDB_DOMAIN \
-        "" \
-        "What is the traefik InfluxDB domain?"
-
-    infralet copy conf.d/influxdb.toml /etc/traefik/conf.d/influxdb.toml
+    infralet copy dashboard.toml /etc/traefik/conf.d/dashboard.toml
 
 fi
 
