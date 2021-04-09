@@ -1,0 +1,19 @@
+infralet only_sudo
+
+# Set as PHP session handler
+infralet ask_yes_no \
+    REDIS_AS_PHP_SESSION \
+    "Y" \
+    "Do you want to use redis as PHP session?"
+
+if [ $REDIS_AS_PHP_SESSION == "Y" ]; then
+
+    infralet ask \
+        REDIS_PASSWORD \
+        "" \
+        "What is the redis password?"
+
+    infralet copy redis.session.ini /etc/php/8.0/fpm/conf.d/redis.session.ini
+    service php8.0-fpm restart
+
+fi
