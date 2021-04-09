@@ -1,0 +1,11 @@
+infralet only_sudo
+
+# Add source
+curl -fsSL https://deb.nodesource.com/setup_15.x | sudo -E bash -
+
+# Install service
+apt-get install -y nodejs
+
+# Install related packages
+npm install -g yarn
+npm install -g pm2
