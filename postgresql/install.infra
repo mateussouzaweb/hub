@@ -1,0 +1,28 @@
+infralet only_sudo
+
+# Install
+apt install postgresql postgresql-contrib
+
+# Add user
+infralet ask \
+    POSTGRESQL_USER \
+    "admin" \
+    "What is the additional PostgreSQL user?"
+
+infralet ask \
+    POSTGRESQL_PASSWORD \
+    "" \
+    "What is the additional PostgreSQL password?"
+
+infralet info "Creating additional PostgreSQL user..."
+sudo -u postgres createuser \
+    -s -d -l -R -P -e $POSTGRESQL_USER
+
+# Add database
+infralet ask \
+    POSTGRESQL_DATABASE \
+    "admin" \
+    "What is the name for the PostgreSQL database?"
+
+infralet info "Creating PostgreSQL database..."
+sudo -u postgres createdb $POSTGRESQL_DATABASE
