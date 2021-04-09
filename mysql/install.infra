@@ -16,7 +16,8 @@ infralet ask \
     "" \
     "What is the additional MySQL password?"
 
-infralet info "Creating MySQL user..."
+infralet info "Creating MySQL user... "
+infralet info "You should type the MySQL root user password now..."
 
 mysql -u root -p <<EOF
 CREATE USER IF NOT EXISTS '$MYSQL_USER'@'localhost' IDENTIFIED BY '$MYSQL_PASSWORD';
@@ -24,6 +25,21 @@ GRANT ALL PRIVILEGES ON *.* TO '$MYSQL_USER'@'localhost' WITH GRANT OPTION;
 
 CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';
 GRANT ALL PRIVILEGES ON *.* TO '$MYSQL_USER'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+EOF
+
+# Add first database
+infralet ask \
+    MYSQL_DATABASE \
+    "" \
+    "What is the name of the MySQL database?"
+
+infralet info "Creating MySQL database... "
+infralet info "You should type the MySQL root user password now..."
+
+mysql -u root -p <<EOF
+CREATE DATABASE '$MYSQL_DATABASE';
+GRANT ALL PRIVILEGES ON '$MYSQL_DATABASE'.* TO '$MYSQL_USER'@localhost;
 FLUSH PRIVILEGES;
 EOF
 
