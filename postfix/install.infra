@@ -6,106 +6,6 @@ apt-get install -y postfix
 # Add to startup at boot
 systemctl enable postfix.service
 
-# MySQL Driver
-infralet ask_yes_no \
-    MAIL_USE_MYSQL_DRIVER \
-    "Y" \
-    "Do you want to use MySQL to maps email users?"
-
-if [ $MAIL_USE_MYSQL_DRIVER == "Y" ]; then
-
-    apt-get install -y postfix-mysql
-
-    infralet ask \
-        MAIL_MYSQL_USER \
-        "postfix" \
-        "What is the MySQL user? (used by postfix)"
-
-    infralet ask \
-        MAIL_MYSQL_PASSWORD \
-        "" \
-        "What is the MySQL password? (used by postfix)"
-
-    infralet ask \
-        MAIL_MYSQL_DATABASE \
-        "postfix" \
-        "What is the MySQL database? (used by postfix)"
-
-    infralet info "Running MySQL operations. You need to tap the MYSQL root password to continue..."
-
-    # Create database
-    mysql -u root -p <<EOF
-    CREATE DATABASE IF NOT EXISTS $MAIL_MYSQL_DATABASE;
-    CREATE USER IF NOT EXISTS $MAIL_MYSQL_USER@localhost IDENTIFIED BY '$MAIL_MYSQL_PASSWORD';
-    GRANT ALL PRIVILEGES ON $MAIL_MYSQL_DATABASE.* TO $MAIL_MYSQL_USER@localhost;
-    FLUSH PRIVILEGES;
-EOF
-
-    # Create tables
-    mysql -u root -p <<EOF
-    use $MAIL_MYSQL_DATABASE;
-
-    CREATE TABLE IF NOT EXISTS domain (
-        domain VARCHAR(255) NOT NULL,
-        quota bigint(20) NOT NULL DEFAULT '0',
-        active BOOLEAN NOT NULL
-    );
-
-    CREATE TABLE IF NOT EXISTS alias (
-        address VARCHAR(255) NOT NULL,
-        goto VARCHAR(255) NOT NULL,
-        domain VARCHAR(255) NOT NULL,
-        active BOOLEAN NOT NULL
-    );
-
-    CREATE TABLE IF NOT EXISTS alias_domain (
-        alias_domain VARCHAR(255) NOT NULL,
-        target_domain VARCHAR(255) NOT NULL,
-        active BOOLEAN NOT NULL
-    );
-
-    CREATE TABLE IF NOT EXISTS mailbox (
-        username VARCHAR(255) NOT NULL,
-        password VARCHAR(255) NOT NULL,
-        name VARCHAR(255) NOT NULL,
-        maildir VARCHAR(255) NOT NULL,
-        quota bigint(20) NOT NULL DEFAULT '0',
-        domain VARCHAR(255) NOT NULL,
-        active BOOLEAN NOT NULL
-    );
-EOF
-
-    # Copy configurations
-    mkdir -p /etc/postfix/sql
-
-    infralet copy conf.d/maps/smtpd_sender_login_maps.cf \
-        /etc/postfix/sql/smtpd_sender_login_maps.cf
-
-    infralet copy conf.d/maps/virtual_alias_domain_catchall_maps.cf \
-        /etc/postfix/sql/virtual_alias_domain_catchall_maps.cf
-
-    infralet copy conf.d/maps/virtual_alias_domain_mailbox_maps.cf \
-        /etc/postfix/sql/virtual_alias_domain_mailbox_maps.cf
-
-    infralet copy conf.d/maps/virtual_alias_domain_maps.cf \
-        /etc/postfix/sql/virtual_alias_domain_maps.cf
-
-    infralet copy conf.d/maps/virtual_alias_maps.cf \
-        /etc/postfix/sql/virtual_alias_maps.cf
-
-    infralet copy conf.d/maps/virtual_domains_maps.cf \
-        /etc/postfix/sql/virtual_domains_maps.cf
-
-    infralet copy conf.d/maps/virtual_mailbox_maps.cf \
-        /etc/postfix/sql/virtual_mailbox_maps.cf
-
-    postconf -e "virtual_mailbox_domains = mysql:/etc/postfix/sql/virtual_domains_maps.cf"
-    postconf -e "virtual_alias_maps = mysql:/etc/postfix/sql/virtual_alias_maps.cf, mysql:/etc/postfix/sql/virtual_alias_domain_maps.cf, mysql:/etc/postfix/sql/virtual_alias_domain_catchall_maps.cf"
-    postconf -e "virtual_mailbox_maps = mysql:/etc/postfix/sql/virtual_mailbox_maps.cf, mysql:/etc/postfix/sql/virtual_alias_domain_mailbox_maps.cf"
-    postconf -e "smtpd_sender_login_maps = mysql:/etc/postfix/sql/smtpd_sender_login_maps.cf"
-
-fi
-
 # Copy master conf
 # We use CP to avoid variable substitution
 cp conf.d/master.cf /etc/postfix/master.cf
@@ -118,12 +18,12 @@ infralet ask \
 
 infralet ask \
     MAIL_TLS_CERT \
-    "/etc/letsencrypt/live/mail.site.com/fullchain.pem" \
+    "/etc/letsencrypt/live/${MAIL_DOMAIN}/fullchain.pem" \
     "What is the mail domain TLS cert file?"
 
 infralet ask \
     MAIL_TLS_KEY \
-    "/etc/letsencrypt/live/mail.site.com/privkey.pem" \
+    "/etc/letsencrypt/live/${MAIL_DOMAIN}/privkey.pem" \
     "What is the mail domain TLS cert key?"
 
 postconf -e "myhostname = ${MAIL_DOMAIN}"
