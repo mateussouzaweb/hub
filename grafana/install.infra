@@ -39,7 +39,9 @@ infralet ask \
     "What is the grafana SMTP password?"
 
 sed -i "s/\[smtp\]/;\[smtp\]/g" /etc/grafana/grafana.ini
-infralet append smtp.ini /etc/grafana/grafana.ini
+
+SMTP_CONTENT=$(cat smtp.ini)
+grep -q -F "$SMTP_CONTENT" /etc/grafana/grafana.ini 2>/dev/null || echo "$SMTP_CONTENT" >> /etc/grafana/grafana.ini
 
 # Restart service
 service grafana-server restart
