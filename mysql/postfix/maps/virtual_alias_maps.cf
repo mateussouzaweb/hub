@@ -1,6 +1,6 @@
 hosts = 127.0.0.1
-user = ${MAIL_MYSQL_USER}
-password = ${MAIL_MYSQL_PASSWORD}
-dbname = ${MAIL_MYSQL_DATABASE}
+user = ${MYSQL_USER}
+password = ${MYSQL_PASSWORD}
+dbname = ${MYSQL_DATABASE}
 
 query = SELECT goto FROM alias WHERE address = '%s' AND active = '1'
