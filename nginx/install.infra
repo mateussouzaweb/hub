@@ -31,19 +31,9 @@ infralet copy conf.d/ssl.conf /etc/nginx/conf.d/ssl.conf
 mkdir /etc/nginx/global
 mkdir /etc/nginx/global/common
 mkdir /etc/nginx/global/maps
-mkdir /etc/nginx/global/magento
-mkdir /etc/nginx/global/wordpress
 
 infralet copy global/common/block.conf /etc/nginx/global/common/block.conf
 infralet copy global/common/general.conf /etc/nginx/global/common/general.conf
-infralet copy global/common/php.conf /etc/nginx/global/common/php.conf
-
-infralet copy global/magento/entrypoint.conf /etc/nginx/global/magento/entrypoint.conf
-infralet copy global/magento/media.conf /etc/nginx/global/magento/media.conf
-infralet copy global/magento/public.conf /etc/nginx/global/magento/public.conf
-infralet copy global/magento/setup.conf /etc/nginx/global/magento/setup.conf
-infralet copy global/magento/static.conf /etc/nginx/global/magento/static.conf
-infralet copy global/magento/update.conf /etc/nginx/global/magento/update.conf
 
 infralet copy global/maps/bots.conf /etc/nginx/global/maps/bots.conf
 infralet copy global/maps/exploit.conf /etc/nginx/global/maps/exploit.conf
@@ -52,9 +42,6 @@ infralet copy global/maps/injection.conf /etc/nginx/global/maps/injection.conf
 infralet copy global/maps/referer.conf /etc/nginx/global/maps/referer.conf
 infralet copy global/maps/upstream.conf /etc/nginx/global/maps/upstream.conf
 infralet copy global/maps/webp.conf /etc/nginx/global/maps/webp.conf
-
-infralet copy global/wordpress/rewrite.conf /etc/nginx/global/wordpress/rewrite.conf
-infralet copy global/wordpress/security.conf /etc/nginx/global/wordpress/security.conf
 
 # Fix nginx configuration
 if [ -f /etc/nginx/sites-enabled/default ]; then

@@ -1,0 +1,28 @@
+infralet only_sudo
+
+# Global config
+mkdir /etc/nginx/global
+mkdir /etc/nginx/global/common
+mkdir /etc/nginx/global/magento
+mkdir /etc/nginx/global/wordpress
+
+infralet copy global/common/php.conf /etc/nginx/global/common/php.conf
+
+infralet copy global/magento/entrypoint.conf /etc/nginx/global/magento/entrypoint.conf
+infralet copy global/magento/media.conf /etc/nginx/global/magento/media.conf
+infralet copy global/magento/public.conf /etc/nginx/global/magento/public.conf
+infralet copy global/magento/setup.conf /etc/nginx/global/magento/setup.conf
+infralet copy global/magento/static.conf /etc/nginx/global/magento/static.conf
+infralet copy global/magento/update.conf /etc/nginx/global/magento/update.conf
+
+infralet copy global/wordpress/rewrite.conf /etc/nginx/global/wordpress/rewrite.conf
+infralet copy global/wordpress/security.conf /etc/nginx/global/wordpress/security.conf
+
+# Copy sample site configurations
+infralet copy sites-available/framework.conf /etc/nginx/sites-available/framework.conf
+infralet copy sites-available/magento.conf /etc/nginx/sites-available/magento.conf
+infralet copy sites-available/wordpress.conf /etc/nginx/sites-available/wordpress.conf
+
+# Restart service
+nginx -t
+service nginx restart
