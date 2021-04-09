@@ -1,4 +1,5 @@
-connect = host=127.0.0.1 dbname=${MAIL_MYSQL_DATABASE} user=${MAIL_MYSQL_USER} password=${MAIL_MYSQL_PASSWORD}
+driver = mysql
+connect = host=127.0.0.1 dbname=${MYSQL_DATABASE} user=${MYSQL_USER} password=${MYSQL_PASSWORD}
 
 map {
   pattern = priv/quota/storage

@@ -1,0 +1,29 @@
+infralet only_sudo
+
+apt-get install -y dovecot-mysql
+
+# Ask variables
+infralet ask \
+    MYSQL_USER \
+    "mail" \
+    "What is the MySQL user? (used by dovecot)"
+
+infralet ask \
+    MYSQL_PASSWORD \
+    "" \
+    "What is the MySQL password? (used by dovecot)"
+
+infralet ask \
+    MYSQL_DATABASE \
+    "mail" \
+    "What is the MySQL database? (used by dovecot)"
+
+# Copy configurations
+infralet append conf.d/auth.conf /etc/dovecot/conf.d/10-auth.conf
+infralet append conf.d/quota.conf /etc/dovecot/conf.d/90-quota.conf
+
+infralet copy maps/dovecot-sql.conf.ext /etc/dovecot/dovecot-sql.conf.ext
+infralet copy maps/dovecot-dict-sql.conf.ext /etc/dovecot/dovecot-dict-sql.conf.ext
+
+# Restart service
+service dovecot restart

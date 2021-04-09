@@ -5,7 +5,6 @@ apt-get install -y \
     dovecot-lmtpd \
     dovecot-pop3d \
     dovecot-ldap \
-    dovecot-mysql \
     dovecot-sieve \
     dovecot-managesieved
 
@@ -26,22 +25,7 @@ postconf -e "broken_sasl_auth_clients = yes"
 postconf -e "smtpd_sasl_auth_enable = yes"
 postconf -e "smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination,check_policy_service unix:private/quota-status"
 
-# Copy configurations
-infralet ask \
-    MAIL_MYSQL_USER \
-    "postfix" \
-    "What is the MySQL user? (used by postfix)"
-
-infralet ask \
-    MAIL_MYSQL_PASSWORD \
-    "" \
-    "What is the MySQL password? (used by postfix)"
-
-infralet ask \
-    MAIL_MYSQL_DATABASE \
-    "postfix" \
-    "What is the MySQL database? (used by postfix)"
-
+# Ask variables
 infralet ask \
     MAIL_DOMAIN \
     "mail.site.com" \
@@ -61,6 +45,7 @@ infralet ask \
     DOVECOT_POSTMASTER_MAIL "postmaster@site.com" \
     "What is the postmaster email address?"
 
+# Copy configurations
 infralet copy conf.d/auth.conf /etc/dovecot/conf.d/10-auth.conf
 infralet copy conf.d/master.conf /etc/dovecot/conf.d/10-master.conf
 infralet copy conf.d/mail.conf /etc/dovecot/conf.d/10-mail.conf
@@ -71,9 +56,6 @@ infralet copy conf.d/lmtp.conf /etc/dovecot/conf.d/20-lmtp.conf
 infralet copy conf.d/managesieve.conf /etc/dovecot/conf.d/20-managesieve.conf
 infralet copy conf.d/quota.conf /etc/dovecot/conf.d/90-quota.conf
 infralet copy conf.d/sieve.conf /etc/dovecot/conf.d/90-sieve.conf
-
-infralet copy maps/dovecot-sql.conf.ext /etc/dovecot/dovecot-sql.conf.ext
-infralet copy maps/dovecot-dict-sql.conf.ext /etc/dovecot/dovecot-dict-sql.conf.ext
 
 cp scripts/quota-warning.sh /usr/local/bin/quota-warning.sh
 chmod +x /usr/local/bin/quota-warning.sh
