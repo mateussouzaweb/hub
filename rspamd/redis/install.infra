@@ -1,0 +1,14 @@
+infralet only_sudo
+
+# Ask settings
+infralet ask \
+    REDIS_PASSWORD \
+    "" \
+    "What is the redis password?"
+
+# Copy configurations
+infralet copy classifier-bayes.conf /etc/rspamd/local.d/classifier-bayes.conf
+
+# Check and restart
+rspamadm configtest
+service rspamd restart
