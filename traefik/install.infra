@@ -60,8 +60,6 @@ infralet ask_yes_no \
 
 if [ $TRAEFIK_ENABLE_DASHBOARD == "Y" ]; then
 
-    apt-get install -y apache2-utils
-
     infralet ask \
         TRAEFIK_DOMAIN \
         "" \

@@ -1,7 +1,10 @@
 infralet only_sudo
 
 # Install GoAccess
-apt-get install goaccess
+apt-get install -y goaccess
+
+# Apache Utils
+apt-get install -y apache2-utils
 
 # Install images optimization
 apt-get install -y jpegoptim optipng libjpeg-progs gifsicle webp
