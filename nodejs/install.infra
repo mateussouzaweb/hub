@@ -4,7 +4,7 @@ infralet only_sudo
 curl -fsSL https://deb.nodesource.com/setup_15.x | sudo -E bash -
 
 # Install service
-apt-get install -y nodejs
+apt-get install -y nodejs npm
 
 # Install related packages
 npm install -g yarn
