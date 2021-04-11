@@ -1,6 +1,6 @@
 infralet only_sudo
 
-apt install monit -y
+apt install -y monit
 
 # Add startup at boot
 systemctl enable monit.service

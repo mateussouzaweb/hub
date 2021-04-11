@@ -1,7 +1,7 @@
 infralet only_sudo
 
 if [ ! -f /etc/apt/sources.list.d/rspamd.list ]; then
-    apt install software-properties-common lsb-release wget
+    apt install -y software-properties-common lsb-release wget
     wget -O- https://rspamd.com/apt-stable/gpg.key | sudo apt-key add -
     echo "deb http://rspamd.com/apt-stable/ $(lsb_release -cs) main" | sudo tee -a /etc/apt/sources.list.d/rspamd.list
 fi

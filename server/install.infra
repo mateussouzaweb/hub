@@ -12,13 +12,13 @@ echo $SERVER_NAME > /etc/hostname
 # Upgrade system
 apt update
 apt upgrade -y
-apt dist-upgrade
+apt dist-upgrade -y
 apt autoremove
 
 # Setup timezone
 locale-gen en_US.UTF-8
 locale-gen pt_BR.UTF-8
-apt install locales
+apt install -y locales
 
 infralet ask \
     SERVER_TIMEZONE \

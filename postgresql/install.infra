@@ -1,7 +1,7 @@
 infralet only_sudo
 
 # Install
-apt install postgresql postgresql-contrib
+apt install -y postgresql postgresql-contrib
 
 # Add user
 infralet ask \
