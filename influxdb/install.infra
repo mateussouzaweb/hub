@@ -6,8 +6,8 @@ if [ ! -f /etc/apt/sources.list.d/influxdb.list ]; then
     echo "deb https://repos.influxdata.com/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/influxdb.list
 fi
 
-apt-get update
-apt-get install -y influxdb
+apt update
+apt install -y influxdb
 
 # Add startup at boot and start
 systemctl enable influxdb.service

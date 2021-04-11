@@ -1,6 +1,6 @@
 infralet only_sudo
 
-apt-get install -y postfix-mysql
+apt install -y postfix-mysql
 
 infralet ask \
     MYSQL_USER \

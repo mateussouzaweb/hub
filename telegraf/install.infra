@@ -7,8 +7,8 @@ if [ ! -f /etc/apt/sources.list.d/influxdb.list ]; then
 fi
 
 # Install telegraf
-apt-get update
-apt-get install -y telegraf
+apt update
+apt install -y telegraf
 
 usermod -a -G www-data,adm telegraf
 

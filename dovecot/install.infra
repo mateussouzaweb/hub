@@ -1,6 +1,6 @@
 infralet only_sudo
 
-apt-get install -y \
+apt install -y \
     dovecot-imapd \
     dovecot-lmtpd \
     dovecot-pop3d \

@@ -1,6 +1,6 @@
 infralet only_sudo
 
-apt-get install -y ufw
+apt install -y ufw
 
 # Setup default config
 ufw default deny incoming

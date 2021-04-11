@@ -1,13 +1,13 @@
 infralet only_sudo
 
 # Install GoAccess
-apt-get install -y goaccess
+apt install -y goaccess
 
 # Apache Utils
-apt-get install -y apache2-utils
+apt install -y apache2-utils
 
 # Install images optimization
-apt-get install -y jpegoptim optipng libjpeg-progs gifsicle webp
+apt install -y jpegoptim optipng libjpeg-progs gifsicle webp
 
 # Mutt email client
-apt-get install -y mutt
+apt install -y mutt

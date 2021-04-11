@@ -2,10 +2,10 @@ infralet only_sudo
 
 # Install source
 add-apt-repository -y ppa:ondrej/php
-apt-get update
+apt update
 
 # Install packages
-apt-get install -y \
+apt install -y \
     php8.0-fpm \
     php8.0-cli \
     php8.0-common \
@@ -38,7 +38,7 @@ apt-get install -y \
     php-pear
 
 # MongoDB
-apt-get install -y libpcre3-dev libsasl2-dev php8.0-mongodb
+apt install -y libpcre3-dev libsasl2-dev php8.0-mongodb
 
 # Create log folders
 mkdir -p /run/php

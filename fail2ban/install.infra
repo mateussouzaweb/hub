@@ -1,7 +1,7 @@
 infralet only_sudo
 
 # Install package
-apt-get install -y fail2ban
+apt install -y fail2ban
 
 # Add startup at boot
 systemctl enable fail2ban.service

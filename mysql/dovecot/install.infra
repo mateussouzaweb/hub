@@ -1,6 +1,6 @@
 infralet only_sudo
 
-apt-get install -y dovecot-mysql
+apt install -y dovecot-mysql
 
 # Ask variables
 infralet ask \

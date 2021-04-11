@@ -1,7 +1,7 @@
 infralet only_sudo
 
 # Install service
-apt-get install -y postfix
+apt install -y postfix
 
 # Add to startup at boot
 systemctl enable postfix.service

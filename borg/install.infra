@@ -1,5 +1,5 @@
 # Install
-sudo apt-get install -y borgbackup
+sudo apt install -y borgbackup
 
 # Init repository
 infralet ask \

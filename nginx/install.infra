@@ -2,11 +2,11 @@ infralet only_sudo
 
 # Add source
 add-apt-repository -y ppa:nginx/stable
-apt-get update
-apt-get upgrade
+apt update
+apt upgrade
 
 # Install package
-apt-get install -y nginx
+apt install -y nginx
 
 # Copy files from repository
 infralet copy nginx.conf /etc/nginx/nginx.conf
