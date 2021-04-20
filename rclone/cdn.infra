@@ -20,5 +20,6 @@ rclone copy \
     --max-age "$RCLONE_CDN_MAX_AGE" \
     --no-traverse \
     --exclude 'cache/**' \
+    --exclude 'node_modules/**' \
     "$RCLONE_CDN_SOURCE" \
     "$RCLONE_CDN_DESTINATION"

@@ -13,5 +13,7 @@ infralet info "Copying $RCLONE_COPY_SOURCE to external bucket $RCLONE_COPY_DESTI
 rclone copy \
     --progress \
     --transfers 16 \
+    --exclude 'cache/**' \
+    --exclude 'node_modules/**' \
     "$RCLONE_COPY_SOURCE" \
     "$RCLONE_COPY_DESTINATION"

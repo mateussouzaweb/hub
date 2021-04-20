@@ -28,6 +28,7 @@ borg create \
     --exclude '*.*~' \
     --exclude '*.swp' \
     --exclude '.DS_Store' \
+    --exclude 'node_modules/' \
     $BORG_REPOSITORY::$BORG_SNAPSHOT_ARCHIVE'-{now}' \
     $BORG_SNAPSHOT_SOURCE
 

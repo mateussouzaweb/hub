@@ -14,5 +14,6 @@ rclone sync \
     --progress \
     --transfers 16 \
     --exclude 'cache/**' \
+    --exclude 'node_modules/**' \
     "$RCLONE_SYNC_SOURCE" \
     "$RCLONE_SYNC_DESTINATION"

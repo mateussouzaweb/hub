@@ -25,6 +25,7 @@ mkdir -p "$RSYNC_INCREMENTAL_DESTINATION"
     --verbose \
     --delete \
     --exclude 'cache/' \
+    --exclude 'node_modules/' \
     --bwlimit 15000 \
     --link-dest "$INCREMENTAL_LATEST_LINK" \
     "$RSYNC_INCREMENTAL_SOURCE" "$INCREMENTAL_BACKUP_PATH"

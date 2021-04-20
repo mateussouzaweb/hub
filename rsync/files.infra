@@ -19,5 +19,6 @@ infralet info "Rsync files from $RSYNC_FILES_SOURCE to $RSYNC_FILES_DESTINATION"
     --copy-unsafe-links \
     --delete-during \
     --exclude 'cache/' \
+    --exclude 'node_modules/' \
     --bwlimit 15000 \
     "$RSYNC_FILES_SOURCE" "$RSYNC_FILES_DESTINATION"
