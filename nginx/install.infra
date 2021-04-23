@@ -41,7 +41,7 @@ infralet copy global/maps/fastcgi.conf /etc/nginx/global/maps/fastcgi.conf
 infralet copy global/maps/injection.conf /etc/nginx/global/maps/injection.conf
 infralet copy global/maps/referer.conf /etc/nginx/global/maps/referer.conf
 infralet copy global/maps/upstream.conf /etc/nginx/global/maps/upstream.conf
-infralet copy global/maps/webp.conf /etc/nginx/global/maps/webp.conf
+infralet copy global/maps/formats.conf /etc/nginx/global/maps/formats.conf
 
 # Fix nginx configuration
 if [ -f /etc/nginx/sites-enabled/default ]; then
