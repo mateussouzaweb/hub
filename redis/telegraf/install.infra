@@ -13,6 +13,6 @@ if [ $TELEGRAF_INPUT_REDIS == "Y" ]; then
         "" \
         "What is the Redis password?"
 
-    infralet copy conf.d/redis.conf /etc/telegraf/telegraf.d/redis.conf
+    infralet copy redis.conf /etc/telegraf/telegraf.d/redis.conf
 
 fi
