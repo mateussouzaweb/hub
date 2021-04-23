@@ -11,9 +11,9 @@ useradd -g loki --no-user-group \
 mkdir -p /etc/loki
 chown -R root:root /etc/loki
 
-mkdir /loki
-mkdir /loki/index
-mkdir /loki/chunks
+mkdir -p /loki
+mkdir -p /loki/index
+mkdir -p /loki/chunks
 chown -R loki:loki /loki
 
 # Install from package

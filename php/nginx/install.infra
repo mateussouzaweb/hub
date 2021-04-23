@@ -1,10 +1,10 @@
 infralet only_sudo
 
 # Global config
-mkdir /etc/nginx/global
-mkdir /etc/nginx/global/common
-mkdir /etc/nginx/global/magento
-mkdir /etc/nginx/global/wordpress
+mkdir -p /etc/nginx/global
+mkdir -p /etc/nginx/global/common
+mkdir -p /etc/nginx/global/magento
+mkdir -p /etc/nginx/global/wordpress
 
 infralet copy global/common/php.conf /etc/nginx/global/common/php.conf
 

@@ -13,10 +13,10 @@ usermod -a -G www-data,adm traefik
 mkdir -p /etc/traefik/conf.d
 chown -R root:root /etc/traefik
 
-mkdir /etc/traefik/acme
+mkdir -p /etc/traefik/acme
 chown -R traefik:traefik /etc/traefik/acme
 
-mkdir /var/log/traefik/
+mkdir -p /var/log/traefik/
 chown -R traefik:traefik /var/log/traefik/
 
 # Install traefik from source

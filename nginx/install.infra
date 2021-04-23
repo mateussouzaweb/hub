@@ -28,9 +28,9 @@ infralet copy conf.d/security.conf /etc/nginx/conf.d/security.conf
 infralet copy conf.d/ssl.conf /etc/nginx/conf.d/ssl.conf
 
 # Global config
-mkdir /etc/nginx/global
-mkdir /etc/nginx/global/common
-mkdir /etc/nginx/global/maps
+mkdir -p /etc/nginx/global
+mkdir -p /etc/nginx/global/common
+mkdir -p /etc/nginx/global/maps
 
 infralet copy global/common/block.conf /etc/nginx/global/common/block.conf
 infralet copy global/common/general.conf /etc/nginx/global/common/general.conf
