@@ -32,16 +32,20 @@ EOF
 infralet ask \
     MYSQL_DATABASE \
     "" \
-    "What is the name of the MySQL database?"
+    "What is the name of the MySQL database? (Empty to skip)"
 
-infralet info "Creating MySQL database... "
-infralet info "You should type the MySQL root user password now..."
+if [ $MYSQL_DATABASE != "" ]; then
 
-mysql -u root -p <<EOF
-CREATE DATABASE '$MYSQL_DATABASE';
-GRANT ALL PRIVILEGES ON '$MYSQL_DATABASE'.* TO '$MYSQL_USER'@localhost;
-FLUSH PRIVILEGES;
+    infralet info "Creating MySQL database... "
+    infralet info "You should type the MySQL root user password now..."
+
+    mysql -u root -p <<EOF
+    CREATE DATABASE '$MYSQL_DATABASE';
+    GRANT ALL PRIVILEGES ON '$MYSQL_DATABASE'.* TO '$MYSQL_USER'@localhost;
+    FLUSH PRIVILEGES;
 EOF
+
+fi
 
 # Copy configs
 infralet copy conf.d/mysqld.cnf /etc/mysql/conf.d/mysqld.cnf
