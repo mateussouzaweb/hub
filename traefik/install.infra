@@ -75,6 +75,7 @@ if [ $TRAEFIK_ENABLE_DASHBOARD == "Y" ]; then
         "" \
         "What is the traefik dashboard password?"
 
+    sudo apt install -y apache2-utils
     export TRAEFIK_AUTH=$(htpasswd -nb $TRAEFIK_USER $TRAEFIK_PASSWORD)
     infralet copy dashboard.toml /etc/traefik/conf.d/dashboard.toml
 
