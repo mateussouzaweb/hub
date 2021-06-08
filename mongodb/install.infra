@@ -33,9 +33,9 @@ if [ "$MONGODB_ADD_USER" == "Y" ]; then
         "What is the mongodb admin password?"
 
     infralet info "Creating MongoDB user..."
-    sleep 20
 
-    mongo admin -h "127.0.0.1" <<EOF
+    sleep 2
+    mongo -h "127.0.0.1" <<EOF
 use admin
 db.createUser({
     user: "$MONGODB_USER",
