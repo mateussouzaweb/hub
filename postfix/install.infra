@@ -14,7 +14,7 @@ cp conf.d/master.cf /etc/postfix/master.cf
 infralet ask \
     MAIL_DOMAIN \
     "mail.site.com" \
-    "What is the mail domain?"
+    "What is the mail domain used for communications?"
 
 infralet ask \
     MAIL_TLS_CERT \
@@ -29,7 +29,7 @@ infralet ask \
 postconf -e "myhostname = ${MAIL_DOMAIN}"
 postconf -e "smtp_tls_note_starttls_offer = yes"
 postconf -e "smtp_tls_security_level = may"
-postconf -e "smtpd_tls_auth_only=yes"
+postconf -e "smtpd_tls_auth_only = yes"
 postconf -e "smtpd_tls_security_level = may"
 postconf -e "smtpd_tls_loglevel = 1"
 postconf -e "smtpd_tls_received_header = yes"
@@ -37,7 +37,7 @@ postconf -e "smtpd_tls_cert_file = ${MAIL_TLS_CERT}"
 postconf -e "smtpd_tls_key_file = ${MAIL_TLS_KEY}"
 
 # Adjust email size limit to 25MB
-postconf -e message_size_limit=26214400
+postconf -e "message_size_limit = 26214400"
 
 # Check and restart
 postfix check

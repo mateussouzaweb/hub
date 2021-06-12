@@ -1,0 +1,12 @@
+[http]
+  [http.routers]
+    [http.routers.rspamd]
+      entryPoints = ["https"]
+      service = "rspamd"
+      rule = "Host(`${TRAEFIK_RSPAMD_DOMAIN}`)"
+      priority = 100
+
+[http.services]
+  [http.services.rspamd.loadBalancer]
+    [[http.services.rspamd.loadBalancer.servers]]
+      url = "http://127.0.0.1:11334"

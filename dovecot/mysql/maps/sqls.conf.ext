@@ -1,0 +1,19 @@
+driver = mysql
+connect = host=127.0.0.1 \
+    dbname=${MYSQL_DATABASE} \
+    user=${MYSQL_USER} \
+    password=${MYSQL_PASSWORD}
+
+iterate_query = SELECT email AS user FROM accounts
+
+user_query = SELECT email as user,
+    CONCAT('*:bytes=', quota) AS quota_rule, \
+    '/var/mail/vmail/%d/%n' AS home, \
+    'maildir:/var/mail/vmail/%d/%n' AS mail, \
+    5000 AS uid, 5000 AS gid \
+    FROM accounts WHERE email = '%u' AND active = '1'
+
+default_pass_scheme = SHA512-CRYPT
+
+password_query = SELECT email AS user, password \
+    FROM accounts WHERE email = '%u' AND active='1'

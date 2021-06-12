@@ -20,9 +20,7 @@ infralet ask \
 
 # Copy configurations
 infralet append conf.d/auth.conf /etc/dovecot/conf.d/10-auth.conf
-
-infralet copy maps/dovecot-sql.conf.ext /etc/dovecot/dovecot-sql.conf.ext
-infralet copy maps/dovecot-dict-sql.conf.ext /etc/dovecot/dovecot-dict-sql.conf.ext
+infralet copy maps/sqls.conf.ext /etc/dovecot/dovecot-sql.conf.ext
 
 # Restart service
 service dovecot restart

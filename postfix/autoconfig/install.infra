@@ -1,0 +1,26 @@
+infralet only_sudo
+
+# Update configurations related to domain service
+infralet ask \
+    MAIL_DOMAIN \
+    "mail.site.com" \
+    "What is the mail domain used for communications?"
+
+infralet ask \
+    MAIL_SERVICE_NAME \
+    "Site Mail" \
+    "What is the mail service name?"
+
+infralet ask \
+    MAIL_MAIN_DOMAIN \
+    "site.com" \
+    "What is the mail master domain?"
+
+infralet ask \
+    MAIL_MAIN_ROOT \
+    "/usr/share/nginx/site.com/www" \
+    "What is the mail master domain root path?"
+
+# Copy configuration
+mkdir -p "${MAIL_MAIN_ROOT}/.well-known/autoconfig/mail/"
+infralet copy config.xml "${MAIL_MAIN_ROOT}/.well-known/autoconfig/mail/config-v1.1.xml"

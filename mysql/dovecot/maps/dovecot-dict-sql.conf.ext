@@ -1,2 +1,0 @@
-driver = mysql
-connect = host=127.0.0.1 dbname=${MYSQL_DATABASE} user=${MYSQL_USER} password=${MYSQL_PASSWORD}

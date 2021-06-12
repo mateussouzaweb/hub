@@ -3,4 +3,4 @@ user = ${MYSQL_USER}
 password = ${MYSQL_PASSWORD}
 dbname = ${MYSQL_DATABASE}
 
-query = SELECT username FROM mailbox WHERE username = '%s' AND active = '1'
+query = SELECT 1 FROM accounts WHERE email = '%s' AND active = '1'

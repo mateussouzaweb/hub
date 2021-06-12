@@ -1,0 +1,38 @@
+infralet only_sudo
+
+# Create vmail user (same as dovecot)
+groupadd -g 5000 vmail
+useradd -u 5000 -g vmail -s /usr/sbin/nologin -d /var/mail/vmail -m vmail
+
+# Create hash files for mapping
+mkdir -p /etc/postfix/virtual
+touch /etc/postfix/virtual/domains
+touch /etc/postfix/virtual/mailbox
+touch /etc/postfix/virtual/alias
+
+# Configure postfix
+postconf -e "virtual_mailbox_base = /var/mail/vmail"
+postconf -e "virtual_mailbox_domains = hash:/etc/postfix/virtual/domains"
+postconf -e "virtual_mailbox_maps = hash:/etc/postfix/virtual/mailbox"
+postconf -e "virtual_alias_maps = hash:/etc/postfix/virtual/alias"
+postconf -e "virtual_minimum_uid = 100"
+postconf -e "virtual_uid_maps = static:5000"
+postconf -e "virtual_gid_maps = static:5000"
+
+# Check and restart
+postfix check
+service postfix restart
+service postfix status
+
+# Show instructions
+infralet warning "You must now edit the following files to control users and alias:"
+infralet warning "vim /etc/postfix/virtual/domains"
+infralet warning "vim /etc/postfix/virtual/mailbox"
+infralet warning "vim /etc/postfix/virtual/alias"
+
+infralet warning ""
+infralet warning "Do not forget to execute postmap command on these files after update and reload postfix:"
+infralet warning "postmap /etc/postfix/virtual/domains"
+infralet warning "postmap /etc/postfix/virtual/mailbox"
+infralet warning "postmap /etc/postfix/virtual/alias"
+infralet warning "service postfix reload"

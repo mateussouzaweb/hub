@@ -1,0 +1,18 @@
+infralet only_sudo
+
+# Add rspamd config
+infralet ask_yes_no \
+    TRAEFIK_RSPAMD_PROXY \
+    "Y" \
+    "Do you want to use traefik as Rspamd proxy?"
+
+if [ $TRAEFIK_RSPAMD_PROXY == "Y" ]; then
+
+    infralet ask \
+        TRAEFIK_RSPAMD_DOMAIN \
+        "" \
+        "What is the traefik Rspamd domain?"
+
+    infralet copy rspamd.toml /etc/traefik/conf.d/rspamd.toml
+
+fi

@@ -3,4 +3,4 @@ user = ${MYSQL_USER}
 password = ${MYSQL_PASSWORD}
 dbname = ${MYSQL_DATABASE}
 
-query = SELECT maildir FROM mailbox WHERE username = '%s' AND active = '1'
+query = SELECT destination FROM alias WHERE address = '%s' AND active = '1'

@@ -1,0 +1,83 @@
+infralet only_sudo
+
+apt install -y postfix-mysql
+
+infralet ask \
+    MYSQL_USER \
+    "mail" \
+    "What is the MySQL user? (used by postfix)"
+
+infralet ask \
+    MYSQL_PASSWORD \
+    "" \
+    "What is the MySQL password? (used by postfix)"
+
+infralet ask \
+    MYSQL_DATABASE \
+    "mail" \
+    "What is the MySQL database? (used by postfix)"
+
+infralet info "Running MySQL operations. You need to tap the MYSQL root password to continue..."
+
+# Create database
+mysql -u root -p <<EOF
+CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;
+CREATE USER IF NOT EXISTS $MYSQL_USER@localhost IDENTIFIED BY '$MYSQL_PASSWORD';
+GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO $MYSQL_USER@localhost;
+FLUSH PRIVILEGES;
+EOF
+
+# Create tables
+mysql -u root -p <<EOF
+use $MYSQL_DATABASE;
+
+CREATE TABLE IF NOT EXISTS domains (
+    id INT(11) NOT NULL auto_increment,
+    domain VARCHAR(255) NOT NULL,
+    active BOOLEAN NOT NULL DEFAULT 1,
+    PRIMARY KEY (id),
+    UNIQUE KEY domain (domain),
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS alias (
+    id INT(11) NOT NULL auto_increment,
+    domain VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    destination VARCHAR(255) NOT NULL,
+    active BOOLEAN NOT NULL DEFAULT 1,
+    PRIMARY KEY (id),
+    UNIQUE KEY address (address),
+    FOREIGN KEY (domain) REFERENCES domains(domain) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS accounts (
+    id INT(11) NOT NULL auto_increment,
+    domain VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    quota bigint(11) NOT NULL DEFAULT 0,
+    active BOOLEAN NOT NULL DEFAULT 1,
+    PRIMARY KEY (id),
+    UNIQUE KEY email (email),
+    FOREIGN KEY (domain) REFERENCES domains(domain) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+EOF
+
+# Copy configurations
+mkdir -p /etc/postfix/sql
+
+infralet copy conf.d/maps/domains.cf /etc/postfix/sql/domains.cf
+infralet copy conf.d/maps/mailbox.cf /etc/postfix/sql/mailbox.cf
+infralet copy conf.d/maps/alias.cf /etc/postfix/sql/alias.cf
+infralet copy conf.d/maps/sender.cf /etc/postfix/sql/sender.cf
+
+postconf -e "virtual_mailbox_domains = mysql:/etc/postfix/sql/domains.cf"
+postconf -e "virtual_mailbox_maps = mysql:/etc/postfix/sql/mailbox.cf"
+postconf -e "virtual_alias_maps = mysql:/etc/postfix/sql/alias.cf"
+postconf -e "smtpd_sender_login_maps = mysql:/etc/postfix/sql/sender.cf"
+
+# Check and restart
+postfix check
+service postfix restart
+service postfix status

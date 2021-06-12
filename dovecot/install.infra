@@ -23,7 +23,7 @@ postconf -e "smtpd_sasl_local_domain ="
 postconf -e "smtpd_sasl_security_options = noanonymous"
 postconf -e "broken_sasl_auth_clients = yes"
 postconf -e "smtpd_sasl_auth_enable = yes"
-postconf -e "smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination,check_policy_service"
+postconf -e "smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination,check_policy_service unix:private/quota-status"
 
 # Ask variables
 infralet ask \
@@ -55,6 +55,18 @@ infralet copy conf.d/imap.conf /etc/dovecot/conf.d/20-imap.conf
 infralet copy conf.d/lmtp.conf /etc/dovecot/conf.d/20-lmtp.conf
 infralet copy conf.d/managesieve.conf /etc/dovecot/conf.d/20-managesieve.conf
 infralet copy conf.d/sieve.conf /etc/dovecot/conf.d/90-sieve.conf
+infralet copy conf.d/quota.conf /etc/dovecot/conf.d/90-quota.conf
+
+mkdir -p /var/mail/sieve/global
+infralet copy sieve/spam-global.sieve /var/mail/sieve/global/spam-global.sieve
+infralet copy sieve/report-spam.sieve /var/mail/sieve/global/report-spam.sieve
+infralet copy sieve/report-ham.sieve /var/mail/sieve/global/report-ham.sieve
+
+# Build sieve rules
+sievec /var/mail/sieve/global/spam-global.sieve
+sievec /var/mail/sieve/global/report-spam.sieve
+sievec /var/mail/sieve/global/report-ham.sieve
+chown -R vmail: /var/mail/sieve/
 
 # Restart service
 service postfix restart
