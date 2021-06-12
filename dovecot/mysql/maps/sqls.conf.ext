@@ -6,7 +6,7 @@ connect = host=127.0.0.1 \
 
 iterate_query = SELECT email AS user FROM accounts
 
-user_query = SELECT email as user,
+user_query = SELECT email as user, \
     CONCAT('*:bytes=', quota) AS quota_rule, \
     '/var/mail/vmail/%d/%n' AS home, \
     'maildir:/var/mail/vmail/%d/%n' AS mail, \
