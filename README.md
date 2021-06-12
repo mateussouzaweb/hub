@@ -25,33 +25,7 @@ You should define every software that will be installed. Edit the following comm
 SCRIPTS=(
     "server/install"
     "ufw/install"
-    "fail2ban/install"
-    "tools/install"
-    "nginx/install"
-    "php/install"
-    "php/composer/install"
-    "mongodb/install"
-    "mysql/install"
-    "redis/install"
-    "traefik/install"
-    "grafana/install"
-    "influxdb/install"
-    "loki/install"
-    "postfix/install"
-    "dovecot/install"
-    "rspamd/install"
-    "monit/install"
-    "telegraf/install"
-    "promtail/install"
-    "borg/install"
-    "rclone/install"
-    "rsync/files"
-    "mongodb/dump/backup"
-    "mysql/dump/backup"
-    "borg/snapshot"
-    "rclone/sync"
-    "mysql/dump/restore"
-    "mongodb/dump/restore"
+    "..."
 )
 ```
 
@@ -71,43 +45,70 @@ infralet run ufw/install
 infralet run fail2ban/install
 infralet run tools/install
 
+# Databases
+infralet run mongodb/install
+infralet run mysql/install
+infralet run postgresql/install
+infralet run redis/install
+
 # Web Server
+infralet run nodejs/install
 infralet run nginx/install
 infralet run php/install
 infralet run php/composer/install
-infralet run mongodb/install
-infralet run mysql/install
-infralet run redis/install
+infralet run php/nginx/install
+infralet run php/redis/install
 
 # Reverse Proxy
 infralet run traefik/install
 
 # Monitoring Server
 infralet run grafana/install
+infralet run grafana/traefik/install
 infralet run influxdb/install
+infralet run influxdb/traefik/install
 infralet run loki/install
+infralet run loki/traefik/install
+infralet run promtail/install
 
 # Email Server
-infralet run mysql/install
-infralet run redis/install
 infralet run postfix/install
+infralet run postfix/mysql/install
+infralet run postfix/autoconfig/install
 infralet run dovecot/install
+infralet run dovecot/mysql/install
 infralet run rspamd/install
+infralet run rspamd/redis/install
+infralet run rspamd/traefik/install
 
 # Monitoring Agent
 infralet run monit/install
+infralet run monit/traefik/install
+
 infralet run telegraf/install
-infralet run promtail/install
+infralet run influxdb/telegraf/install
+infralet run mongodb/telegraf/install
+infralet run monit/telegraf/install
+infralet run mysql/telegraf/install
+infralet run nginx/telegraf/install
+infralet run php/telegraf/install
+infralet run redis/telegraf/install
 
 # Backups
-infralet run borg/install
-infralet run rclone/install
-
-infralet run rsync/files
 infralet run mongodb/dump/backup
 infralet run mysql/dump/backup
-infralet run borg/snapshot
+
+infralet run rsync/files
+infralet run rsync/incremental
+
+infralet run rclone/install
+infralet run rclone/cdn
+infralet run rclone/copy
 infralet run rclone/sync
+infralet run rclone/move
+
+infralet run borg/install
+infralet run borg/snapshot
 
 # Restore
 infralet run mysql/dump/restore
