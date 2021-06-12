@@ -42,7 +42,6 @@ postconf -e "message_size_limit = 26214400"
 # Check and restart
 postfix check
 service postfix restart
-service postfix status
 
 # Show additional info
 infralet warning "You must manually setup DNS entries for mail service, including:"

@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS domains (
     domain VARCHAR(255) NOT NULL,
     active BOOLEAN NOT NULL DEFAULT 1,
     PRIMARY KEY (id),
-    UNIQUE KEY domain (domain),
+    UNIQUE KEY domain (domain)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS alias (
@@ -67,10 +67,10 @@ EOF
 # Copy configurations
 mkdir -p /etc/postfix/sql
 
-infralet copy conf.d/maps/domains.cf /etc/postfix/sql/domains.cf
-infralet copy conf.d/maps/mailbox.cf /etc/postfix/sql/mailbox.cf
-infralet copy conf.d/maps/alias.cf /etc/postfix/sql/alias.cf
-infralet copy conf.d/maps/sender.cf /etc/postfix/sql/sender.cf
+infralet copy maps/domains.cf /etc/postfix/sql/domains.cf
+infralet copy maps/mailbox.cf /etc/postfix/sql/mailbox.cf
+infralet copy maps/alias.cf /etc/postfix/sql/alias.cf
+infralet copy maps/sender.cf /etc/postfix/sql/sender.cf
 
 postconf -e "virtual_mailbox_domains = mysql:/etc/postfix/sql/domains.cf"
 postconf -e "virtual_mailbox_maps = mysql:/etc/postfix/sql/mailbox.cf"
@@ -80,4 +80,3 @@ postconf -e "smtpd_sender_login_maps = mysql:/etc/postfix/sql/sender.cf"
 # Check and restart
 postfix check
 service postfix restart
-service postfix status

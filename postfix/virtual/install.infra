@@ -22,7 +22,6 @@ postconf -e "virtual_gid_maps = static:5000"
 # Check and restart
 postfix check
 service postfix restart
-service postfix status
 
 # Show instructions
 infralet warning "You must now edit the following files to control users and alias:"
