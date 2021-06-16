@@ -45,6 +45,6 @@ for DATABASE in ${DATABASES[*]}; do
         --single-transaction \
         --routines \
         --triggers \
-        "$DATABASE" | gzip > "$MYSQL_BACKUP_FOLDER/$DATABASE.sql.gz"
+        "$DATABASE" | gzip > "${MYSQL_BACKUP_FOLDER%/}/$DATABASE.sql.gz"
 
 done
