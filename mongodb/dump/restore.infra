@@ -38,6 +38,6 @@ for DATABASE in ${DATABASES[*]}; do
         --drop \
         --uri="$MONGODB_URI/$DATABASE?authSource=admin" \
         --db="$DATABASE" \
-        --gzip --archive="$MONGODB_BACKUP_FOLDER/$DATABASE.gz"
+        --gzip --archive="${MONGODB_BACKUP_FOLDER%/}/$DATABASE.gz"
 
 done

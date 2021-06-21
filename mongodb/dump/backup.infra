@@ -42,6 +42,6 @@ for DATABASE in ${DATABASES[*]}; do
     infralet info "Creating backup for $DATABASE MongoDB database"
     /usr/bin/mongodump \
         --uri="$MONGODB_URI/$DATABASE?authSource=admin" \
-        --gzip --archive="$MONGODB_BACKUP_FOLDER/$DATABASE.gz"
+        --gzip --archive="${MONGODB_BACKUP_FOLDER%/}/$DATABASE.gz"
 
 done

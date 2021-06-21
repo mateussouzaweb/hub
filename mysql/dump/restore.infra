@@ -36,7 +36,7 @@ for DATABASE in ${DATABASES[*]}; do
         echo "SET AUTOCOMMIT=0;"
         echo "SET UNIQUE_CHECKS=0;"
         echo "SET FOREIGN_KEY_CHECKS=0;"
-        gunzip < "$MYSQL_BACKUP_FOLDER/$DATABASE.sql.gz"
+        gunzip < "${MYSQL_BACKUP_FOLDER%/}/$DATABASE.sql.gz"
         echo "SET FOREIGN_KEY_CHECKS=1;"
         echo "SET UNIQUE_CHECKS=1;"
         echo "SET AUTOCOMMIT=1;"
