@@ -1,0 +1,7 @@
+infralet only_sudo
+
+infralet info "Adding Fail2Ban input to Telegraf..."
+infralet copy fail2ban.conf /etc/telegraf/telegraf.d/fail2ban.conf
+
+# Restart service
+service telegraf restart

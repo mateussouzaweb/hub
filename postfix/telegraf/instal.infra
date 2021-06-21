@@ -1,0 +1,13 @@
+infralet only_sudo
+
+infralet info "Adding Postfix input to Telegraf..."
+infralet copy postfix.conf /etc/telegraf/telegraf.d/postfix.conf
+
+# Set telegraf permissions on postfix
+chgrp -R telegraf /var/spool/postfix/{active,hold,incoming,deferred}
+chmod -R g+rXs /var/spool/postfix/{active,hold,incoming,deferred}
+usermod -a -G postdrop telegraf
+chmod g+r /var/spool/postfix/maildrop
+
+# Restart service
+service telegraf restart

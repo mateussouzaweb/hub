@@ -1,0 +1,9 @@
+infralet only_sudo
+
+infralet info "Adding Traefik input to Telegraf..."
+infralet append metrics.toml /etc/traefik/traefik.toml
+infralet copy traefik.conf /etc/telegraf/telegraf.d/traefik.conf
+
+# Restart service
+service traefik restart
+service telegraf restart

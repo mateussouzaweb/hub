@@ -86,13 +86,17 @@ infralet run monit/install
 infralet run monit/traefik/install
 
 infralet run telegraf/install
+infralet run dovecot/telegraf/install
+infralet run fail2ban/telegraf/install
 infralet run influxdb/telegraf/install
 infralet run mongodb/telegraf/install
 infralet run monit/telegraf/install
 infralet run mysql/telegraf/install
 infralet run nginx/telegraf/install
 infralet run php/telegraf/install
+infralet run postfix/telegraf/install
 infralet run redis/telegraf/install
+infralet run traefik/telegraf/install
 
 # Backups
 infralet run mongodb/dump/backup
