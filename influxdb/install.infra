@@ -6,6 +6,7 @@ if [ ! -f /etc/apt/sources.list.d/influxdb.list ]; then
     echo "deb https://repos.influxdata.com/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/influxdb.list
 fi
 
+# Install package
 apt update
 apt install -y influxdb
 

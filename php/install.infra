@@ -1,6 +1,6 @@
 infralet only_sudo
 
-# Install source
+# Add source
 add-apt-repository -y ppa:ondrej/php
 apt update
 
