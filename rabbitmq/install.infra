@@ -1,0 +1,30 @@
+infralet only_sudo
+
+# Add source
+if [ ! -f /etc/apt/sources.list.d/rabbitmq_rabbitmq-server.list ]; then
+    curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.deb.sh | bash
+fi
+
+# Install package
+apt update
+apt install -y rabbitmq-server
+
+# Add startup at boot
+systemctl enable rabbitmq-server.service
+
+# Enable plugins
+rabbitmq-plugins enable rabbitmq_management
+
+# Create admin user
+infralet ask \
+    RABBITMQ_USER \
+    "admin" \
+    "What is the RabbitMQ user?"
+
+infralet ask \
+    RABBITMQ_PASSWORD \
+    "" \
+    "What is the RabbitMQ password?"
+
+rabbitmqctl add_user ${RABBITMQ_USER} ${RABBITMQ_PASSWORD}
+rabbitmqctl set_user_tags ${RABBITMQ_USER} administrator
