@@ -27,6 +27,7 @@ infralet ask \
     "What is the mail domain TLS cert key?"
 
 postconf -e "myhostname = ${MAIL_DOMAIN}"
+postconf -e "smtp_helo_name = \$myhostname"
 postconf -e "smtp_tls_note_starttls_offer = yes"
 postconf -e "smtp_tls_security_level = may"
 postconf -e "smtpd_tls_auth_only = yes"
