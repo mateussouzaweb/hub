@@ -138,7 +138,7 @@ vim backup.sh
 cd /usr/share/stack/
 
 # Load variables
-/usr/local/bin/infralet load_variables scripts/variables.env
+/usr/local/bin/infralet load_variables variables.env
 
 # Run scripts
 /usr/local/bin/infralet run hub/mysql/dump/backup
