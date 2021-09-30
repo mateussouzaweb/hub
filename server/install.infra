@@ -6,8 +6,10 @@ infralet ask \
     "" \
     "What is the server hostname?"
 
-hostname $SERVER_NAME
-echo $SERVER_NAME > /etc/hostname
+if [ $SERVER_NAME != "" ]; then
+    hostname $SERVER_NAME
+    echo $SERVER_NAME > /etc/hostname
+fi
 
 # Upgrade system
 apt update
