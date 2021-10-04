@@ -35,6 +35,7 @@ apt install -y \
     php8.0-redis \
     php8.0-imagick \
     php8.0-dev \
+    php8.0-apcu \
     php-pear
 
 # MongoDB
