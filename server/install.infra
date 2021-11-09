@@ -6,7 +6,7 @@ infralet ask \
     "" \
     "What is the server hostname?"
 
-if [ $SERVER_NAME != "" ]; then
+if [ ! -z "$SERVER_NAME" ]; then
     hostname $SERVER_NAME
     echo $SERVER_NAME > /etc/hostname
 fi
@@ -61,7 +61,7 @@ infralet ask \
     "" \
     "What is the server email for SSH key?"
 
-if [ $SERVER_EMAIL != "" ]; then
+if [ ! -z "$SERVER_EMAIL" ]; then
 
     cat /dev/zero | ssh-keygen -t rsa -C $SERVER_EMAIL -q -N "" > /dev/null
 

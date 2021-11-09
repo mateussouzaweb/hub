@@ -34,7 +34,7 @@ infralet ask \
     "" \
     "What is the name of the MySQL database? (Empty to skip)"
 
-if [ $MYSQL_DATABASE != "" ]; then
+if [ ! -z "$MYSQL_DATABASE" ]; then
 
     infralet info "Creating MySQL database... "
     infralet info "You should type the MySQL root user password now..."
