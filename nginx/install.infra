@@ -1,7 +1,7 @@
 infralet only_sudo
 
 # Add source
-add-apt-repository -y ppa:nginx/stable
+add-apt-repository -y ppa:ondrej/nginx
 apt update
 apt upgrade
 
