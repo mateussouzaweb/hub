@@ -2,44 +2,20 @@ infralet only_sudo
 
 # Add source
 if [ ! -f /etc/apt/sources.list.d/influxdb.list ]; then
-    wget -qO- https://repos.influxdata.com/influxdb.key | apt-key add -
-    echo "deb https://repos.influxdata.com/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/influxdb.list
+    export DISTRIB_ID=$(lsb_release -si)
+    export DISTRIB_CODENAME=$(lsb_release -sc)
+    wget -qO- https://repos.influxdata.com/influxdb.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/influxdb.gpg > /dev/null
+    echo "deb [signed-by=/etc/apt/trusted.gpg.d/influxdb.gpg] https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/influxdb.list > /dev/null
 fi
 
 # Install package
 apt update
-apt install -y influxdb
+apt install -y influxdb2
 
 # Add startup at boot and start
 systemctl enable influxdb.service
 service influxdb start
 sleep 2
 
-# Create user
-infralet ask \
-    INFLUXDB_USERNAME \
-    "admin" \
-    "What is the InfluxDB username?"
-
-infralet ask \
-    INFLUXDB_PASSWORD \
-    "" \
-    "What is the InfluxDB password?"
-
-infralet ask \
-    INFLUXDB_DATABASE \
-    "metrics" \
-    "What is the InfluxDB database?"
-
-infralet info "Creating influxdb database..."
-influx -host 127.0.0.1 -port 8086 -execute "CREATE DATABASE $INFLUXDB_DATABASE"
-
-infralet info "Creating influxdb user..."
-influx -host 127.0.0.1 -port 8086 -execute "CREATE USER $INFLUXDB_USERNAME WITH PASSWORD '$INFLUXDB_PASSWORD' WITH ALL PRIVILEGES"
-
-# Enable auth
-sed -i "s/# auth-enabled = false/auth-enabled = true/g" /etc/influxdb/influxdb.conf
-sed -i "s/# auth-enabled = true/auth-enabled = true/g" /etc/influxdb/influxdb.conf
-
-# Restart service
-service influxdb restart
+# Run setup
+influx setup
