@@ -8,6 +8,6 @@
     create 0640 www-data adm
     sharedscripts
     postrotate
-        /usr/lib/php/php8.0-fpm-reopenlogs
+        /usr/lib/php/php8.1-fpm-reopenlogs
     endscript
 }
