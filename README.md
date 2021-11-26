@@ -14,8 +14,8 @@ sudo wget https://raw.githubusercontent.com/mateussouzaweb/infralet/master/infra
 Clone this repository into ``hub`` folder:
 
 ```bash
-mkdir -p /usr/share/stack/ && cd /usr/share/stack/
-git clone https://github.com/mateussouzaweb/hub.git hub && cd hub
+sudo mkdir -p /usr/share/stack/ && cd /usr/share/stack/
+sudo git clone https://github.com/mateussouzaweb/hub.git hub && cd hub
 ```
 
 We now will extract variables. \
