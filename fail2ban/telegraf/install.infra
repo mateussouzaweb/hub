@@ -3,5 +3,12 @@ infralet only_sudo
 infralet info "Adding Fail2Ban input to Telegraf..."
 infralet copy fail2ban.conf /etc/telegraf/telegraf.d/fail2ban.conf
 
+# Add command permissions to telegraf
+cat <<EOT >> /etc/sudoers.d/telegraf
+Cmnd_Alias FAIL2BAN = /usr/bin/fail2ban-client status, /usr/bin/fail2ban-client status *
+telegraf  ALL=(root) NOEXEC: NOPASSWD: FAIL2BAN
+Defaults!FAIL2BAN !logfile, !syslog, !pam_session
+EOT
+
 # Restart service
 service telegraf restart
