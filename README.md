@@ -40,83 +40,83 @@ To finish, just run the scripts for the desired softwares:
 
 ```bash
 # General
-infralet run server/install
-infralet run ufw/install
-infralet run fail2ban/install
-infralet run tools/install
+sudo infralet run server/install
+sudo infralet run ufw/install
+sudo infralet run fail2ban/install
+sudo infralet run tools/install
 
 # Databases
-infralet run mongodb/install
-infralet run mysql/install
-infralet run postgresql/install
-infralet run redis/install
+sudo infralet run mongodb/install
+sudo infralet run mysql/install
+sudo infralet run postgresql/install
+sudo infralet run redis/install
 
 # Web Server
-infralet run nodejs/install
-infralet run nginx/install
-infralet run php/install
-infralet run php/composer/install
-infralet run php/nginx/install
-infralet run php/redis/install
+sudo infralet run nodejs/install
+sudo infralet run nginx/install
+sudo infralet run php/install
+sudo infralet run php/composer/install
+sudo infralet run php/nginx/install
+sudo infralet run php/redis/install
 
 # Reverse Proxy
-infralet run traefik/install
+sudo infralet run traefik/install
 
 # Monitoring Server
-infralet run grafana/install
-infralet run grafana/traefik/install
-infralet run influxdb/install
-infralet run influxdb/traefik/install
-infralet run loki/install
-infralet run loki/traefik/install
-infralet run promtail/install
+sudo infralet run grafana/install
+sudo infralet run grafana/traefik/install
+sudo infralet run influxdb/install
+sudo infralet run influxdb/traefik/install
+sudo infralet run loki/install
+sudo infralet run loki/traefik/install
+sudo infralet run promtail/install
 
 # Email Server
-infralet run postfix/install
-infralet run postfix/mysql/install
-infralet run postfix/autoconfig/install
-infralet run dovecot/install
-infralet run dovecot/mysql/install
-infralet run rspamd/install
-infralet run rspamd/redis/install
-infralet run rspamd/traefik/install
+sudo infralet run postfix/install
+sudo infralet run postfix/mysql/install
+sudo infralet run postfix/autoconfig/install
+sudo infralet run dovecot/install
+sudo infralet run dovecot/mysql/install
+sudo infralet run rspamd/install
+sudo infralet run rspamd/redis/install
+sudo infralet run rspamd/traefik/install
 
 # Monitoring Agent
-infralet run monit/install
-infralet run monit/traefik/install
+sudo infralet run monit/install
+sudo infralet run monit/traefik/install
 
-infralet run telegraf/install
-infralet run dovecot/telegraf/install
-infralet run fail2ban/telegraf/install
-infralet run influxdb/telegraf/install
-infralet run mongodb/telegraf/install
-infralet run monit/telegraf/install
-infralet run mysql/telegraf/install
-infralet run nginx/telegraf/install
-infralet run php/telegraf/install
-infralet run postfix/telegraf/install
-infralet run redis/telegraf/install
-infralet run traefik/telegraf/install
+sudo infralet run telegraf/install
+sudo infralet run dovecot/telegraf/install
+sudo infralet run fail2ban/telegraf/install
+sudo infralet run influxdb/telegraf/install
+sudo infralet run mongodb/telegraf/install
+sudo infralet run monit/telegraf/install
+sudo infralet run mysql/telegraf/install
+sudo infralet run nginx/telegraf/install
+sudo infralet run php/telegraf/install
+sudo infralet run postfix/telegraf/install
+sudo infralet run redis/telegraf/install
+sudo infralet run traefik/telegraf/install
 
 # Backups
-infralet run mongodb/dump/backup
-infralet run mysql/dump/backup
+sudo infralet run mongodb/dump/backup
+sudo infralet run mysql/dump/backup
 
-infralet run rsync/files
-infralet run rsync/incremental
+sudo infralet run rsync/files
+sudo infralet run rsync/incremental
 
-infralet run rclone/install
-infralet run rclone/cdn
-infralet run rclone/copy
-infralet run rclone/sync
-infralet run rclone/move
+sudo infralet run rclone/install
+sudo infralet run rclone/cdn
+sudo infralet run rclone/copy
+sudo infralet run rclone/sync
+sudo infralet run rclone/move
 
-infralet run borg/install
-infralet run borg/snapshot
+sudo infralet run borg/install
+sudo infralet run borg/snapshot
 
 # Restore
-infralet run mysql/dump/restore
-infralet run mongodb/dump/restore
+sudo infralet run mysql/dump/restore
+sudo infralet run mongodb/dump/restore
 ```
 
 ## Automated Tasks
@@ -150,7 +150,7 @@ cd /usr/share/stack/
 Now, add it to the crontab:
 
 ```bash
-crontab -e
+sudo crontab -e
 ```
 
 ```bash
