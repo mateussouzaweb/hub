@@ -62,12 +62,16 @@ infralet copy sieve/spam-global.sieve /var/mail/sieve/global/spam-global.sieve
 infralet copy sieve/report-spam.sieve /var/mail/sieve/global/report-spam.sieve
 infralet copy sieve/report-ham.sieve /var/mail/sieve/global/report-ham.sieve
 
+# Restart service
+service postfix restart
+service dovecot restart
+
 # Build sieve rules
 sievec /var/mail/sieve/global/spam-global.sieve
 sievec /var/mail/sieve/global/report-spam.sieve
 sievec /var/mail/sieve/global/report-ham.sieve
 chown -R vmail: /var/mail/sieve/
 
-# Restart service
+# Restart service again
 service postfix restart
 service dovecot restart
