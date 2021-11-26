@@ -20,7 +20,7 @@ mkdir -p /var/log/traefik/
 chown -R traefik:traefik /var/log/traefik/
 
 # Install traefik from source
-VERSION="2.5.3"
+VERSION="2.5.4"
 REPOSITORY="https://github.com/traefik/traefik/releases/download"
 curl -L "${REPOSITORY}/v${VERSION}/traefik_v${VERSION}_linux_amd64.tar.gz" -o /etc/traefik/traefik.tar.gz
 tar -zxvf /etc/traefik/traefik.tar.gz --directory /etc/traefik/
