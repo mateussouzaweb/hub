@@ -53,6 +53,7 @@ db.createUser({
 EOT
 
     infralet info "Creating MongoDB user..."
+    sleep 10
     mongosh -host "127.0.0.1" < /tmp/mongo-create-user.js
     rm /tmp/mongo-create-user.js
 
