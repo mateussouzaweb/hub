@@ -62,6 +62,12 @@ sudo infralet run php/redis/install
 # Reverse Proxy
 sudo infralet run traefik/install
 
+# Search Engine
+sudo infralet run elasticsearch/install
+
+# Message Broker
+sudo infralet run rabbitmq/install
+
 # Monitoring Server
 sudo infralet run grafana/install
 sudo infralet run grafana/traefik/install
