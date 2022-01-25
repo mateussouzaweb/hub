@@ -2,7 +2,9 @@
 bantime = 30m
 destemail = ${ADMIN_EMAIL}
 sender = ${FAIL2BAN_EMAIL}
+
 mta = sendmail
+action = %(action_mwl)s
 
 banaction = iptables-multiport
 banaction_allports = iptables-allports
