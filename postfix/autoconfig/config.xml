@@ -7,14 +7,14 @@
     <displayShortName>${MAIL_SERVICE_NAME}</displayShortName>
     <incomingServer type="imap">
       <hostname>${MAIL_DOMAIN}</hostname>
-      <port>143</port>
+      <port>993</port>
       <socketType>STARTTLS</socketType>
       <authentication>password-cleartext</authentication>
       <username>%EMAILADDRESS%</username>
     </incomingServer>
     <incomingServer type="pop3">
       <hostname>${MAIL_DOMAIN}</hostname>
-      <port>110</port>
+      <port>995</port>
       <socketType>STARTTLS</socketType>
       <authentication>password-cleartext</authentication>
       <username>%EMAILADDRESS%</username>
