@@ -1,4 +1,4 @@
-check process rspamd matching /usr/bin/rspamd
+check process rspamd matching 'rspamd: main process'
     group mail
     group rspamd
     start program = "/usr/sbin/service rspamd start"
