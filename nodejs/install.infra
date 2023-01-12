@@ -1,7 +1,7 @@
 infralet only_sudo
 
 # Add source
-curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
 
 # Install service
 apt install -y nodejs
