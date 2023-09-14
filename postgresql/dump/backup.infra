@@ -1,0 +1,55 @@
+infralet only_sudo
+
+infralet ask \
+    POSTGRESQL_HOST \
+    "localhost" \
+    "What is the PostgreSQL host?"
+
+infralet ask \
+    POSTGRESQL_USER \
+    "admin" \
+    "What is the PostgreSQL user?"
+
+infralet ask \
+    POSTGRESQL_PASSWORD \
+    "" \
+    "What is the PostgreSQL password?"
+
+infralet ask \
+    POSTGRESQL_BACKUP_FOLDER \
+    "/backup/files/postgresql" \
+    "What is the PostgreSQL backups folder?"
+
+infralet ask \
+    POSTGRESQL_BACKUP_DATABASES \
+    "ALL" \
+    "What database(s) do you want to backup? (semicolon separated)"
+
+# Fill the list of databases
+if [ "$POSTGRESQL_BACKUP_DATABASES" == "ALL" ]; then
+    DATABASES=`PGPASSWORD="$POSTGRESQL_PASSWORD" usr/bin/psql \
+        --host="$POSTGRESQL_HOST" \
+        --username="$POSTGRESQL_USER" \
+        --no-password \
+        --no-align \
+        --command="SELECT datname FROM pg_database" | \
+        tail -n +3 | \
+        head -n -2 | \
+        grep -Ev "(template0|template1|postgres)"`
+else
+    DATABASES=$(echo $POSTGRESQL_BACKUP_DATABASES | awk 'BEGIN{RS=";"} {print}')
+fi
+
+/bin/mkdir -p "$POSTGRESQL_BACKUP_FOLDER"
+
+# Create backups for each database
+for DATABASE in ${DATABASES[*]}; do
+
+    infralet info "Creating backup for $DATABASE PostgreSQL database"
+    PGPASSWORD="$POSTGRESQL_PASSWORD" /usr/bin/pg_dump \
+        --host="$POSTGRESQL_HOST" \
+        --username="$POSTGRESQL_USER" \
+        --no-password \
+        "$DATABASE" | gzip > "${POSTGRESQL_BACKUP_FOLDER%/}/$DATABASE.sql.gz"
+
+done

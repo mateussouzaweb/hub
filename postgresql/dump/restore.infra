@@ -1,0 +1,45 @@
+infralet only_sudo
+
+infralet ask \
+    POSTGRESQL_HOST \
+    "localhost" \
+    "What is the PostgreSQL host?"
+
+infralet ask \
+    POSTGRESQL_USER \
+    "admin" \
+    "What is the PostgreSQL user?"
+
+infralet ask \
+    POSTGRESQL_PASSWORD \
+    "" \
+    "What is the PostgreSQL password?"
+
+infralet ask \
+    POSTGRESQL_BACKUP_FOLDER \
+    "/backup/files/postgresql" \
+    "What is the PostgreSQL backups folder?"
+
+infralet ask \
+    POSTGRESQL_RESTORE_DATABASES \
+    "" \
+    "What PostgreSQL database should be restored? (semicolon separated)"
+
+# Fill the list of databases
+DATABASES=$(echo $POSTGRESQL_RESTORE_DATABASES | awk 'BEGIN{RS=";"} {print}')
+
+# Run restoration on each database
+for DATABASE in ${DATABASES[*]}; do
+
+    infralet info "Restoring $DATABASE PostgreSQL database"
+    (
+        echo "DROP DATABASE IF EXISTS $DATABASE;"
+        echo "CREATE DATABASE $DATABASE;"
+        gunzip < "${POSTGRESQL_BACKUP_FOLDER%/}/$DATABASE.sql.gz"
+    ) | PGPASSWORD="$POSTGRESQL_PASSWORD" /usr/bin/psql \
+        --host="$POSTGRESQL_HOST" \
+        --username="$POSTGRESQL_USER" \
+        --no-password \
+        "$DATABASE"
+
+done
