@@ -20,7 +20,7 @@ mkdir -p /etc/promtail/positions
 chown -R promtail:promtail /etc/promtail/positions
 
 # Install from package
-VERSION="2.7.1"
+VERSION="2.9.0"
 curl -O -L "https://github.com/grafana/loki/releases/download/v${VERSION}/promtail-linux-amd64.zip"
 
 unzip "promtail-linux-amd64.zip"
