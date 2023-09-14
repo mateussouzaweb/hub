@@ -18,9 +18,12 @@ infralet ask \
 
 infralet ask \
     MAIL_MAIN_ROOT \
-    "/usr/share/nginx/site.com/www" \
+    "/usr/share/nginx/autoconfig/www" \
     "What is the mail master domain root path?"
 
 # Copy configuration
-mkdir -p "${MAIL_MAIN_ROOT}/.well-known/autoconfig/mail/"
-infralet copy config.xml "${MAIL_MAIN_ROOT}/.well-known/autoconfig/mail/config-v1.1.xml"
+mkdir -p "${MAIL_MAIN_ROOT}/mail/"
+infralet copy config.xml "${MAIL_MAIN_ROOT}/mail/config-v1.1.xml"
+
+infralet info "Please configure the DNS of autoconfig.${MAIL_MAIN_DOMAIN} to be acessible to this server with HTTP/HTTPs"
+infralet info "See more details on DNS at: https://roll.urown.net/server/mail/autoconfig.html"
