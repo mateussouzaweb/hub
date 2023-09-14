@@ -42,9 +42,9 @@ for DATABASE in ${DATABASES[*]}; do
         echo "SET AUTOCOMMIT=1;"
         echo "COMMIT;"
     ) | /usr/bin/mysql \
-        -h "$MYSQL_HOST" \
-        -u "$MYSQL_USER" \
-        -p "$MYSQL_PASSWORD" \
+        --host="$MYSQL_HOST" \
+        --user="$MYSQL_USER" \
+        --password="$MYSQL_PASSWORD" \
         "$DATABASE"
 
 done
