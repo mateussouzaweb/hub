@@ -152,6 +152,7 @@ cd /usr/share/stack/
 # Run scripts
 /usr/local/bin/infralet run hub/mysql/dump/backup
 /usr/local/bin/infralet run hub/mongodb/dump/backup
+/usr/local/bin/infralet run hub/postgresql/dump/backup
 /usr/local/bin/infralet run hub/rsync/files
 /usr/local/bin/infralet run hub/borg/snapshot
 ```
