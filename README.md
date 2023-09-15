@@ -101,12 +101,14 @@ sudo infralet run mysql/telegraf/install
 sudo infralet run nginx/telegraf/install
 sudo infralet run php/telegraf/install
 sudo infralet run postfix/telegraf/install
+sudo infralet run postgresql/telegraf/install
 sudo infralet run redis/telegraf/install
 sudo infralet run traefik/telegraf/install
 
 # Backups
 sudo infralet run mongodb/dump/backup
 sudo infralet run mysql/dump/backup
+sudo infralet run postgresql/dump/backup
 
 sudo infralet run rsync/files
 sudo infralet run rsync/incremental
@@ -123,6 +125,7 @@ sudo infralet run borg/snapshot
 # Restore
 sudo infralet run mysql/dump/restore
 sudo infralet run mongodb/dump/restore
+sudo infralet run postgresql/dump/restore
 ```
 
 ## Automated Tasks
