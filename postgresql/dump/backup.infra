@@ -27,7 +27,7 @@ infralet ask \
 
 # Fill the list of databases
 if [ "$POSTGRESQL_BACKUP_DATABASES" == "ALL" ]; then
-    DATABASES=`PGPASSWORD="$POSTGRESQL_PASSWORD" usr/bin/psql \
+    DATABASES=`PGPASSWORD="$POSTGRESQL_PASSWORD" /usr/bin/psql \
         --host="$POSTGRESQL_HOST" \
         --username="$POSTGRESQL_USER" \
         --no-password \
