@@ -1,7 +1,16 @@
 infralet only_sudo
 
+# Add source
+if [ ! -f /etc/apt/sources.list.d/pgdg.list ]; then
+    wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
+    echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+fi
+
 # Install
 apt install -y postgresql postgresql-contrib
+
+# Add startup at boot
+systemctl enable postgresql.service
 
 # Add user
 infralet ask \
@@ -15,8 +24,8 @@ infralet ask \
     "What is the additional PostgreSQL password?"
 
 infralet info "Creating additional PostgreSQL user..."
-sudo -u postgres createuser \
-    -s -d -l -R -P -e $POSTGRESQL_USER
+su --login postgres --command="createuser --superuser --createrole --createdb --login $POSTGRESQL_USER"
+su --login postgres --command="psql --command=\"alter user $POSTGRESQL_USER with encrypted password '$POSTGRESQL_PASSWORD';\""
 
 # Add database
 infralet ask \
@@ -25,4 +34,5 @@ infralet ask \
     "What is the name for the PostgreSQL database?"
 
 infralet info "Creating PostgreSQL database..."
-sudo -u postgres createdb $POSTGRESQL_DATABASE
+su --login postgres --command="createdb $POSTGRESQL_DATABASE"
+su --login postgres --command="psql --command=\"grant all privileges on database $POSTGRESQL_DATABASE to $POSTGRESQL_USER;\""
