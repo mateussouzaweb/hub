@@ -10,7 +10,7 @@ check process php8.3-fpm with pidfile /run/php/php8.3-fpm.pid
     depends on php_bin
     depends on php_init
 
-check file php_bin with path /usr/sbin/php-fpm8.1
+check file php_bin with path /usr/sbin/php-fpm8.3
     group php
     include /etc/monit/templates/rootbin
 
