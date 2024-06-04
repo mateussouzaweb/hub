@@ -66,5 +66,15 @@ chmod -R 640 /var/log/php/*.log
 infralet copy log.rotate /etc/logrotate.d/php-fpm
 logrotate -f /etc/logrotate.d/php-fpm
 
+# Remove older PHP versions
+sudo apt purge "php7.0-*"
+sudo apt purge "php7.1-*"
+sudo apt purge "php7.2-*"
+sudo apt purge "php7.3-*"
+sudo apt purge "php7.4-*"
+sudo apt purge "php8.0-*"
+sudo apt purge "php8.1-*"
+sudo apt purge "php8.2-*"
+
 # Restart PHP
 service php8.3-fpm restart
