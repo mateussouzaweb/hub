@@ -1,7 +1,0 @@
-infralet only_sudo
-
-infralet info "Adding Dovecot input to Telegraf..."
-infralet copy dovecot.conf /etc/telegraf/telegraf.d/dovecot.conf
-
-# Restart service
-service telegraf restart
