@@ -36,9 +36,20 @@ postconf -e "smtpd_tls_loglevel = 1"
 postconf -e "smtpd_tls_received_header = yes"
 postconf -e "smtpd_tls_cert_file = ${MAIL_TLS_CERT}"
 postconf -e "smtpd_tls_key_file = ${MAIL_TLS_KEY}"
+postconf -e "smtpd_helo_required = yes"
+
+# Force IPV4/IPV6
+postconf -e "inet_protocols = all"
 
 # Adjust email size limit to 25MB
 postconf -e "message_size_limit = 26214400"
+
+# Configure restrictions to avoid SPAM
+postconf -e "smtpd_client_restrictions = permit_mynetworks permit_sasl_authenticated permit_auth_destination reject_unknown_client_hostname reject_unknown_reverse_client_hostname"
+postconf -e "smtpd_helo_restrictions = reject_invalid_helo_hostname reject_non_fqdn_helo_hostname reject_unknown_helo_hostname"
+postconf -e "smtpd_sender_restrictions = reject_authenticated_sender_login_mismatch reject_unauthenticated_sender_login_mismatch reject_known_sender_login_mismatch reject_non_fqdn_sender reject_unknown_sender_domain"
+postconf -e "smtpd_relay_restrictions = defer_unauth_destination"
+postconf -e "smtpd_recipient_restrictions = reject_non_fqdn_recipient reject_unknown_recipient_domain"
 
 # Check and restart
 postfix check

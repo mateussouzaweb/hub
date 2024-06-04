@@ -23,7 +23,8 @@ postconf -e "smtpd_sasl_local_domain ="
 postconf -e "smtpd_sasl_security_options = noanonymous"
 postconf -e "broken_sasl_auth_clients = yes"
 postconf -e "smtpd_sasl_auth_enable = yes"
-postconf -e "smtpd_recipient_restrictions = permit_sasl_authenticated,permit_mynetworks,reject_unauth_destination,check_policy_service unix:private/quota-status"
+postconf -e "smtpd_data_restrictions = reject_unauth_pipelining"
+postconf -e "smtpd_end_of_data_restrictions = check_policy_service unix:private/quota-status"
 
 # Ask variables
 infralet ask \
